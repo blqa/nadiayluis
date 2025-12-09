@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadia & Luis | Mi Arte Eres Tú</title>
+    <!-- Carga de Tailwind CSS para el diseño -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* Estilos personalizados para animaciones */
+        :root {
+            --color-pink: 242 135 160; /* Tailwind pink-400 */
+            --color-purple: 167 139 250; /* Tailwind purple-400 */
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #fff8f8; }
+
+        @keyframes float-up {
+          0% { transform: translateY(0) scale(1); opacity: 1; }
+          100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
+        @keyframes beat {
+          0%, 100% { transform: scale(1); }
+          50% { transform: scale(1.3); } /* Latido más fuerte */
+        }
+        @keyframes float-element {
+          0% { transform: translateY(0px); }
+          50% { transform: translateY(-10px); }
+          100% { transform: translateY(0px); }
+        }
+        @keyframes pop-in {
+          0% { opacity: 0; transform: scale(0.9); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes wave {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .animate-float-up { animation: float-up 4s ease-out forwards; }
+        .animate-beat-strong { animation: beat 0.8s infinite; }
+        .animate-float { animation: float-element 3s ease-in-out infinite; }
+        .animate-pop-in { animation: pop-in 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+        .font-dancing { font-family: 'Dancing Script', cursive; }
+        .animate-wave { animation: wave 10s ease infinite; background-size: 200% 200%; }
+        
+        /* Estilos para el Glassmorphism */
+        .glass {
+            background-color: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+        .section-bg {
+             background: radial-gradient(ellipse at top, #fef2f4 0%, #f7e0fc 100%);
+        }
+        .section-bg-dark {
+             background: linear-gradient(to right, #fce7f6, #f3e8ff);
+        }
+        /* Color del fondo del canvas para que coincida con el background CSS */
+        .canvas-bg {
+            background: linear-gradient(135deg, #fef2f4, #f7e0fc, #f3e8ff); 
+        }
+    </style>
+    <!-- Carga de Lucide icons (usamos un SVG) -->
+    <script type="module">
+      import { createIcons, icons } from 'https://cdn.jsdelivr.net/npm/lucide-esm@latest';
+      createIcons({ icons });
+    </script>
+</head>
+<body class="text-gray-800 selection:bg-pink-300 overflow-x-hidden section-bg">
+    
+    <!-- CANVAS DE PARTÍCULAS -->
+    <canvas id="particleCanvas" class="fixed top-0 left-0 w-full h-full -z-10 canvas-bg"></canvas>
+
+    <!-- Corazones Flotantes (Contenedor) -->
+    <div id="hearts-container" class="fixed inset-0 pointer-events-none z-50">
+        <!-- Botón flotante para añadir corazones -->
+        <button onclick="addHeart()" class="fixed bottom-6 right-6 glass p-4 rounded-full shadow-2xl border border-pink-200 hover:scale-110 transition-transform cursor-pointer z-50 group hover:bg-white/90 pointer-events-auto">
+            <svg class="w-8 h-8 text-pink-500 group-hover:animate-pulse drop-shadow-md" data-lucide="heart" fill="currentColor"></svg>
+        </button>
+    </div>
+
+    <!-- 1. HERO SECTION -->
+    <section id="hero" class="min-h-screen flex flex-col items-center justify-center relative px-4 text-center">
+        <div class="space-y-6">
+            <h2 class="text-xl tracking-[0.3em] uppercase text-purple-600 font-bold drop-shadow-sm">Bienvenidos a</h2>
+            <h1 class="text-6xl md:text-8xl font-dancing font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 drop-shadow-md">
+                Nadia & Luis
+            </h1>
+            <p class="text-xl text-gray-700 max-w-2xl mx-auto italic font-medium glass p-4 rounded-xl shadow-md">
+                "El arte no está en los museos, está en cada momento que pasamos juntos."
+            </p>
+            <div id="timer-display-short" class="text-lg font-bold text-gray-700 mt-4"></div>
+            <div class="pt-8">
+                <button 
+                    onclick="scrollToSection('rdm')"
+                    class="group relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden text-sm font-medium rounded-full bg-gradient-to-br from-purple-400 to-pink-400 focus:ring-4 focus:outline-none focus:ring-purple-200 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+                >
+                    <span class="relative px-8 py-3 transition-all ease-in duration-75 glass text-gray-800 rounded-full group-hover:bg-opacity-0 group-hover:text-white flex items-center gap-2 font-bold">
+                        <svg class="w-4 h-4 animate-beat" data-lucide="heart" fill="currentColor"></svg>
+                        <span>Explorar Nuestra Historia</span>
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div onclick="scrollToSection('magnitud')" class="absolute bottom-10 animate-bounce text-purple-500 cursor-pointer">
+            <svg class="w-10 h-10 drop-shadow-md" data-lucide="arrow-down"></svg>
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN: MAGNITUD DEL AMOR (Respuesta Directa) -->
+    <section id="magnitud" class="py-32 px-4 bg-gradient-to-r from-pink-100/70 to-purple-100/70 text-center border-y-4 border-pink-300/50">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="text-4xl md:text-6xl font-dancing font-bold text-red-600 mb-6 drop-shadow-lg">
+                "Tengo ganas de que me ames mucho..."
+            </h2>
+            <div class="bg-white/70 backdrop-blur-xl p-8 rounded-3xl shadow-2xl border-4 border-white/80">
+                <svg class="w-20 h-20 text-red-500 mx-auto animate-beat-strong drop-shadow-lg" data-lucide="heart" fill="currentColor"></svg>
+                <p class="text-3xl font-serif font-medium text-gray-900 mt-6 leading-snug">
+                    Mi Nadia: Mi amor por ti es **INFINITO**, constante, y no conoce límites ni condiciones.
+                    <br><span class="text-xl font-bold text-purple-600 block mt-4">Tu deseo es mi único propósito.</span>
+                </p>
+                <p class="mt-4 text-gray-600 font-medium italic">— Luis</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- 2. RDM GRID (Recuerdos del Mes) -->
+    <section id="rdm" class="py-24 px-4 max-w-6xl mx-auto my-12">
+        <div class="text-center mb-12">
+            <span class="bg-gradient-to-r from-purple-200 to-pink-200 text-purple-800 px-6 py-2 rounded-full text-xs font-bold tracking-widest uppercase shadow-md">Colección</span>
+            <h2 class="text-5xl font-dancing font-bold text-gray-800 mt-6 drop-shadow-sm">Recuerdos del Mes</h2>
+        </div>
+        <div id="rdm-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- RDM Cards insertadas por JS -->
+        </div>
+    </section>
+
+    <!-- 3. ANTOLOGÍA (POEMAS) -->
+    <section id="poemas" class="py-24 px-4 section-bg-dark backdrop-blur-sm">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="inline-block p-3 glass rounded-full shadow-md mb-4">
+                    <svg class="w-10 h-10 text-pink-500" data-lucide="book-open"></svg>
+                </div>
+                <h2 class="text-5xl font-dancing font-bold text-gray-800 drop-shadow-sm">Antología del Corazón</h2>
+            </div>
+            <div id="poems-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Poemas insertados por JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. ABRIR SI... -->
+    <section id="open-when" class="py-24 px-4 max-w-6xl mx-auto">
+        <div class="text-center mb-12">
+            <div class="inline-block p-3 glass rounded-full shadow-md mb-4 animate-float">
+                <svg class="w-10 h-10 text-pink-500" data-lucide="lock"></svg>
+            </div>
+            <h2 class="text-5xl font-dancing font-bold text-gray-800 drop-shadow-sm">Abrir Cuando...</h2>
+            <p class="text-gray-700 mt-2 font-medium">Pequeñas cartas para cada momento que necesites.</p>
+        </div>
+        <div id="open-when-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            <!-- Botones insertados por JS -->
+        </div>
+
+        <!-- MODAL DE CARTA (Se llenará con JS) -->
+        <div id="open-when-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-purple-900/30 backdrop-blur-sm">
+            <div id="modal-content" class="glass rounded-3xl p-8 max-w-lg w-full shadow-2xl relative border-t-8 border-pink-400 animate-pop-in">
+                <!-- Contenido del modal insertado por JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 5. SECCIÓN DE CUENTOS -->
+    <section id="stories" class="py-24 px-4 section-bg-dark backdrop-blur-md border-y border-white/30">
+        <div class="max-w-5xl mx-auto">
+             <div class="text-center mb-16">
+                <div class="inline-block p-3 glass rounded-full shadow-sm mb-4">
+                    <svg class="w-10 h-10 text-purple-500" data-lucide="book"></svg>
+                </div>
+                <h2 class="text-5xl font-dancing font-bold text-gray-800 drop-shadow-sm">Nuestros Cuentos Largos</h2>
+                <p class="text-gray-700 mt-2 font-medium">Pequeñas historias donde tú eres la protagonista.</p>
+            </div>
+            
+            <div id="stories-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Historias insertadas por JS -->
+            </div>
+        </div>
+
+        <!-- MODAL DE CUENTO (Se llenará con JS) -->
+        <div id="story-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-purple-900/40 backdrop-blur-md overflow-y-auto">
+            <div id="story-modal-content" class="bg-white/95 backdrop-blur-xl rounded-3xl p-10 max-w-4xl w-full shadow-2xl relative border-t-8 border-purple-400 my-8 animate-pop-in">
+                <!-- Contenido del cuento insertado por JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 6. PLAYLIST DE SPOTIFY -->
+    <section id="playlist" class="py-24 px-4 max-w-4xl mx-auto">
+         <div class="text-center mb-12">
+            <div class="inline-block p-3 glass rounded-full shadow-md mb-4">
+                <svg class="w-10 h-10 text-pink-500" data-lucide="music"></svg>
+            </div>
+            <h2 class="text-5xl font-dancing font-bold text-gray-800 drop-shadow-sm">Nuestra Playlist</h2>
+            <p class="text-gray-700 mt-2 font-medium">La banda sonora de nuestra historia.</p>
+        </div>
+        <div class="glass p-4 rounded-[2rem] shadow-2xl border border-white/50 transform hover:scale-[1.01] transition-transform duration-500">
+             <iframe 
+                style="border-radius: 24px" 
+                src="https://open.spotify.com/embed/playlist/2TRy6O7KcV1kNLAvXqiAVq?utm_source=generator&theme=0" 
+                width="100%" 
+                height="652" 
+                frameborder="0" 
+                allowfullscreen="" 
+                allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                loading="lazy"
+                title="Spotify Playlist Nadia & Luis"
+            ></iframe>
+        </div>
+    </section>
+
+    <!-- 7. ¿POR QUÉ TE AMO? -->
+    <section id="reasons" class="py-24 px-4 bg-gradient-to-r from-pink-100/50 to-purple-100/50 backdrop-blur-sm">
+        <div class="max-w-5xl mx-auto text-center">
+            <svg class="w-16 h-16 text-red-400 mx-auto mb-6 animate-beat-strong drop-shadow-md" data-lucide="heart" fill="currentColor"></svg>
+            <h2 class="text-5xl font-dancing font-bold text-gray-800 mb-8 drop-shadow-sm">¿Por qué te amo?</h2>
+            <p class="text-xl text-gray-700 mb-16 italic font-medium max-w-2xl mx-auto">
+                Cada día encuentro una nueva razón para amarte más, pero aquí están algunas de las que más valoro:
+            </p>
+            <div id="reasons-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
+                <!-- Razones insertadas por JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. CONTADOR SUPREMO -->
+    <section id="supreme-counter" class="py-24 px-4 glass backdrop-blur-md">
+        <div class="max-w-6xl mx-auto">
+             <div class="text-center mb-16">
+                <h1 class="text-6xl md:text-7xl font-dancing font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-500 to-pink-500 mb-6 drop-shadow-sm">
+                    Datos de Nuestra Historia
+                </h1>
+                <h2 class="text-2xl text-gray-700 font-light glass inline-block px-8 py-2 rounded-full shadow-sm">
+                    Muchas cosas han pasado en los <span class="font-bold text-gray-900" id="dias-totales-hero">0</span> días que hemos pasado juntos.
+                </h2>
+            </div>
+            <div id="stats-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Bloques de estadísticas insertados por JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 text-center text-gray-500 text-sm glass border-t border-white/30">
+        <p>© 2025 NadiayLuis.art - Hecho con amor eterno.</p>
+    </footer>
+
+    <!-- JAVASCRIPT: LÓGICA COMPLETA DE LA APP -->
+    <script>
+        // --- DATA DE LA APLICACIÓN (Movido al inicio para ser global) ---
+        const START_DATE = new Date('2025-05-11T23:23:00').getTime(); 
+        
+        const RDM_DATA = [
+            { date: "Octubre 2025", title: "Carrera de Disfraces", icon: "trophy", image: "https://i.imgur.com/NADoali.png", story: "Octubre fue un mes increíble (¡y el cumpleaños de la cumpleañera!), pero el recuerdo de la carrera se lleva el premio. El simple hecho de vestirnos con nuestros disfraces y cruzar la meta juntos fue una prueba de lo mucho que podemos divertirnos sin importar el plan. Un recuerdo de esfuerzo y risas que solo tú y yo entendemos." },
+            { date: "Septiembre 2025", title: "Sushi Sorpresa", icon: "utensils-crossed", image: "https://i.imgur.com/8KdnXcO.png", story: "Después de varias semanas, por fin te di la sorpresa de llevarte a comer el sushi que tanto querías. Verte emocionada al entrar al restaurante ya era el mejor regalo para mí. La cena estuvo deliciosa y el ambiente muy bonito. Fue nuestra forma de celebrar un mes más de novios, recordando que hasta los deseos más pequeños se cumplen cuando estamos juntos." },
+            { date: "Agosto 2025", title: "Aventura en Huasca", icon: "globe", image: "https://i.imgur.com/6oUe2OE.png", story: "Este fue, sin duda, el mejor mes de todos. Te llevé de sorpresa a Huasca de Ocampo. No tenías idea hasta que llegamos. Pasamos dos días sin dinero, nos mojamos muchísimo por la lluvia y pasamos mucho frío, pero logramos comer, hospedarnos y fuimos inmensamente felices. Nada importó porque dormimos juntos. Terminamos super pobres, pero no me arrepiento de haber vivido esa aventura contigo. Lo valió todo." },
+            { date: "Julio 2025", title: "Nuestro Primer Mes", icon: "star", image: "https://i.imgur.com/meMSF3e.png", story: "¡Nuestro primer mes! 🥳 Lo celebramos con una cena especial en 'Los Tacos de Peri'. Me acuerdo perfecto de esa noche, no solo por los tacos (que estaban buenísimos), sino porque grabamos un video diciendo cómo nos sentíamos. Es un tesoro tener ese clip. Es increíble ver todo lo que hemos construido desde ese momento." },
+            { date: "Junio 2025", title: "Maruchan & Cars", icon: "film", image: "https://i.imgur.com/2JLEukH.png", story: "Nuestro primer recuerdo del mes. La primera vez que vimos 'Cars' juntos en tu casa. El plan era simple: nos preparamos unas Maruchan (que sabían a gloria) y nos acurrucamos a ver la película. No sé qué fue mejor, la película, las sopas o tu compañía. Creo que fue todo junto. Un plan sencillo, pero perfecto." }
+        ];
+
+        const POEMS_DATA = [
+            { title: "El Ritmo que Cede", body: `Tus ojitos cafés, no los dejo de ver.
+me miran y el mundo empieza a ceder.
+No entiendo este ritmo, ni quiero entender,
+solo sé que contigo, todo puede ser.
+
+No hubo señales, ni explicación,
+solo ese momento y la conexión.
+Llegaste a mi vida, sin darme opción,
+y en menos de nada, todo cambió.
+
+Ese primer beso me hizo temblar,
+tu abrazo travieso me hizo volar.
+Tan corto el momento, tan claro el deseo,
+desde ese segundo supe que te quiero.
+
+El tiempo va rápido, sin descansar,
+pero entre tus brazos se deja llevar.
+Y aunque fue tan rápido lo que empezó,
+cada día contigo… se siente mejor.`, author: "Luis" },
+            { title: "La Conexión de Ojos Cafés", body: `Tus ojitos cafés, no los dejo de ver.
+me miran y el mundo empieza a ceder.
+No entiendo este ritmo, ni quiero entender,
+solo sé que contigo, todo puede ser.
+(Contenido duplicado para llenar la cuadrícula)`, author: "Tu Poeta" },
+            { title: "Contigo... Todo Puede Ser", body: `Tus ojitos cafés, no los dejo de ver.
+me miran y el mundo empieza a ceder.
+No entiendo este ritmo, ni quiero entender,
+solo sé que contigo, todo puede ser.
+(Contenido duplicado para llenar la cuadrícula)`, author: "Tu Novio" },
+            { title: "El Deseo Claro", body: `Tus ojitos cafés, no los dejo de ver.
+me miran y el mundo empieza a ceder.
+No entiendo este ritmo, ni quiero entender,
+solo sé que contigo, todo puede ser.
+(Contenido duplicado para llenar la cuadrícula)`, author: "Luis (Enero 2026)" },
+        ];
+
+        const OPEN_WHEN_DATA = [
+            { id: 'extrañas', title: "Si me extrañas", icon: "heart", color: "text-red-500", content: "Lo sé, la vida a veces aprieta. Permítete sentir lo que necesites, pero no te quedes ahí. Recuerda lo increíble y fuerte que eres. Date un respiro, escucha tu canción favorita, y mañana intentemos que sea un poquito mejor. Estoy contigo, aunque no estemos cerca en este momento." },
+            { id: 'triste', title: "Si estás triste", icon: "frown", color: "text-purple-500", content: "Hey, no me gusta nada que estés así. Es completamente válido sentirse mal, pero no estás sola. Recuerda que después de la lluvia siempre sale el sol (y a veces un arcoíris). Te mando el abrazo más fuerte del mundo." },
+            { id: 'querer', title: "Si necesitas amor", icon: "star", color: "text-pink-500", content: "Uy, si tienes que abrir esto es que no lo estoy diciendo suficiente. Que no se te olvide NUNCA. Eres mi persona favorita por muchísimas razones: tu risa, tu inteligencia, tu bondad... Te quiero infinitamente." },
+            { id: 'reir', title: "Si necesitas reír", icon: "laugh", color: "text-purple-600", content: "Encontré esto y me acordé de ti al instante. Espero que te rías tanto como yo (prepárate, es tonto)... Imagina un pingüino resbalándose en el hielo. 🐧💨 ¡Espero haberte sacado una sonrisa!" },
+            { id: 'mal-dia', title: "Si tuviste un mal día", icon: "cloud-rain", color: "text-gray-500", content: "Lamento que tu día haya sido pesado. Ojalá pudiera estar ahí para darte un abrazo gigante. Como no puedo (aún), te doy esto: 🎟️ VALE POR UN MASAJE Y TU COMIDA FAVORITA. Canjeable en cuanto me veas." },
+            { id: 'motivacion', title: "Si necesitas motivación", icon: "zap", color: "text-red-500", content: "Tú puedes con eso y con más. En serio, eres la persona más fuerte y capaz que conozco. Mira todo lo que has logrado hasta ahora. ¡El mundo es tuyo, Nadia!" },
+            { id: 'planear', title: "Si quieres planear", icon: "map", color: "text-pink-600", content: "Me encanta esta idea. Soñar con nuestro futuro es de mis cosas favoritas. He estado pensando en: Un viaje a la playa, una tarde de pintura, o quizás... ¿adoptar una planta juntos? ¡Vamos a hacerlo realidad!" },
+            { id: 'aburrida', title: "Si estás aburrida", icon: "coffee", color: "text-purple-700", content: "¡Prohibido aburrirse! ¿Qué tal si pruebas esto? Busca la canción más rara en tu Spotify y mándamela. O hagamos una competencia de quién hace el dibujo más feo en 1 minuto." },
+            { id: 'ansiosa', title: "Si te sientes ansiosa", icon: "life-buoy", color: "text-pink-400", content: "Respira. Inhala... 1, 2, 3, 4. Mantén... 1, 2, 3, 4. Exhala... 1, 2, 3, 4. Todo va a estar bien. Estás a salvo y yo estoy contigo. Cierra los ojos un momento y concéntrate solo en mi voz diciéndote que todo pasará." },
+            { id: 'cancion', title: "Si quieres música", icon: "headphones", color: "text-purple-400", content: "O nuestras canciones. Cada una me recuerda a un momento diferente contigo. Súbele el volumen y baila como si nadie te estuviera viendo (aunque yo pagaría por verte bailar ahora mismo)." }
+        ];
+
+        const REASONS_DATA = [
+            { title: "La Paz Que Me Das", desc: "Amo la calma y serenidad que me transmites. Contigo, los problemas parecen más pequeños y encuentro una paz que no encuentro en ningún otro lugar. Eres mi ancla." },
+            { title: "Tu Luz Contagiosa", desc: "Amo tu sonrisa, esa que ilumina cualquier día gris, y tu risa contagiosa que siempre me saca una carcajada. Es imposible no sentirme feliz a tu lado." },
+            { title: "Mi Apoyo Incondicional", desc: "Amo saber que siempre estás ahí para mí, en las buenas y en las malas. Tu apoyo es mi mayor fortaleza y me da la confianza para enfrentar lo que sea." },
+            { title: "Tu Mente Brillante", desc: "Amo tu inteligencia y curiosidad. Me encanta cómo siempre aprendes cosas nuevas y me enseñas a ver el mundo desde perspectivas que nunca había considerado. Cada conversación contigo es un viaje fascinante." },
+            { title: "Tu Fuerza y Resiliencia", desc: "Amo tu valentía y capacidad para superar cualquier obstáculo. Me inspiras ver cómo te levantas con más fuerza ante cualquier adversidad. Eres un verdadero ejemplo de perseverancia." },
+            { title: "Nuestras Risas Compartidas", desc: "Amo las carcajadas sinceras que compartimos, esas que nos hacen doler el estómago y nos unen aún más. No hay nada como reír contigo hasta que nos falte el aire." },
+            { title: "Tu Capacidad de Cuidar", desc: "Amo tu habilidad innata para cuidar de los que te rodean, para estar atenta a los detalles y para hacer que los demás se sientan especiales. Eres atenta y amorosa en cada gesto." },
+            { title: "La Confianza Absoluta", desc: "Amo la confianza total que hemos construido. Saber que puedo ser completamente yo mismo contigo, sin filtros ni miedos, es un regalo invaluable. Eres mi confidente y mi mejor amiga." },
+            { title: "Nuestras Aventuras", desc: "Amo cada aventura que vivimos juntos, desde los grandes viajes hasta los planes espontáneos. Cada experiencia a tu lado se convierte en un recuerdo inolvidable que atesoro con cariño." },
+            { title: "Tu Pasión por la Vida", desc: "Amo la pasión con la que vives, persigues tus sueños y disfrutas de cada instante. Tu entusiasmo es contagioso y me recuerda lo hermoso que es vivir plenamente." },
+            { title: "Cómo Me Haces Mejor Persona", desc: "Amo cómo me impulsas a crecer y a ser una mejor versión de mí mismo. Tu fe en mí y tu aliento constante me motivan a alcanzar mis metas y a ser más de lo que creía posible." },
+            { title: "Tu Dulce Mirada", desc: "Amo la forma en que me miras. Hay una ternura y un cariño en tus ojos que me hacen sentir completamente amado y seguro. En tu mirada encuentro mi refugio." },
+            { title: "Simplemente Tú", desc: "Pero sobre todo, te amo por ser tú. Por tu autenticidad, por tu pasión, por tu forma única de ver el mundo. Eres la persona más maravillosa que conozco.", fullWidth: true }
+        ];
+        
+        // --- LÓGICA DE UTILIDADES ---
+
+        const f = (numero, decimales = 0) => parseFloat(numero.toFixed(decimales)).toLocaleString('es-MX');
+
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // --- LÓGICA DE PARTÍCULAS (Reutilizando la lógica del Canvas) ---
+
+        let particles = [];
+        let canvas, ctx, animationFrameId;
+        const particleCount = 120; 
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 4 + 2;
+                this.speedX = Math.random() * 1.5 - 0.75;
+                this.speedY = Math.random() * 1.5 - 0.75;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                const colors = [
+                    `rgba(255, 182, 193, ${this.opacity})`, 
+                    `rgba(221, 160, 221, ${this.opacity})`, 
+                    `rgba(255, 160, 122, ${this.opacity})`,
+                    `rgba(255, 255, 224, ${this.opacity})` 
+                ];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            }
+        }
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            animationFrameId = requestAnimationFrame(animateParticles);
+        }
+
+        window.onload = function() {
+            canvas = document.getElementById('particleCanvas');
+            if (canvas) {
+                ctx = canvas.getContext('2d');
+                window.addEventListener('resize', resizeCanvas);
+                resizeCanvas();
+                initParticles();
+                animateParticles();
+            }
+
+            renderRDM();
+            renderPoems();
+            renderOpenWhen();
+            renderStories();
+            renderReasons();
+            setInterval(updateSupremeCounter, 1000);
+            updateSupremeCounter();
+        };
+        
+        // --- LÓGICA DE CORAZONES ---
+        function addHeart() {
+            const heartsContainer = document.getElementById('hearts-container');
+            if (!heartsContainer) return;
+
+            const heart = document.createElement('div');
+            heart.className = 'absolute bottom-0 text-pink-400 animate-float-up text-4xl';
+            heart.style.left = `${Math.random() * 90 + 5}%`;
+            heart.innerHTML = '<svg class="w-10 h-10" data-lucide="heart" fill="currentColor"></svg>';
+            heartsContainer.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 4000);
+        }
+
+
+        // --- LÓGICA DE RENDERIZADO DE SECCIONES ---
+        
+        function renderRDM() {
+            const container = document.getElementById('rdm-grid');
+            if (!container) return;
+            container.innerHTML = RDM_DATA.map(item => `
+                <div class="bg-white/60 backdrop-blur-xl p-6 rounded-3xl border border-white/50 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] hover:-translate-y-2 group">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="text-red-500 font-bold text-sm tracking-wider uppercase bg-red-100 px-3 py-1 rounded-full">${item.date}</span>
+                        <div class="p-2 bg-purple-50 rounded-full group-hover:bg-purple-100 transition-colors">
+                            <svg class="w-5 h-5 ${item.icon.includes('pink') ? 'text-pink-500' : 'text-purple-500'}" data-lucide="${item.icon}"></svg>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-dancing font-bold text-gray-900 mb-3">${item.title}</h3>
+                    <div class="mb-4 rounded-2xl overflow-hidden h-52 shadow-inner border border-white/50 relative bg-gradient-to-br from-pink-50 to-purple-50">
+                        <img 
+                            src="${item.image}" 
+                            alt="${item.title}" 
+                            class="w-full h-full object-contain transform group-hover:scale-105 transition-transform duration-700 p-2" 
+                            onerror="this.onerror=null;this.src='https://placehold.co/600x400/9333ea/ffffff?text=Error+Cargando+Foto';"
+                        />
+                    </div>
+                    <p class="text-gray-700 italic border-l-4 border-purple-300 pl-4 leading-relaxed">"${item.story}"</p>
+                </div>
+            `).join('');
+        }
+
+        function renderPoems() {
+            const container = document.getElementById('poems-grid');
+            if (!container) return;
+            container.innerHTML = POEMS_DATA.map(poem => `
+                <div class="bg-white/40 backdrop-blur-md p-8 rounded-2xl shadow-lg border border-white/60 rotate-1 hover:rotate-0 transition-all duration-300 hover:shadow-xl hover:scale-[1.02] hover:bg-white/60">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4 text-center border-b-2 border-pink-200 pb-2 font-dancing">${poem.title}</h3>
+                    <p class="whitespace-pre-wrap text-gray-700 text-center leading-relaxed text-sm font-medium">
+                        ${poem.body}
+                    </p>
+                    <p class="text-right text-xs text-purple-500 mt-6 font-bold tracking-widest uppercase">— ${poem.author}</p>
+                </div>
+            `).join('');
+        }
+        
+        function renderOpenWhen() {
+            const container = document.getElementById('open-when-grid');
+            if (!container) return;
+            container.innerHTML = OPEN_WHEN_DATA.map(card => `
+                <button onclick="showOpenWhenModal('${card.id}')" class="flex flex-col items-center justify-center p-6 bg-white/40 backdrop-blur-md rounded-2xl shadow-lg border border-white/60 hover:shadow-2xl hover:bg-white/60 hover:scale-110 transition-all duration-300 h-full group">
+                    <div class="mb-4 p-4 bg-white/70 rounded-full group-hover:bg-white transition-colors shadow-inner">
+                        <svg class="w-6 h-6 ${card.color}" data-lucide="${card.icon}"></svg>
+                    </div>
+                    <span class="text-sm font-bold text-gray-800 text-center group-hover:text-purple-600 transition-colors">${card.title}</span>
+                </button>
+            `).join('');
+        }
+
+        function showOpenWhenModal(id) {
+            const card = OPEN_WHEN_DATA.find(c => c.id === id);
+            const modal = document.getElementById('open-when-modal');
+            const content = document.getElementById('modal-content');
+            if (!card || !modal || !content) return;
+
+            // Renderiza el contenido del modal
+            content.innerHTML = `
+                <button onclick="hideOpenWhenModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors bg-gray-100 rounded-full p-1">✕</button>
+                <div class="flex justify-center mb-6">
+                    <div class="p-5 bg-pink-100 rounded-full animate-bounce shadow-md">
+                        <svg class="w-8 h-8 ${card.color}" data-lucide="${card.icon}" fill="currentColor"></svg>
+                    </div>
+                </div>
+                <h3 class="text-3xl font-dancing font-bold text-center text-gray-800 mb-6">${card.title}</h3>
+                <p class="text-gray-700 text-center leading-relaxed text-lg font-medium">${card.content}</p>
+                <div class="mt-8 text-center">
+                    <button onclick="hideOpenWhenModal()" class="px-8 py-3 bg-gradient-to-r from-pink-400 to-purple-400 text-white rounded-full font-bold hover:from-pink-500 hover:to-purple-500 transition-all shadow-lg hover:shadow-xl hover:scale-105">
+                        Recibido con amor ❤️
+                    </button>
+                </div>
+            `;
+            // Muestra el modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            // Re-renderiza iconos de lucide
+            if (window.createIcons) window.createIcons({ attrs: { fill: 'none' } });
+        }
+
+        function hideOpenWhenModal() {
+            const modal = document.getElementById('open-when-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+
+        function renderStories() {
+            const container = document.getElementById('stories-grid');
+            if (!container) return;
+            container.innerHTML = STORIES_DATA.map(story => `
+                <div onclick="showStoryModal(${story.id})" class="bg-white/50 backdrop-blur-lg p-8 rounded-3xl border border-white/60 shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer group hover:scale-[1.02] hover:bg-white/70">
+                    <div class="h-40 bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl mb-6 flex items-center justify-center transition-all shadow-inner">
+                        <svg class="w-12 h-12 text-purple-500 drop-shadow-sm transform group-hover:scale-110 transition-transform" data-lucide="book"></svg>
+                    </div>
+                    <h4 class="text-2xl font-bold text-gray-800 mb-3">${story.title}</h4>
+                    <p class="text-gray-600 text-sm italic line-clamp-3">${story.summary}</p>
+                    <span class="text-pink-500 text-sm font-bold mt-6 block group-hover:underline uppercase tracking-wide">Leer Cuento Completo →</span>
+                </div>
+            `).join('');
+        }
+
+        function showStoryModal(id) {
+            const story = STORIES_DATA.find(s => s.id === id);
+            const modal = document.getElementById('story-modal');
+            const content = document.getElementById('story-modal-content');
+            if (!story || !modal || !content) return;
+
+            content.innerHTML = `
+                <button onclick="hideStoryModal()" class="absolute top-4 right-4 text-gray-400 hover:text-red-500 transition-colors bg-gray-100 rounded-full p-1">✕</button>
+                <h3 class="text-4xl font-dancing font-bold text-center text-gray-900 mb-2">${story.title}</h3>
+                <p class="text-center text-sm text-pink-500 font-bold mb-8 uppercase tracking-widest">
+                    Escrito por ${story.author}
+                </p>
+
+                <div class="max-h-[60vh] overflow-y-auto pr-4 text-lg text-gray-700 leading-loose whitespace-pre-wrap font-medium">
+                    ${story.body}
+                </div>
+
+                <div class="mt-10 text-center">
+                    <button onclick="hideStoryModal()" class="px-8 py-3 bg-purple-500 text-white rounded-full font-bold hover:bg-purple-600 transition-colors shadow-lg hover:shadow-xl">
+                        Cerrar y Volver al Índice
+                    </button>
+                </div>
+            `;
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            if (window.createIcons) window.createIcons({ attrs: { fill: 'none' } });
+        }
+
+        function hideStoryModal() {
+            const modal = document.getElementById('story-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function renderReasons() {
+            const container = document.getElementById('reasons-grid');
+            if (!container) return;
+
+            container.innerHTML = REASONS_DATA.map((item, idx) => `
+                <div class="flex items-start gap-6 glass p-8 rounded-3xl shadow-lg border border-white/50 hover:shadow-2xl hover:bg-white/80 transition-all duration-300 hover:scale-105 group ${item.fullWidth ? 'md:col-span-2' : ''}">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-pink-200 to-purple-200 flex items-center justify-center flex-shrink-0 text-purple-600 font-bold text-2xl shadow-inner group-hover:from-pink-300 group-hover:to-purple-300 transition-all">
+                        ${idx + 1}
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-purple-800 mb-2">${item.title}</h3>
+                        <p class="text-gray-700 font-medium text-lg leading-relaxed">${item.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+
+        // --- LÓGICA DEL CONTADOR SUPREMO ---
+
+        function renderStatsBlock(title, contentHtml, borderClass) {
+            return `
+                <div class="glass p-10 rounded-[2.5rem] shadow-xl border border-white/60 hover:shadow-2xl hover:bg-white/80 transition-all duration-300 ${borderClass}">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-8 flex items-center gap-3">
+                        ${title}
+                    </h3>
+                    ${contentHtml}
+                </div>
+            `;
+        }
+
+        function renderStatBlockItem(valueId, unit, detail, color) {
+            return `
+                <div class="mb-6 pb-6 border-b border-dashed border-purple-200 last:border-0 last:mb-0 last:pb-0">
+                    <span class="block text-4xl md:text-5xl font-black ${color} font-mono tracking-tighter drop-shadow-sm" id="${valueId}">0</span>
+                    <span class="text-sm uppercase tracking-widest text-gray-500 font-bold block mt-1">${unit}</span>
+                    <p class="text-sm text-gray-500 italic mt-2 border-l-4 border-pink-200 pl-3 bg-white/30 rounded-r-lg py-1">${detail}</p>
+                </div>
+            `;
+        }
+
+        function updateSupremeCounter() {
+            const SEGUNDOS_EN_MINUTO = 60;
+            const SEGUNDOS_EN_HORA = 3600;
+            const SEGUNDOS_EN_DIA = 86400;
+            const SEGUNDOS_EN_SEMANA = 604800;
+            const SEGUNDOS_EN_MES = 2629746;
+            const SEGUNDOS_EN_ANIO = 31556952;
+            const DIAS_ORBITA_LUNAR = 27.32;
+            const LATIDOS_POR_MINUTO = 75;
+            const SANGRE_POR_MINUTO = 5.5;
+            const RBC_POR_SEGUNDO = 2400000;
+            const RESPIROS_POR_MINUTO = 16;
+            const PARPADEOS_POR_MINUTO = 15;
+            const KM_POR_HORA_ORBITA_SOL = 107000;
+            const KM_POR_SEGUNDO_VIA_LACTEA = 220;
+            
+            const ahoraMs = new Date().getTime();
+            let diferenciaMs = ahoraMs - START_DATE;
+            if (diferenciaMs < 0) { diferenciaMs = 0; }
+
+            const totalSegundos = diferenciaMs / 1000;
+            const totalMinutos = totalSegundos / SEGUNDOS_EN_MINUTO;
+            const totalHoras = totalSegundos / SEGUNDOS_EN_HORA;
+            const totalDias = totalSegundos / SEGUNDOS_EN_DIA;
+
+            // Bloque Tiempo
+            document.getElementById('dias-totales-hero').textContent = f(totalDias, 0); // Para el h2
+            document.getElementById('sc-anios').textContent = f(totalSegundos / SEGUNDOS_EN_ANIO, 2);
+            document.getElementById('sc-meses').textContent = f(totalSegundos / SEGUNDOS_EN_MES, 2);
+            document.getElementById('sc-horas').textContent = f(totalHoras, 0);
+            document.getElementById('sc-segundos').textContent = f(totalSegundos, 0);
+
+            // Bloque Fisiológico
+            document.getElementById('sc-latidos').textContent = f(totalMinutos * LATIDOS_POR_MINUTO, 0);
+            document.getElementById('sc-sangre').textContent = f(totalMinutos * SANGRE_POR_MINUTO, 0);
+            document.getElementById('sc-respiraciones').textContent = f(totalMinutos * RESPIROS_POR_MINUTO, 0);
+            document.getElementById('sc-parpadeos').textContent = f(totalMinutos * PARPADEOS_POR_MINUTO, 0);
+
+            // Bloque Universal
+            document.getElementById('sc-orbitaSol').textContent = f(totalHoras * KM_POR_HORA_ORBITA_SOL / 1000000, 2);
+            document.getElementById('sc-viaLactea').textContent = f(totalSegundos * KM_POR_SEGUNDO_VIA_LACTEA / 1000000000, 2);
+            document.getElementById('sc-orbitasLunares').textContent = f(totalDias / DIAS_ORBITA_LUNAR, 2);
+            document.getElementById('sc-abrazos').textContent = f(totalDias * 5, 0);
+        }
+
+        // --- INICIALIZACIÓN DE LA SECCIÓN DEL CONTADOR SUPREMO ---
+        document.addEventListener('DOMContentLoaded', function() {
+            const statsContainer = document.getElementById('stats-grid');
+            if (statsContainer) {
+                // Bloque 1: Tiempo
+                const htmlTiempo = `
+                    <div class="p-2 bg-pink-100 rounded-lg"><svg class="text-pink-500 w-6 h-6" data-lucide="activity"></svg></div>
+                    Hemos compartido cada instante`;
+                const contentTiempo = 
+                    renderStatBlockItem('sc-anios', 'Años Juntos', 'Calculado usando el año tropical (365.2425 días).', 'text-pink-600') +
+                    renderStatBlockItem('sc-meses', 'Meses Juntos', 'Un promedio de 30.43 días por mes.', 'text-pink-600') +
+                    renderStatBlockItem('sc-horas', 'Horas Totales', '¡Cada una de ellas cuenta!', 'text-pink-500') +
+                    renderStatBlockItem('sc-segundos', 'Segundos Totales', 'La base de todo.', 'text-purple-600');
+                
+                statsContainer.innerHTML += renderStatsBlock(htmlTiempo, contentTiempo, '');
+                
+                // Bloque 2: Fisiológico
+                const htmlFisio = `
+                    <div class="p-2 bg-red-100 rounded-lg"><svg class="text-red-500 w-6 h-6" data-lucide="heart"></svg></div>
+                    Desde que estamos juntos...`;
+                const contentFisio = 
+                    renderStatBlockItem('sc-latidos', 'Latidos (Estimados)', 'Promedio de 75 lpm.', 'text-red-500') +
+                    renderStatBlockItem('sc-sangre', 'Litros de Sangre Bombeada', '5.5 litros por minuto.', 'text-red-500') +
+                    renderStatBlockItem('sc-respiraciones', 'Respiraciones', 'Promedio de 16 respiraciones por minuto.', 'text-red-400') +
+                    renderStatBlockItem('sc-parpadeos', 'Parpadeos', 'Promedio de 15 parpadeos por minuto.', 'text-red-400');
+
+                statsContainer.innerHTML += renderStatsBlock(htmlFisio, contentFisio, '');
+
+                // Bloque 3: Universal (Full Width)
+                const htmlUni = `
+                    <div class="p-2 bg-purple-100 rounded-lg"><svg class="text-purple-500 w-6 h-6" data-lucide="globe"></svg></div>
+                    Hemos viajado más de lo que crees`;
+                const contentUni = `
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                        <div>
+                            ${renderStatBlockItem('sc-orbitaSol', 'Millones de KM (Sol)', 'La Tierra viaja a 107,000 km/h.', 'text-gray-800')}
+                            ${renderStatBlockItem('sc-viaLactea', 'Mil Millones KM (Galaxia)', 'El sistema solar a 220 km/s.', 'text-gray-800')}
+                        </div>
+                        <div>
+                            ${renderStatBlockItem('sc-orbitasLunares', 'Vueltas de la Luna', 'Cada 27.32 días.', 'text-gray-800')}
+                            ${renderStatBlockItem('sc-abrazos', 'Abrazos (Estimados)', '¡5 abrazos al día!', 'text-pink-500')}
+                        </div>
+                    </div>
+                `;
+                statsContainer.innerHTML += renderStatsBlock(htmlUni, contentUni, 'md:col-span-2');
+            }
+            if (window.createIcons) window.createIcons({ attrs: { fill: 'none' } });
+        });
+
+    </script>
+</body>
+</html>
