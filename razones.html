@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadia & Luis | Razones</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script>tailwind.config = { theme: { extend: { fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['"Inter"', 'sans-serif'] } } } }</script>
+    <style>
+        body { background-color: #FAFAFA; color: #2D1B2E; overflow-x: hidden; }
+        .noise-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .nav-link.active { color: #E11D48; font-weight: 600; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <div class="noise-bg"></div>
+    <canvas id="particleCanvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-50"></canvas>
+
+    <nav class="fixed top-0 left-0 w-full z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex-shrink-0 cursor-pointer"><span class="font-serif text-2xl md:text-3xl text-gray-900 tracking-tight">N <span class="text-rose-400 font-light">&</span> L</span></a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Inicio</a>
+                    <a href="recuerdos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Recuerdos</a>
+                    <a href="cuentos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Cuentos</a>
+                    <a href="detalles.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Detalles</a>
+                    <a href="razones.html" class="nav-link active text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Por Qué</a>
+                    <a href="tiempo.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Tiempo</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-600"><i data-lucide="menu"></i></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl absolute w-full border-b border-gray-100">
+            <div class="px-4 pt-2 pb-6 space-y-1 flex flex-col items-center">
+                <a href="index.html" class="py-3 text-sm text-gray-600">Inicio</a>
+                <a href="recuerdos.html" class="py-3 text-sm text-gray-600">Recuerdos</a>
+                <a href="cuentos.html" class="py-3 text-sm text-gray-600">Cuentos</a>
+                <a href="detalles.html" class="py-3 text-sm text-gray-600">Detalles</a>
+                <a href="razones.html" class="py-3 text-sm font-bold text-rose-500">Por Qué</a>
+                <a href="tiempo.html" class="py-3 text-sm text-gray-600">Tiempo</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-24 pb-12 px-4">
+        <div class="max-w-4xl mx-auto px-4 py-12 md:py-20">
+            <div class="text-center mb-16">
+                <i data-lucide="heart" class="w-10 h-10 text-rose-400 mx-auto mb-4 fill-rose-100"></i>
+                <h2 class="font-serif text-5xl text-gray-900">Por qué te amo</h2>
+                <div class="w-16 h-1 bg-rose-200 mx-auto mt-6"></div>
+            </div>
+            <div id="reasons-grid" class="space-y-6"></div>
+        </div>
+    </main>
+
+    <footer class="py-6 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100">Hecho con amor • 2025</footer>
+
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => { document.getElementById('mobile-menu').classList.toggle('hidden'); });
+
+        const REASONS_DATA = [
+            { title: "La Paz Que Me Das", desc: "Amo la calma y serenidad que me transmites. Contigo, los problemas parecen más pequeños." },
+            { title: "Tu Luz Contagiosa", desc: "Amo tu sonrisa, esa que ilumina cualquier día gris, y tu risa contagiosa." },
+            { title: "Mi Apoyo Incondicional", desc: "Amo saber que siempre estás ahí para mí, en las buenas y en las malas." },
+            { title: "Tu Mente Brillante", desc: "Amo tu inteligencia y curiosidad. Me encanta cómo siempre aprendes cosas nuevas." },
+            { title: "Simplemente Tú", desc: "Pero sobre todo, te amo por ser tú. Por tu autenticidad, por tu pasión, por tu forma única de ver el mundo.", fullWidth: true }
+        ];
+
+        document.getElementById('reasons-grid').innerHTML = REASONS_DATA.map((item, idx) => `
+            <div class="flex items-start gap-5 p-6 rounded-2xl bg-white border border-gray-100 hover:shadow-md transition-all group">
+                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-50 text-rose-400 font-serif font-bold flex items-center justify-center group-hover:bg-rose-500 group-hover:text-white transition-colors">${idx + 1}</span>
+                <div>
+                    <h3 class="font-serif text-lg text-gray-900 mb-1 group-hover:text-rose-600 transition-colors">${item.title}</h3>
+                    <p class="text-gray-500 font-light text-sm leading-relaxed">${item.desc}</p>
+                </div>
+            </div>
+        `).join('');
+
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let particles = Array.from({length: 60}, () => ({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*3+1, d: Math.random()*Math.PI*2, s: Math.random()*0.5+0.1, c: ['#F7CAD0','#C59FC9','#E5E7EB'][Math.floor(Math.random()*3)]}));
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.d)*0.2;if(p.y<-10)p.y=canvas.height+10;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}); requestAnimationFrame(animate); }
+        animate();
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+        lucide.createIcons();
+    </script>
+</body>
+</html>
