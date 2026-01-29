@@ -52,6 +52,7 @@
                 <i data-lucide="heart" class="w-10 h-10 text-rose-400 mx-auto mb-4 fill-rose-100"></i>
                 <h2 class="font-serif text-5xl text-gray-900">Por qué te amo</h2>
                 <div class="w-16 h-1 bg-rose-200 mx-auto mt-6"></div>
+                <p class="mt-4 text-gray-500">Aquí tienes 50 razones (y me faltan miles).</p>
             </div>
             <div id="reasons-grid" class="space-y-6"></div>
         </div>
@@ -67,11 +68,56 @@
             { title: "Tu Luz Contagiosa", desc: "Amo tu sonrisa, esa que ilumina cualquier día gris, y tu risa contagiosa." },
             { title: "Mi Apoyo Incondicional", desc: "Amo saber que siempre estás ahí para mí, en las buenas y en las malas." },
             { title: "Tu Mente Brillante", desc: "Amo tu inteligencia y curiosidad. Me encanta cómo siempre aprendes cosas nuevas." },
+            { title: "Tu Voz", desc: "Ese sonido que me calma al instante, ya sea en un susurro o en una carcajada." },
+            { title: "Tus Abrazos", desc: "El lugar más seguro del mundo, donde todo lo malo desaparece." },
+            { title: "Tu Mirada", desc: "La forma en que me miras y me haces sentir la persona más especial del universo." },
+            { title: "Tu Pasión", desc: "Cómo te entregas a lo que amas, con esa energía que inspira." },
+            { title: "Tus Manos", desc: "Suaves y fuertes a la vez, encajan perfectamente con las mías." },
+            { title: "Tu Aroma", desc: "Ese perfume natural que se queda en mi ropa y me hace extrañarte." },
+            { title: "Tu Sentido del Humor", desc: "Cómo logras hacerme reír incluso cuando no tengo ganas." },
+            { title: "Tu Valentía", desc: "Cómo enfrentas los miedos y sigues adelante, eres mi heroína." },
+            { title: "Tu Empatía", desc: "Tu capacidad de ponerte en el lugar de otros y sentir con el corazón." },
+            { title: "Tus Consejos", desc: "Siempre tienes la palabra justa en el momento indicado." },
+            { title: "Nuestras Charlas", desc: "Esas conversaciones que duran horas y arreglan el mundo." },
+            { title: "Tu Paciencia", desc: "Cómo me aguantas en mis días malos y me ayudas a mejorar." },
+            { title: "Tu Estilo", desc: "Esa forma única que tienes de ser tú misma en todo momento." },
+            { title: "Tus Sueños", desc: "Me encanta verte soñar y planear nuestro futuro juntos." },
+            { title: "Tu Bondad", desc: "Tu corazón noble que siempre busca hacer el bien." },
+            { title: "Cómo Me Haces Mejor", desc: "Me impulsas a ser mi mejor versión sin intentar cambiarme." },
+            { title: "Tu Lealtad", desc: "Saber que somos un equipo y que nunca me fallarás." },
+            { title: "Tus Besos", desc: "La magia que siento cada vez que nuestros labios se tocan." },
+            { title: "Tu Espontaneidad", desc: "Esas locuras repentinas que hacen la vida divertida." },
+            { title: "Tu Madurez", desc: "Cómo manejas las situaciones difíciles con tanta sabiduría." },
+            { title: "Tu Niña Interior", desc: "Esa inocencia y alegría que sacas a relucir jugando." },
+            { title: "Tu Resiliencia", desc: "Cómo te levantas más fuerte después de cada caída." },
+            { title: "Tu Creatividad", desc: "La forma en que ves el mundo y encuentras belleza en todo." },
+            { title: "Tu Honestidad", desc: "Siempre vas con la verdad por delante, y eso lo valoro infinito." },
+            { title: "Cómo Me Escuchas", desc: "No solo oyes, realmente me escuchas y me comprendes." },
+            { title: "Tu Intuición", desc: "Esa brujita interna que siempre sabe cuando algo pasa." },
+            { title: "Tus Defectos", desc: "Porque te hacen humana y perfecta para mí." },
+            { title: "Nuestros Silencios", desc: "Poder estar juntos sin decir nada y sentirnos cómodos." },
+            { title: "Tu Energía", desc: "Esa vibra que cambia el ambiente en cuanto entras a una habitación." },
+            { title: "Tu Determinación", desc: "Cuando te propones algo, no paras hasta conseguirlo." },
+            { title: "Tu Ternura", desc: "Esos gestos suaves y cariñosos que derriten mi corazón." },
+            { title: "Tu Independencia", desc: "Admiro que seas una mujer fuerte y autónoma." },
+            { title: "Cómo Te Preocupas", desc: "Ese cuidado genuino por mi bienestar y el de los tuyos." },
+            { title: "Tu Memoria", desc: "Cómo recuerdas los pequeños detalles que yo olvido." },
+            { title: "Tu Gusto Musical", desc: "Cómo compartimos canciones y creamos nuestra banda sonora." },
+            { title: "Tus Ojos", desc: "Podría perderme en ellos por horas y encontrar todo lo que necesito." },
+            { title: "Tu Generosidad", desc: "Das sin esperar nada a cambio, con el corazón abierto." },
+            { title: "Cómo Duermes", desc: "Verte descansar me da una paz indescriptible." },
+            { title: "Tu Confianza", desc: "La fe ciega que tienes en nosotros y en lo que construimos." },
+            { title: "Tus Caricias", desc: "El lenguaje de tu piel sobre la mía." },
+            { title: "Tu Curiosidad", desc: "Esas ganas constantes de descubrir y aprender." },
+            { title: "Tu Sencillez", desc: "Disfrutar de lo simple, de un atardecer o un café." },
+            { title: "Tu Elegancia", desc: "Tienes una clase natural que no se compra ni se aprende." },
+            { title: "Tu Misterio", desc: "Siempre hay algo nuevo que descubrir en ti." },
+            { title: "Nuestra Complicidad", desc: "Esas miradas que lo dicen todo sin palabras." },
             { title: "Simplemente Tú", desc: "Pero sobre todo, te amo por ser tú. Por tu autenticidad, por tu pasión, por tu forma única de ver el mundo.", fullWidth: true }
         ];
 
         document.getElementById('reasons-grid').innerHTML = REASONS_DATA.map((item, idx) => `
-            <div class="flex items-start gap-5 p-6 rounded-2xl bg-white border border-gray-100 hover:shadow-md transition-all group">
+            <div class="flex items-start gap-5 p-6 rounded-2xl bg-white border border-gray-100 hover:shadow-md transition-all group ${item.fullWidth ? 'md:col-span-2 bg-gradient-to-r from-white to-rose-50' : ''}">
                 <span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-50 text-rose-400 font-serif font-bold flex items-center justify-center group-hover:bg-rose-500 group-hover:text-white transition-colors">${idx + 1}</span>
                 <div>
                     <h3 class="font-serif text-lg text-gray-900 mb-1 group-hover:text-rose-600 transition-colors">${item.title}</h3>
