@@ -14,7 +14,7 @@
                 extend: {
                     fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['"Inter"', 'sans-serif'] },
                     colors: { romantic: { dark: '#2D1B2E', pink: '#F7CAD0' } },
-                    animation: { 'float': 'float 6s ease-in-out infinite' },
+                    animation: { 'float': 'float 6s ease-in-out infinite', 'bounce-slow': 'bounce 3s infinite' },
                     keyframes: { float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } } }
                 }
             }
@@ -24,9 +24,11 @@
         body { background-color: #FAFAFA; color: #2D1B2E; overflow-x: hidden; }
         .noise-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
         .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.3); }
-        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); transition: all 0.3s ease; }
+        .glass-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.95); box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1); }
         /* Active Link Style */
         .nav-link.active { color: #E11D48; font-weight: 600; }
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -65,31 +67,109 @@
         </div>
     </nav>
 
-    <!-- CONTENT -->
-    <main class="flex-grow flex flex-col items-center justify-center min-h-screen pt-20 relative">
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-rose-200/20 rounded-full blur-[100px] -z-10 animate-pulse"></div>
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow flex flex-col pt-20 relative">
         
-        <div class="text-center px-4 max-w-4xl space-y-8 animate-fade-in">
-            <a href="https://rewind.nadiayluis.art" class="inline-block py-2 px-6 rounded-full border border-gray-800/10 bg-white/50 backdrop-blur-sm text-xs font-bold tracking-[0.2em] uppercase text-gray-800 shadow-sm hover:scale-105 hover:bg-white transition-all">✨ Ver REWIND 2025</a>
+        <!-- HERO SECTION -->
+        <section class="min-h-[90vh] flex flex-col items-center justify-center relative px-4">
+            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-rose-200/20 rounded-full blur-[100px] -z-10 animate-pulse"></div>
             
-            <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl text-gray-900 leading-none">
-                Nadia <span class="text-rose-400 italic font-light">&</span> Luis
-            </h1>
-            
-            <p class="text-lg md:text-2xl text-gray-500 font-light max-w-2xl mx-auto italic">
-                "El arte no está en los museos, está en cada momento que pasamos juntos."
-            </p>
-
-            <div class="pt-8">
-                <div class="glass-card inline-flex flex-col items-center px-8 py-4 rounded-2xl">
-                    <span class="text-xs uppercase tracking-widest text-gray-400 mb-1">Tiempo Juntos</span>
-                    <span id="hero-timer" class="font-serif text-xl md:text-2xl text-gray-800 font-bold">Calculando...</span>
+            <div class="text-center max-w-4xl space-y-8 animate-fade-in z-10">
+                <a href="https://rewind.nadiayluis.art" class="inline-block py-2 px-6 rounded-full border border-gray-800/10 bg-white/50 backdrop-blur-sm text-xs font-bold tracking-[0.2em] uppercase text-gray-800 shadow-sm hover:scale-105 hover:bg-white transition-all">
+                    ✨ Ver REWIND 2025
+                </a>
+                
+                <h1 class="font-serif text-6xl md:text-8xl lg:text-9xl text-gray-900 leading-none tracking-tight">
+                    Nadia <span class="text-rose-400 italic font-light">&</span> Luis
+                </h1>
+                
+                <p class="text-lg md:text-2xl text-gray-500 font-light max-w-2xl mx-auto italic leading-relaxed">
+                    "El arte no está en los museos, está en cada momento que pasamos juntos."
+                </p>
+    
+                <div class="pt-8">
+                    <div class="glass-card inline-flex flex-col items-center px-8 py-4 rounded-2xl">
+                        <span class="text-xs uppercase tracking-widest text-gray-400 mb-1">Tiempo Juntos</span>
+                        <span id="hero-timer" class="font-serif text-xl md:text-2xl text-gray-800 font-bold">Calculando...</span>
+                    </div>
                 </div>
             </div>
-        </div>
+
+            <!-- Scroll Indicator -->
+            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce-slow text-gray-300">
+                <i data-lucide="arrow-down" class="w-8 h-8"></i>
+            </div>
+        </section>
+
+        <!-- EXPLORE NAVIGATION GRID -->
+        <section class="py-24 px-4 bg-white/30 relative">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="font-serif text-4xl text-gray-900 mb-4">Explora Nuestro Mundo</h2>
+                    <p class="text-gray-500 font-light">Cada rincón de esta página está hecho para ti.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Card 1 -->
+                    <a href="recuerdos.html" class="glass-card p-8 rounded-3xl flex flex-col items-center text-center group cursor-pointer h-full">
+                        <div class="w-14 h-14 bg-rose-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-rose-500 transition-colors duration-500">
+                            <i data-lucide="camera" class="w-6 h-6 text-rose-400 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-serif text-xl text-gray-900 mb-2">Recuerdos</h3>
+                        <p class="text-gray-500 text-sm font-light">Nuestros mejores momentos capturados en el tiempo.</p>
+                    </a>
+
+                    <!-- Card 2 -->
+                    <a href="cuentos.html" class="glass-card p-8 rounded-3xl flex flex-col items-center text-center group cursor-pointer h-full">
+                        <div class="w-14 h-14 bg-purple-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-purple-500 transition-colors duration-500">
+                            <i data-lucide="book-open" class="w-6 h-6 text-purple-400 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-serif text-xl text-gray-900 mb-2">Historias</h3>
+                        <p class="text-gray-500 text-sm font-light">Cuentos y relatos que construyen nuestra leyenda.</p>
+                    </a>
+
+                    <!-- Card 3 -->
+                    <a href="razones.html" class="glass-card p-8 rounded-3xl flex flex-col items-center text-center group cursor-pointer h-full">
+                        <div class="w-14 h-14 bg-pink-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-pink-500 transition-colors duration-500">
+                            <i data-lucide="heart" class="w-6 h-6 text-pink-400 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-serif text-xl text-gray-900 mb-2">Por Qué Te Amo</h3>
+                        <p class="text-gray-500 text-sm font-light">Pequeñas y grandes razones que te hacen única.</p>
+                    </a>
+
+                    <!-- Card 4 -->
+                    <a href="detalles.html" class="glass-card p-8 rounded-3xl flex flex-col items-center text-center group cursor-pointer h-full">
+                        <div class="w-14 h-14 bg-indigo-50 rounded-full flex items-center justify-center mb-6 group-hover:bg-indigo-500 transition-colors duration-500">
+                            <i data-lucide="gift" class="w-6 h-6 text-indigo-400 group-hover:text-white transition-colors"></i>
+                        </div>
+                        <h3 class="font-serif text-xl text-gray-900 mb-2">Detalles</h3>
+                        <p class="text-gray-500 text-sm font-light">Cartas "Abrir Cuando", música y poesía.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUOTE / BANNER SECTION (Dynamic) -->
+        <section class="py-32 px-4 text-center relative overflow-hidden">
+            <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none">
+                <span class="text-[20vw] font-serif font-bold text-gray-900">AMOR</span>
+            </div>
+            <div class="max-w-3xl mx-auto relative z-10">
+                <i data-lucide="quote" class="w-10 h-10 text-rose-300 mx-auto mb-6 opacity-50"></i>
+                <h3 id="daily-quote" class="font-serif text-3xl md:text-5xl text-gray-800 leading-tight mb-8">
+                    "Te amo no solo por lo que eres, sino por lo que soy cuando estoy contigo."
+                </h3>
+                <div class="w-24 h-px bg-gradient-to-r from-transparent via-rose-300 to-transparent mx-auto"></div>
+                <p id="daily-quote-author" class="mt-6 text-gray-400 uppercase tracking-widest text-xs">- Roy Croft</p>
+            </div>
+        </section>
+
     </main>
 
-    <footer class="py-6 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100">Hecho con amor • 2025</footer>
+    <footer class="py-8 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100 bg-white/50 backdrop-blur-sm">
+        <p class="mb-2">Hecho con amor • <a href="secreto.html" class="hover:text-rose-300 transition-colors cursor-default">2025</a></p>
+        <p class="opacity-50">Para Nadia, mi musa eterna</p>
+    </footer>
 
     <script>
         // Shared Logic: Mobile Menu & Icons
@@ -119,7 +199,7 @@
         animateParticles();
         window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 
-        // Page Specific: Timer
+        // Timer
         const START_DATE = new Date('2025-06-11T22:22:00').getTime();
         setInterval(() => {
             const now = new Date().getTime();
@@ -130,6 +210,48 @@
             const remainingDays = Math.floor(days - (years * 365.25) - (months * 30.44));
             document.getElementById('hero-timer').innerText = `${years} Años, ${months} Meses, ${remainingDays} Días`;
         }, 1000);
+
+        // --- SISTEMA DE FRASES DIARIAS ---
+        const LOVE_QUOTES = [
+            { text: "Te amo no solo por lo que eres, sino por lo que soy cuando estoy contigo.", author: "Roy Croft" },
+            { text: "El amor no mira con los ojos, sino con el alma.", author: "William Shakespeare" },
+            { text: "Si sé lo que es el amor, es gracias a ti.", author: "Hermann Hesse" },
+            { text: "Sea lo que sea de lo que estén hechas nuestras almas, la tuya y la mía son las mismas.", author: "Emily Brontë" },
+            { text: "Amar no es mirarse el uno al otro; es mirar juntos en la misma dirección.", author: "Antoine de Saint-Exupéry" },
+            { text: "Donde hay amor hay vida.", author: "Mahatma Gandhi" },
+            { text: "Cada mañana cuando despierto, tú eres la razón por la que sonrío.", author: "Anónimo" },
+            { text: "Eres mi sol, mi luna y todas mis estrellas.", author: "E.E. Cummings" },
+            { text: "En un beso, sabrás todo lo que he callado.", author: "Pablo Neruda" },
+            { text: "El amor es la poesía de los sentidos.", author: "Honoré de Balzac" },
+            { text: "Te quiero, no solo por como eres, sino por como soy yo cuando estoy contigo.", author: "Gabriel García Márquez" },
+            { text: "Eres la casualidad más bonita que llegó a mi vida.", author: "Anónimo" }
+        ];
+
+        function setDailyQuote() {
+            const quoteEl = document.getElementById('daily-quote');
+            const authorEl = document.getElementById('daily-quote-author');
+            
+            if(!quoteEl || !authorEl) return;
+
+            // Calcular el día del año (0 a 365)
+            const now = new Date();
+            const start = new Date(now.getFullYear(), 0, 0);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
+
+            // Seleccionar frase basada en el día (ciclo infinito)
+            const quoteIndex = dayOfYear % LOVE_QUOTES.length;
+            const todaysQuote = LOVE_QUOTES[quoteIndex];
+
+            // Actualizar el DOM
+            quoteEl.innerText = `"${todaysQuote.text}"`;
+            authorEl.innerText = `- ${todaysQuote.author}`;
+        }
+        
+        // Ejecutar al cargar
+        setDailyQuote();
+
     </script>
 </body>
 </html>
