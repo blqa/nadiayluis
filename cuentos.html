@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadia & Luis | Cuentos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script>tailwind.config = { theme: { extend: { fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['"Inter"', 'sans-serif'] } } } }</script>
+    <style>
+        body { background-color: #FAFAFA; color: #2D1B2E; overflow-x: hidden; }
+        .noise-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .nav-link.active { color: #E11D48; font-weight: 600; }
+        /* Modal Transitions */
+        .modal { transition: opacity 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <div class="noise-bg"></div>
+    <canvas id="particleCanvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-50"></canvas>
+
+    <nav class="fixed top-0 left-0 w-full z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex-shrink-0 cursor-pointer"><span class="font-serif text-2xl md:text-3xl text-gray-900 tracking-tight">N <span class="text-rose-400 font-light">&</span> L</span></a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Inicio</a>
+                    <a href="recuerdos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Recuerdos</a>
+                    <a href="cuentos.html" class="nav-link active text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Cuentos</a>
+                    <a href="detalles.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Detalles</a>
+                    <a href="razones.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Por Qué</a>
+                    <a href="tiempo.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Tiempo</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-600"><i data-lucide="menu"></i></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl absolute w-full border-b border-gray-100">
+            <div class="px-4 pt-2 pb-6 space-y-1 flex flex-col items-center">
+                <a href="index.html" class="py-3 text-sm text-gray-600">Inicio</a>
+                <a href="recuerdos.html" class="py-3 text-sm text-gray-600">Recuerdos</a>
+                <a href="cuentos.html" class="py-3 text-sm font-bold text-rose-500">Cuentos</a>
+                <a href="detalles.html" class="py-3 text-sm text-gray-600">Detalles</a>
+                <a href="razones.html" class="py-3 text-sm text-gray-600">Por Qué</a>
+                <a href="tiempo.html" class="py-3 text-sm text-gray-600">Tiempo</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-24 pb-12 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="mb-12 text-center border-b border-gray-200 pb-8">
+                <span class="text-rose-400 font-serif italic text-xl">Biblioteca de amor</span>
+                <h2 class="font-serif text-5xl text-gray-900">Nuestros Cuentos</h2>
+            </div>
+            <div id="stories-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Data Injected -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Story Modal -->
+    <div id="story-modal" class="hidden fixed inset-0 z-[100] items-center justify-center p-4 bg-gray-900/30 backdrop-blur-md modal opacity-0 transition-opacity duration-300">
+        <div id="story-modal-content" class="bg-white rounded-[2rem] p-8 md:p-12 max-w-4xl w-full shadow-2xl relative max-h-[90vh] flex flex-col"></div>
+    </div>
+
+    <footer class="py-6 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100">Hecho con amor • 2025</footer>
+
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => { document.getElementById('mobile-menu').classList.toggle('hidden'); });
+
+        const STORIES_DATA = [
+            { id: 1, title: "NEMO", summary: "Un pececito desobediente se pierde y su padre cruza todo el océano para encontrarlo.", body: `Había una vez un pez chiquito. Su papá pez le dijo que no nadara lejos, pero no hizo caso. Lo atraparon unos humanos y se lo llevaron. Entonces, su papá cruzó todo el océano buscándolo, con la ayuda de una pez olvidadiza. Pasaron muchas aventuras, hasta que al fin lo encontraron. Y todos aprendieron a confiar más… y a no salirse del arrecife sin avisar. Fin. 🐠💙`, author: "Luis" },
+            { id: 2, title: "WALL-E", summary: "Un robot solitario se queda limpiando la Tierra hasta que se enamora.", body: `"Había un pequeño robot que se quedó solo en la Tierra limpiando basura, porque los humanos la habían abandonado por estar llena de desechos. Su único amigo era una cucaracha y cada día guardaba cosas que encontraba interesantes. Un día llegó otro robot moderno con una misión: buscar vida en el planeta. El robot solitario se enamoró de ella y decidió seguirla, aunque eso lo llevó a una nave donde vivían los humanos. Allí descubrió que todos estaban tan cómodos con la tecnología que habían olvidado caminar, mirar el cielo y cuidar su planeta. Con esfuerzo y valentía, los robots lograron que los humanos regresaran a la Tierra para reconstruirla. Al final, el robot que estaba solo ya no lo estuvo nunca más. 🤖🪳🥚"`, author: "Luis" },
+            { id: 3, title: "SOUL", summary: "Un músico descubre que la felicidad está en los pequeños momentos.", body: `"Había una vez un músico que amaba tocar el piano. Cada nota lo hacía feliz y soñaba con tocar en el escenario más grande. Un día, algo mágico sucedió y su alma se separó de su cuerpo. De repente estaba en un lugar extraño, lleno de luces y colores, donde todas las almas aprendían a brillar. Allí conoció a un alma curiosa y traviesa. Juntos corrían, saltaban y jugaban mientras aprendían sobre sueños, pasiones y lo que hace que la vida valga la pena. El músico descubrió que no solo los grandes escenarios traen felicidad. Que los pequeños momentos, las risas y la música del día a día también hacen brillar el corazón. Al final, regresó a su cuerpo, pero ahora veía el mundo diferente. Cada nota, cada amigo y cada momento era un tesoro que lo hacía sentirse vivo. Y desde entonces, tocaba su piano con alegría y enseñaba que la vida se disfruta en cada instante. 🎹✨☁️"`, author: "Luis" },
+            { id: 4, title: "TOY STORY", summary: "Un vaquero y un astronauta aprenden a confiar el uno en el otro.", body: `Había una vez un niño que tenía muchos juguetes, pero su favorito era un vaquero de sombrero café, botas con espuelas y una cuerda para decir frases divertidas. Era el líder de todos los juguetes y el más querido del cuarto. Vivía feliz, pues cada vez que el niño jugaba, él era el protagonista. Pero un día, en su cumpleaños, el niño recibió un regalo especial, un astronauta brillante, con alas, botones y frases sobre viajes espaciales. El vaquero sintió celos. Temía que el niño dejara de quererlo. El astronauta, por su parte, ni siquiera sabía que era un juguete, creía que venía de una misión real en el espacio. Los dos empezaron a discutir, competir y molestarse. Pero las cosas se complicaron cuando, por accidente, ambos terminaron lejos de casa, atrapados en el mundo de los humanos… y de un niño vecino que destruía juguetes por diversión. En ese viaje de regreso, el vaquero y el astronauta pasaron por muchas aventuras, escapar de trampas, trabajar en equipo y confiar el uno en el otro. Descubrieron que, aunque eran muy diferentes, los dos eran importantes para el niño. Al final, lograron regresar justo a tiempo antes de que la familia se mudara. El vaquero ya no temía ser reemplazado, y el astronauta aceptó que era un juguete, pero uno muy especial. Y desde entonces, en ese cuarto, hubo dos líderes… y una gran amistad. 🤠🧑‍🚀🚀`, author: "Luis" },
+            { id: 5, title: "CARS", summary: "Un auto de carreras aprende que la amistad es el verdadero premio.", body: `Había una vez un auto de carreras rojo, joven, brillante y veloz. Soñaba con convertirse en el más grande de todos los tiempos, en una leyenda que todos recordaran. Tenía talento y velocidad, pero también un gran defecto: era arrogante. No escuchaba consejos, no confiaba en nadie y creía que podía lograr todo por sí mismo. Su meta era ganar la Copa Pistón, el trofeo más importante del mundo de las carreras. En una de las temporadas más reñidas, el auto rojo quedó empatado con dos rivales. Uno era un campeón veterano, sabio y respetado, que estaba a punto de retirarse y soñaba con terminar su carrera con honor. El otro era un competidor rudo, egoísta y tramposo, que solo buscaba la fama y los contratos millonarios. El empate provocó que se organizara una última gran carrera en California para decidir al ganador. El auto rojo estaba impaciente. Quería llegar cuanto antes y demostrar que él sería el nuevo rey de las pistas. En lugar de viajar con su equipo y descansar, decidió ir solo, confiado en que nada lo detendría. Pero el destino tenía otros planes. En medio de la noche, durante el viaje por la vieja Ruta 66, se perdió y terminó en un pequeño pueblo olvidado llamado Radiador Springs. Allí, al entrar de manera imprudente, destrozó la carretera principal. Los habitantes del pueblo, molestos, lo atraparon y lo llevaron ante la justicia local. Como castigo, lo obligaron a reparar la carretera que había destruido antes de marcharse. Para él, aquello era una pérdida de tiempo, una vergüenza. Solo quería escapar y seguir con su meta. Sin embargo, mientras pasaban los días, empezó a conocer a los habitantes del pueblo. Había una grúa oxidada y simpática que lo trataba como si fueran amigos desde el primer momento, aunque él no lo entendiera. Había una auto elegante que trabajaba como abogada y dueña del motel, quien lo miraba con desconfianza porque parecía no valorar nada más que su ego. Había también un viejo doctor que en el pasado había sido un gran corredor, aunque ahora vivía en silencio y pocos conocían su verdadera historia. Al principio, el auto rojo se burlaba de ellos y se negaba a esforzarse, pero poco a poco fue cambiando. Descubrió que aquel lugar, aunque pequeño, tenía una belleza especial. Paseó por los paisajes al atardecer, escuchó las risas sinceras de la grúa que solo quería tener un amigo, y comprendió la tristeza de la auto del motel, que extrañaba los tiempos en que Radiador Springs estaba lleno de viajeros antes de que las autopistas modernas lo olvidaran. El viejo doctor, que lo vigilaba de cerca, decidió enseñarle lo que significaba realmente correr. Le mostró que no todo se trataba de velocidad, sino de paciencia, estrategia y corazón. En esas lecciones, el auto rojo descubrió un nuevo sentido en el acto de conducir. Y sin darse cuenta, comenzó a encariñarse con todos, a sonreír de verdad, a disfrutar de algo más que la gloria. Incluso empezó a sentir un cariño especial por aquella auto que al principio lo rechazaba, pero que poco a poco reconoció su cambio. Cuando por fin terminó la carretera y pudo marcharse, ya no era el mismo que había llegado. Había encontrado algo que nunca había buscado: amistad, amor y un lugar donde realmente importaba como persona, no solo como corredor. Pero aun así debía cumplir con la gran carrera final en California, y partió con un corazón dividido. En la carrera, todos esperaban que fuera el mismo competidor egoísta de siempre, pero él demostró lo contrario. Corrió con pasión y estuvo a punto de ganar. Sin embargo, cuando vio que el campeón veterano había chocado y no podía llegar a la meta, tomó una decisión que sorprendió al mundo entero. Frenó justo antes de cruzar la línea, retrocedió y empujó al veterano hasta que ambos cruzaron juntos. Él perdió la carrera, pero ganó algo mucho más grande. El público lo aplaudió, reconociendo que la verdadera grandeza no está en ganar trofeos, sino en la nobleza del corazón. El auto tramposo que se llevó el trofeo fue abucheado, mientras que el auto rojo se convirtió en un verdadero héroe. Cuando terminó la temporada, rechazó contratos millonarios y eligió volver a Radiador Springs, porque había comprendido que allí estaba su verdadero hogar, con sus nuevos amigos, con la auto que lo había hecho descubrir el amor, y con la paz que nunca antes había sentido. Así, aquel auto que al inicio solo quería fama y trofeos descubrió que el triunfo más grande no está en llegar primero, sino en lo que se hace por los demás durante el camino. 🚗❤️🏆🎩`, author: "Luis" }
+        ];
+
+        document.getElementById('stories-grid').innerHTML = STORIES_DATA.map(story => `
+            <div onclick="showStoryModal(${story.id})" class="group cursor-pointer flex flex-col h-full">
+                <div class="relative overflow-hidden rounded-[1.5rem] bg-gray-200 aspect-[3/4] mb-4 shadow-md group-hover:shadow-xl transition-all duration-500">
+                    <div class="absolute inset-0 bg-gradient-to-br from-rose-100 to-purple-100 group-hover:scale-105 transition-transform duration-700"></div>
+                    <div class="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                        <i data-lucide="book" class="w-10 h-10 text-rose-400 mb-3"></i>
+                        <h4 class="font-serif text-2xl text-gray-800">${story.title}</h4>
+                    </div>
+                </div>
+                <div class="px-2">
+                    <p class="text-xs text-rose-500 font-bold tracking-widest uppercase mb-1">Cuento</p>
+                    <p class="text-gray-500 text-sm line-clamp-2">${story.summary}</p>
+                </div>
+            </div>
+        `).join('');
+
+        function showStoryModal(id) {
+            const story = STORIES_DATA.find(s => s.id === id);
+            const modal = document.getElementById('story-modal');
+            const content = document.getElementById('story-modal-content');
+            if(!story) return;
+
+            content.innerHTML = `
+                <button onclick="document.getElementById('story-modal').classList.add('hidden'); document.getElementById('story-modal').classList.remove('opacity-100');" class="absolute top-6 right-6 text-gray-400 hover:text-rose-500 transition-colors z-20"><i data-lucide="x" class="w-6 h-6"></i></button>
+                <div class="text-center mb-6">
+                     <span class="text-xs font-bold tracking-[0.2em] text-rose-400 uppercase block mb-2">Por ${story.author}</span>
+                     <h3 class="font-serif text-4xl text-gray-900">${story.title}</h3>
+                </div>
+                <div class="overflow-y-auto pr-2 custom-scrollbar flex-grow">
+                    <p class="text-lg text-gray-600 leading-loose whitespace-pre-wrap font-light">${story.body}</p>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            setTimeout(() => modal.classList.add('opacity-100'), 10);
+            lucide.createIcons();
+        }
+
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let particles = Array.from({length: 60}, () => ({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*3+1, d: Math.random()*Math.PI*2, s: Math.random()*0.5+0.1, c: ['#F7CAD0','#C59FC9','#E5E7EB'][Math.floor(Math.random()*3)]}));
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.d)*0.2;if(p.y<-10)p.y=canvas.height+10;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}); requestAnimationFrame(animate); }
+        animate();
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+        lucide.createIcons();
+    </script>
+</body>
+</html>
