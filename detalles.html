@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nadia & Luis | Detalles</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script>tailwind.config = { theme: { extend: { fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['"Inter"', 'sans-serif'] } } } }</script>
+    <style>
+        body { background-color: #FAFAFA; color: #2D1B2E; overflow-x: hidden; }
+        .noise-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .nav-link.active { color: #E11D48; font-weight: 600; }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <div class="noise-bg"></div>
+    <canvas id="particleCanvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-50"></canvas>
+
+    <nav class="fixed top-0 left-0 w-full z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="index.html" class="flex-shrink-0 cursor-pointer"><span class="font-serif text-2xl md:text-3xl text-gray-900 tracking-tight">N <span class="text-rose-400 font-light">&</span> L</span></a>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Inicio</a>
+                    <a href="recuerdos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Recuerdos</a>
+                    <a href="cuentos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Cuentos</a>
+                    <a href="detalles.html" class="nav-link active text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Detalles</a>
+                    <a href="razones.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Por Qué</a>
+                    <a href="tiempo.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Tiempo</a>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden text-gray-600"><i data-lucide="menu"></i></button>
+            </div>
+        </div>
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl absolute w-full border-b border-gray-100">
+            <div class="px-4 pt-2 pb-6 space-y-1 flex flex-col items-center">
+                <a href="index.html" class="py-3 text-sm text-gray-600">Inicio</a>
+                <a href="recuerdos.html" class="py-3 text-sm text-gray-600">Recuerdos</a>
+                <a href="cuentos.html" class="py-3 text-sm text-gray-600">Cuentos</a>
+                <a href="detalles.html" class="py-3 text-sm font-bold text-rose-500">Detalles</a>
+                <a href="razones.html" class="py-3 text-sm text-gray-600">Por Qué</a>
+                <a href="tiempo.html" class="py-3 text-sm text-gray-600">Tiempo</a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow pt-24 pb-12 px-4">
+        <div class="max-w-7xl mx-auto space-y-24">
+            
+            <!-- A. Playlist -->
+            <div class="max-w-4xl mx-auto">
+                <div class="glass-card p-2 rounded-[24px] shadow-xl overflow-hidden">
+                    <iframe style="border-radius: 20px" src="https://open.spotify.com/embed/playlist/2TRy6O7KcV1kNLAvXqiAVq?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                </div>
+            </div>
+
+            <!-- B. Poems -->
+            <div>
+                <h3 class="font-serif text-3xl text-gray-900 mb-8 text-center italic">Antología del Corazón</h3>
+                <div id="poems-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"></div>
+            </div>
+
+            <!-- C. Open When -->
+            <div>
+                <h3 class="font-serif text-3xl text-gray-900 mb-8 text-center italic">Abrir Cuando...</h3>
+                <div id="open-when-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
+            </div>
+        </div>
+    </main>
+
+    <div id="open-when-modal" class="hidden fixed inset-0 z-[100] items-center justify-center p-4 bg-gray-900/20 backdrop-blur-md transition-opacity duration-300">
+        <div id="modal-content" class="bg-white/95 backdrop-blur-xl rounded-[2rem] p-8 md:p-12 max-w-lg w-full shadow-2xl relative border border-white"></div>
+    </div>
+
+    <footer class="py-6 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100">Hecho con amor • 2025</footer>
+
+    <script>
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => { document.getElementById('mobile-menu').classList.toggle('hidden'); });
+
+        const POEMS_DATA = [
+            { title: "El Ritmo que Cede", body: `Tus ojitos cafés, no los dejo de ver.\nme miran y el mundo empieza a ceder.\nNo entiendo este ritmo, ni quiero entender,\nsolo sé que contigo, todo puede ser.\n\nNo hubo señales, ni explicación,\nsolo ese momento y la conexión.\nLlegaste a mi vida, sin darme opción,\ny en menos de nada, todo cambió.\n\nEse primer beso me hizo temblar,\ntu abrazo travieso me hizo volar.\nTan corto el momento, tan claro el deseo,\ndesde ese segundo supe que te quiero.`, author: "Luis" },
+            { title: "Contigo... Todo Puede Ser", body: `Tus ojitos cafés, no los dejo de ver.\nme miran y el mundo empieza a ceder.\nNo entiendo este ritmo, ni quiero entender,\nsolo sé que contigo, todo puede ser.`, author: "Tu Novio" }
+        ];
+
+        const OPEN_WHEN_DATA = [
+            { id: 'extrañas', title: "Si me extrañas", icon: "heart", color: "text-rose-500", content: "Lo sé, la vida a veces aprieta. Permítete sentir lo que necesites, pero no te quedes ahí. Recuerda lo increíble y fuerte que eres. Date un respiro, escucha tu canción favorita, y mañana intentemos que sea un poquito mejor. Estoy contigo, aunque no estemos cerca en este momento." },
+            { id: 'triste', title: "Si estás triste", icon: "frown", color: "text-purple-500", content: "Hey, no me gusta nada que estés así. Es completamente válido sentirse mal, pero no estás sola. Recuerda que después de la lluvia siempre sale el sol (y a veces un arcoíris). Te mando el abrazo más fuerte del mundo." },
+            { id: 'querer', title: "Si necesitas amor", icon: "star", color: "text-pink-500", content: "Uy, si tienes que abrir esto es que no lo estoy diciendo suficiente. Que no se te olvide NUNCA. Eres mi persona favorita por muchísimas razones: tu risa, tu inteligencia, tu bondad... Te quiero infinitamente." },
+            { id: 'reir', title: "Si necesitas reír", icon: "laugh", color: "text-purple-600", content: "Encontré esto y me acordé de ti al instante. Espero que te rías tanto como yo (prepárate, es tonto)... Imagina un pingüino resbalándose en el hielo. 🐧💨 ¡Espero haberte sacado una sonrisa!" },
+            { id: 'ansiosa', title: "Si te sientes ansiosa", icon: "life-buoy", color: "text-blue-400", content: "Respira. Inhala... 1, 2, 3, 4. Mantén... 1, 2, 3, 4. Exhala... 1, 2, 3, 4. Todo va a estar bien. Estás a salvo y yo estoy contigo. Cierra los ojos un momento y concéntrate solo en mi voz diciéndote que todo pasará." }
+        ];
+
+        document.getElementById('poems-grid').innerHTML = POEMS_DATA.map(poem => `
+            <div class="bg-white/60 p-8 rounded-2xl border border-white shadow-sm hover:shadow-md transition-all">
+                <h3 class="font-serif text-2xl text-gray-900 mb-4 text-center italic">${poem.title}</h3>
+                <p class="whitespace-pre-wrap text-gray-600 text-center leading-loose font-light text-sm md:text-base">${poem.body}</p>
+                <p class="text-right text-xs text-rose-400 mt-6 font-bold tracking-widest uppercase">— ${poem.author}</p>
+            </div>
+        `).join('');
+
+        document.getElementById('open-when-grid').innerHTML = OPEN_WHEN_DATA.map(card => `
+            <button onclick="showOpenWhenModal('${card.id}')" class="flex flex-col items-center justify-center p-4 bg-white/80 rounded-2xl shadow-sm border border-white hover:shadow-md hover:scale-[1.02] transition-all group aspect-square">
+                <i data-lucide="${card.icon}" class="w-6 h-6 ${card.color} mb-2 opacity-70 group-hover:opacity-100"></i>
+                <span class="text-xs font-semibold text-gray-600 text-center leading-tight">${card.title}</span>
+            </button>
+        `).join('');
+
+        function showOpenWhenModal(id) {
+            const card = OPEN_WHEN_DATA.find(c => c.id === id);
+            const modal = document.getElementById('open-when-modal');
+            const content = document.getElementById('modal-content');
+            
+            content.innerHTML = `
+                <button onclick="document.getElementById('open-when-modal').classList.add('hidden'); document.getElementById('open-when-modal').classList.remove('flex');" class="absolute top-6 right-6 text-gray-400 hover:text-rose-500"><i data-lucide="x" class="w-6 h-6"></i></button>
+                <div class="flex flex-col items-center text-center">
+                    <div class="p-4 bg-rose-50 rounded-full mb-4"><i data-lucide="${card.icon}" class="w-8 h-8 ${card.color}"></i></div>
+                    <h3 class="font-serif text-2xl text-gray-900 mb-4">${card.title}</h3>
+                    <p class="text-lg text-gray-600 leading-relaxed font-light">${card.content}</p>
+                </div>
+            `;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            lucide.createIcons();
+        }
+
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        let particles = Array.from({length: 60}, () => ({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*3+1, d: Math.random()*Math.PI*2, s: Math.random()*0.5+0.1, c: ['#F7CAD0','#C59FC9','#E5E7EB'][Math.floor(Math.random()*3)]}));
+        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.d)*0.2;if(p.y<-10)p.y=canvas.height+10;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}); requestAnimationFrame(animate); }
+        animate();
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+        lucide.createIcons();
+    </script>
+</body>
+</html>
