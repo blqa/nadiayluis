@@ -53,13 +53,13 @@
             <!-- A. Playlist -->
             <div class="max-w-4xl mx-auto">
                 <div class="glass-card p-2 rounded-[24px] shadow-xl overflow-hidden">
-                    <iframe style="border-radius: 20px" src="https://open.spotify.com/embed/playlist/2TRy6O7KcV1kNLAvXqiAVq?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+                    <iframe style="border-radius: 15px" src="https://open.spotify.com/embed/playlist/2TRy6O7KcV1kNLAvXqiAVq?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
             </div>
 
             <!-- B. Poems -->
             <div>
-                <h3 class="font-serif text-3xl text-gray-900 mb-8 text-center italic">Antología del Corazón</h3>
+                <h3 class="font-serif text-3xl text-gray-900 mb-8 text-center italic">Poemas del Corazón</h3>
                 <div id="poems-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"></div>
             </div>
 
@@ -82,14 +82,14 @@
 
         const POEMS_DATA = [
             { title: "El Ritmo que Cede", body: `Tus ojitos cafés, no los dejo de ver.\nme miran y el mundo empieza a ceder.\nNo entiendo este ritmo, ni quiero entender,\nsolo sé que contigo, todo puede ser.\n\nNo hubo señales, ni explicación,\nsolo ese momento y la conexión.\nLlegaste a mi vida, sin darme opción,\ny en menos de nada, todo cambió.\n\nEse primer beso me hizo temblar,\ntu abrazo travieso me hizo volar.\nTan corto el momento, tan claro el deseo,\ndesde ese segundo supe que te quiero.`, author: "Luis" },
-            { title: "Contigo... Todo Puede Ser", body: `Tus ojitos cafés, no los dejo de ver.\nme miran y el mundo empieza a ceder.\nNo entiendo este ritmo, ni quiero entender,\nsolo sé que contigo, todo puede ser.`, author: "Tu Novio" }
+            { title: "...", body: `...`, author: "Luis" }
         ];
 
         const OPEN_WHEN_DATA = [
-            { id: 'extrañas', title: "Si me extrañas", icon: "heart", color: "text-rose-500", content: "Lo sé, la vida a veces aprieta. Permítete sentir lo que necesites, pero no te quedes ahí. Recuerda lo increíble y fuerte que eres. Date un respiro, escucha tu canción favorita, y mañana intentemos que sea un poquito mejor. Estoy contigo, aunque no estemos cerca en este momento." },
+            { id: 'extrañas', title: "Si me extrañas", icon: "heart", color: "text-rose-500", content: "Lo sé, la vida a veces aprieta. Permítete sentir lo que necesites, pero no te quedes ahí. Recuerda lo increíble y fuerte que eres. Date un respiro, escucha tu canción favorita, y mañana o en un ratito intentemos que sea un poquito mejor. Estoy contigo, aunque no estemos cerca en este momento." },
             { id: 'triste', title: "Si estás triste", icon: "frown", color: "text-purple-500", content: "Hey, no me gusta nada que estés así. Es completamente válido sentirse mal, pero no estás sola. Recuerda que después de la lluvia siempre sale el sol (y a veces un arcoíris). Te mando el abrazo más fuerte del mundo." },
             { id: 'querer', title: "Si necesitas amor", icon: "star", color: "text-pink-500", content: "Uy, si tienes que abrir esto es que no lo estoy diciendo suficiente. Que no se te olvide NUNCA. Eres mi persona favorita por muchísimas razones: tu risa, tu inteligencia, tu bondad... Te quiero infinitamente." },
-            { id: 'reir', title: "Si necesitas reír", icon: "laugh", color: "text-purple-600", content: "Encontré esto y me acordé de ti al instante. Espero que te rías tanto como yo (prepárate, es tonto)... Imagina un pingüino resbalándose en el hielo. 🐧💨 ¡Espero haberte sacado una sonrisa!" },
+            { id: 'reir', title: "Si necesitas reír", icon: "laugh", color: "text-purple-600", content: "Encontré esto y me acordé de ti al instante. Espero que te rías tanto como yo (prepárate, es tonto)... Imagina un pingüino resbalándose en el hielo. 🐧💨 ¡Espero haberte sacado una sonrisa, jiji!" },
             { id: 'ansiosa', title: "Si te sientes ansiosa", icon: "life-buoy", color: "text-blue-400", content: "Respira. Inhala... 1, 2, 3, 4. Mantén... 1, 2, 3, 4. Exhala... 1, 2, 3, 4. Todo va a estar bien. Estás a salvo y yo estoy contigo. Cierra los ojos un momento y concéntrate solo en mi voz diciéndote que todo pasará." }
         ];
 
