@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Godsplan | Nadia & Luis</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = { 
+            theme: { 
+                extend: { 
+                    fontFamily: { 
+                        serif: ['"Playfair Display"', 'serif'], 
+                        sans: ['"Inter"', 'sans-serif'] 
+                    } 
+                } 
+            } 
+        }
+    </script>
+    <style>
+        body { 
+            background-color: #FAFAFA; 
+            color: #2D1B2E; 
+            overflow: hidden; /* Evitar scroll */
+        }
+        .noise-bg { 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            pointer-events: none; 
+            z-index: -1; 
+            opacity: 0.04; 
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); 
+        }
+        
+        /* Animación suave para el fondo del botón */
+        @keyframes gradient-xy {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        .animate-gradient-xy {
+            background-size: 200% 200%;
+            animation: gradient-xy 6s ease infinite;
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen">
+    
+    <!-- Fondo con ruido y partículas -->
+    <div class="noise-bg"></div>
+    <canvas id="particleCanvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-50"></canvas>
+
+    <!-- Contenido Principal: Centrado vertical y horizontalmente -->
+    <main class="flex-grow flex items-center justify-center px-4 relative z-10">
+        
+        <!-- Botón Godsplan -->
+        <a href="https://docs.google.com/spreadsheets/d/1v-TWBi_-xBK1Fd0ZLUzndlRALPpujrFsZz7_NRiC14g/edit?usp=sharing" 
+           class="group relative inline-flex items-center justify-center px-12 py-6 overflow-hidden rounded-full transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(225,29,72,0.3)] bg-white/80 backdrop-blur-xl border border-white/50 shadow-xl">
+            
+            <!-- Efecto de brillo detrás del texto en hover -->
+            <div class="absolute inset-0 w-full h-full bg-gradient-to-r from-rose-100/50 via-white/50 to-rose-100/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-gradient-xy"></div>
+            
+            <!-- Texto del botón -->
+            <span class="relative font-serif text-4xl md:text-5xl lg:text-6xl text-gray-900 tracking-wider lowercase group-hover:text-rose-600 transition-colors duration-500">
+                Tu archivito
+            </span>
+            
+            <!-- Icono opcional que aparece al pasar el ratón -->
+            <i data-lucide="arrow-right" class="relative ml-4 w-8 h-8 text-rose-500 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500"></i>
+        </a>
+
+    </main>
+
+    <!-- Footer minimalista -->
+    <footer class="absolute bottom-6 w-full text-center text-gray-400 text-xs uppercase tracking-widest z-10">
+        Hecho con amor • 2026
+    </footer>
+
+    <!-- Script de Partículas e Iconos -->
+    <script>
+        // --- PARTICLES ---
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; 
+        canvas.height = window.innerHeight;
+        
+        let particles = Array.from({length: 80}, () => ({
+            x: Math.random() * canvas.width, 
+            y: Math.random() * canvas.height, 
+            r: Math.random() * 3 + 1, 
+            d: Math.random() * Math.PI * 2, 
+            s: Math.random() * 0.5 + 0.1, 
+            c: ['#F7CAD0','#C59FC9','#E5E7EB'][Math.floor(Math.random()*3)]
+        }));
+        
+        function animate() { 
+            ctx.clearRect(0,0,canvas.width,canvas.height); 
+            particles.forEach(p => {
+                p.y -= p.s;
+                p.x += Math.sin(p.d) * 0.2;
+                if(p.y < -10) p.y = canvas.height + 10;
+                ctx.fillStyle = p.c;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+                ctx.fill();
+            }); 
+            requestAnimationFrame(animate); 
+        }
+        animate();
+        
+        window.addEventListener('resize', () => { 
+            canvas.width = window.innerWidth; 
+            canvas.height = window.innerHeight; 
+        });
+
+        // Inicializar iconos
+        lucide.createIcons();
+    </script>
+</body>
+</html>
