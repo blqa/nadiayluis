@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nadia & Luis | Razones</title>
+    <title>Nadia & Luis | Lo que amé (Archivo)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -19,6 +19,7 @@
     <div class="noise-bg"></div>
     <canvas id="particleCanvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-50"></canvas>
 
+    <!-- NAVBAR -->
     <nav class="fixed top-0 left-0 w-full z-50 glass-nav">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
@@ -28,111 +29,210 @@
                     <a href="recuerdos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Recuerdos</a>
                     <a href="cuentos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Cuentos</a>
                     <a href="detalles.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Detalles</a>
-                    <a href="razones.html" class="nav-link active text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Por Qué</a>
-                    <a href="tiempo.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Tiempo</a>
+                    <a href="razones.html" class="nav-link active text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Lo que amé</a>
+                    <a href="tiempo.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">El Tiempo</a>
                 </div>
                 <button id="mobile-menu-btn" class="md:hidden text-gray-600"><i data-lucide="menu"></i></button>
             </div>
         </div>
-        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl absolute w-full border-b border-gray-100">
+        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl absolute w-full border-b border-gray-100 shadow-xl">
             <div class="px-4 pt-2 pb-6 space-y-1 flex flex-col items-center">
                 <a href="index.html" class="py-3 text-sm text-gray-600">Inicio</a>
                 <a href="recuerdos.html" class="py-3 text-sm text-gray-600">Recuerdos</a>
                 <a href="cuentos.html" class="py-3 text-sm text-gray-600">Cuentos</a>
                 <a href="detalles.html" class="py-3 text-sm text-gray-600">Detalles</a>
-                <a href="razones.html" class="py-3 text-sm font-bold text-rose-500">Por Qué</a>
-                <a href="tiempo.html" class="py-3 text-sm text-gray-600">Tiempo</a>
+                <a href="razones.html" class="py-3 text-sm font-bold text-rose-500">Lo que amé</a>
+                <a href="tiempo.html" class="py-3 text-sm text-gray-600">El Tiempo</a>
             </div>
         </div>
     </nav>
 
-    <main class="flex-grow pt-24 pb-12 px-4">
-        <div class="max-w-4xl mx-auto px-4 py-12 md:py-20">
-            <div class="text-center mb-16">
-                <i data-lucide="heart" class="w-10 h-10 text-rose-400 mx-auto mb-4 fill-rose-100"></i>
-                <h2 class="font-serif text-5xl text-gray-900">Por qué te amo</h2>
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow pt-24 pb-12 px-4 relative z-10">
+        <div class="max-w-7xl mx-auto px-2 py-12 md:py-16">
+            
+            <!-- HEADER -->
+            <div class="text-center mb-16 md:mb-20">
+                <span class="text-rose-400 font-serif italic text-lg md:text-xl block mb-3">Memoria de un amor</span>
+                <h2 class="font-serif text-4xl md:text-6xl text-gray-900 leading-tight">Lo que amé de ti</h2>
                 <div class="w-16 h-1 bg-rose-200 mx-auto mt-6"></div>
-                <p class="mt-4 text-gray-500">Aquí tienes 50 razones (y me faltan miles).</p>
+                <p class="mt-6 text-gray-500 font-light text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
+                    Esta es una lista interminable de las pequeñas y grandes cosas que te hicieron única para mí. Aquí guardo 100 razones, aunque en realidad, me faltaron miles.
+                </p>
             </div>
-            <div id="reasons-grid" class="space-y-6"></div>
+
+            <!-- GRID CONTENEDOR (Fácil de ver y adaptable) -->
+            <div id="reasons-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+                <!-- Se inyectan las 100 razones por JS -->
+            </div>
+
+            <div class="mt-20 text-center">
+                <i data-lucide="infinity" class="w-10 h-10 text-gray-300 mx-auto"></i>
+                <p class="text-gray-400 text-xs uppercase tracking-widest mt-4">Y la lista nunca terminaría...</p>
+            </div>
         </div>
     </main>
 
-    <footer class="py-6 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100">Hecho con amor • 2025</footer>
+    <footer class="py-8 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100 bg-white/50 backdrop-blur-sm">
+        Hecho con amor • 2025 - 2026 <br> <span class="normal-case mt-2 block opacity-70">Para Nadia, mi musa de 100 historias.</span>
+    </footer>
 
     <script>
-        document.getElementById('mobile-menu-btn').addEventListener('click', () => { document.getElementById('mobile-menu').classList.toggle('hidden'); });
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => { 
+            document.getElementById('mobile-menu').classList.toggle('hidden'); 
+        });
 
+        // 100 RAZONES NOSTÁLGICAS
         const REASONS_DATA = [
-            { title: "La Paz Que Me Das", desc: "Amo la calma y serenidad que me transmites. Contigo, los problemas parecen más pequeños." },
-            { title: "Tu Luz Contagiosa", desc: "Amo tu sonrisa, esa que ilumina cualquier día gris, y tu risa contagiosa." },
-            { title: "Mi Apoyo Incondicional", desc: "Amo saber que siempre estás ahí para mí, en las buenas y en las malas." },
-            { title: "Tu Mente Brillante", desc: "Amo tu inteligencia y curiosidad. Me encanta cómo siempre aprendes cosas nuevas." },
-            { title: "Tu Voz", desc: "Ese sonido que me calma al instante, ya sea en un susurro o en una carcajada." },
-            { title: "Tus Abrazos", desc: "El lugar más seguro del mundo, donde todo lo malo desaparece." },
-            { title: "Tu Mirada", desc: "La forma en que me miras y me haces sentir la persona más especial del universo." },
-            { title: "Tu Pasión", desc: "Cómo te entregas a lo que amas, con esa energía que inspira." },
-            { title: "Tus Manos", desc: "Suaves y fuertes a la vez, encajan perfectamente con las mías." },
-            { title: "Tu Aroma", desc: "Ese perfume natural que se queda en mi ropa y me hace extrañarte." },
-            { title: "Tu Sentido del Humor", desc: "Cómo logras hacerme reír incluso cuando no tengo ganas." },
-            { title: "Tu Valentía", desc: "Cómo enfrentas los miedos y sigues adelante, eres mi heroína." },
-            { title: "Tu Empatía", desc: "Tu capacidad de ponerte en el lugar de otros y sentir con el corazón." },
-            { title: "Tus Consejos", desc: "Siempre tienes la palabra justa en el momento indicado." },
-            { title: "Nuestras Charlas", desc: "Esas conversaciones que duran horas y arreglan el mundo." },
-            { title: "Tu Paciencia", desc: "Cómo me aguantas en mis días malos y me ayudas a mejorar." },
-            { title: "Tu Estilo", desc: "Esa forma única que tienes de ser tú misma en todo momento." },
-            { title: "Tus Sueños", desc: "Me encanta verte soñar y planear nuestro futuro juntos." },
-            { title: "Tu Bondad", desc: "Tu corazón noble que siempre busca hacer el bien." },
-            { title: "Cómo Me Haces Mejor", desc: "Me impulsas a ser mi mejor versión sin intentar cambiarme." },
-            { title: "Tu Lealtad", desc: "Saber que somos un equipo y que nunca me fallarás." },
-            { title: "Tus Besos", desc: "La magia que siento cada vez que nuestros labios se tocan." },
-            { title: "Tu Espontaneidad", desc: "Esas locuras repentinas que hacen la vida divertida." },
-            { title: "Tu Madurez", desc: "Cómo manejas las situaciones difíciles con tanta sabiduría." },
-            { title: "Tu Niña Interior", desc: "Esa inocencia y alegría que sacas a relucir jugando." },
-            { title: "Tu Resiliencia", desc: "Cómo te levantas más fuerte después de cada caída." },
-            { title: "Tu Creatividad", desc: "La forma en que ves el mundo y encuentras belleza en todo." },
-            { title: "Tu Honestidad", desc: "Siempre vas con la verdad por delante, y eso lo valoro infinito." },
-            { title: "Cómo Me Escuchas", desc: "No solo oyes, realmente me escuchas y me comprendes." },
-            { title: "Tu Intuición", desc: "Esa brujita interna que siempre sabe cuando algo pasa." },
-            { title: "Tus Defectos", desc: "Porque te hacen humana y perfecta para mí." },
-            { title: "Nuestros Silencios", desc: "Poder estar juntos sin decir nada y sentirnos cómodos." },
-            { title: "Tu Energía", desc: "Esa vibra que cambia el ambiente en cuanto entras a una habitación." },
-            { title: "Tu Determinación", desc: "Cuando te propones algo, no paras hasta conseguirlo." },
-            { title: "Tu Ternura", desc: "Esos gestos suaves y cariñosos que derriten mi corazón." },
-            { title: "Tu Independencia", desc: "Admiro que seas una mujer fuerte y autónoma." },
-            { title: "Cómo Te Preocupas", desc: "Ese cuidado genuino por mi bienestar y el de los tuyos." },
-            { title: "Tu Memoria", desc: "Cómo recuerdas los pequeños detalles que yo olvido." },
-            { title: "Tu Gusto Musical", desc: "Cómo compartimos canciones y creamos nuestra banda sonora." },
-            { title: "Tus Ojos", desc: "Podría perderme en ellos por horas y encontrar todo lo que necesito." },
-            { title: "Tu Generosidad", desc: "Das sin esperar nada a cambio, con el corazón abierto." },
-            { title: "Cómo Duermes", desc: "Verte descansar me da una paz indescriptible." },
-            { title: "Tu Confianza", desc: "La fe ciega que tienes en nosotros y en lo que construimos." },
-            { title: "Tus Caricias", desc: "El lenguaje de tu piel sobre la mía." },
-            { title: "Tu Curiosidad", desc: "Esas ganas constantes de descubrir y aprender." },
-            { title: "Tu Sencillez", desc: "Disfrutar de lo simple, de un atardecer o un café." },
-            { title: "Tu Elegancia", desc: "Tienes una clase natural que no se compra ni se aprende." },
-            { title: "Tu Misterio", desc: "Siempre hay algo nuevo que descubrir en ti." },
-            { title: "Nuestra Complicidad", desc: "Esas miradas que lo dicen todo sin palabras." },
-            { title: "Simplemente Tú", desc: "Pero sobre todo, te amo por ser tú. Por tu autenticidad, por tu pasión, por tu forma única de ver el mundo.", fullWidth: true }
+            { title: "La Paz Que Me Dabas", desc: "Atesoro la calma y serenidad que me transmitías. Contigo, los problemas parecían más pequeños." },
+            { title: "Tu Luz Contagiosa", desc: "Esa sonrisa que iluminaba cualquier día gris, y tu risa que todavía resuena en mis recuerdos." },
+            { title: "Mi Refugio", desc: "El saber que siempre estabas ahí para mí, en las buenas y en mis momentos más oscuros." },
+            { title: "Tu Mente Brillante", desc: "Tu inteligencia y curiosidad. Siempre me encantó cómo buscabas aprender cosas nuevas." },
+            { title: "El Tono de Tu Voz", desc: "Ese sonido que me calmaba al instante, ya fuera en un susurro de madrugada o en una carcajada." },
+            { title: "Tus Abrazos", desc: "Fueron el lugar más seguro del mundo para mí, donde todo lo malo desaparecía." },
+            { title: "Tu Forma de Mirar", desc: "La manera en que me mirabas y me hacías sentir la persona más especial del universo." },
+            { title: "Tu Pasión", desc: "Cómo te entregas a lo que amas, con una energía desbordante que siempre me inspiró." },
+            { title: "Tus Manos", desc: "Suaves y fuertes a la vez, encajaban perfectamente con las mías mientras caminábamos." },
+            { title: "Tu Aroma", desc: "Ese perfume natural que se quedaba en mi ropa y me hacía extrañarte apenas te ibas." },
+            { title: "Tu Sentido del Humor", desc: "La magia de hacerme reír a carcajadas incluso en los días que no tenía ganas de sonreír." },
+            { title: "Tu Fortaleza", desc: "Cómo enfrentaste siempre tus miedos; verte luchar te convirtió en mi heroína." },
+            { title: "Tu Empatía Infinita", desc: "Tu capacidad de ponerte en el lugar de los demás y sentir genuinamente con el corazón." },
+            { title: "Tus Consejos", desc: "Siempre tenías la palabra exacta y la claridad que a mí me faltaba en el momento indicado." },
+            { title: "Nuestras Charlas", desc: "Esas conversaciones profundas que duraban horas y parecían arreglar el mundo." },
+            { title: "Tu Paciencia Conmigo", desc: "Cómo me aguantaste en mis peores días y me ayudaste a intentar ser mejor." },
+            { title: "Tu Autenticidad", desc: "Esa forma única y sin filtros que tienes de ser tú misma en todo momento." },
+            { title: "Tus Sueños", desc: "Verte soñar en grande y planear tu futuro siempre me llenaba de admiración." },
+            { title: "Tu Bondad", desc: "Ese corazón noble que, a pesar de las heridas, siempre buscaba hacer el bien." },
+            { title: "Mi Mejor Versión", desc: "Me impulsabas a superar mis límites sin intentar cambiar mi esencia." },
+            { title: "Nuestra Lealtad", desc: "La sensación imborrable de que fuimos un equipo invencible contra todo." },
+            { title: "Aquel Primer Beso", desc: "La electricidad pura que me paralizó el mundo en ese parque, fue magia." },
+            { title: "Tu Espontaneidad", desc: "Esas locuras repentinas que transformaban un día aburrido en una aventura." },
+            { title: "Tu Madurez", desc: "La forma en que manejabas las situaciones difíciles con tanta sabiduría y templanza." },
+            { title: "Tu Niña Interior", desc: "Esa inocencia y alegría pura que sacabas a relucir cuando simplemente jugábamos." },
+            { title: "Tu Resiliencia", desc: "Verte levantarte más fuerte después de cada caída, sin perder tu brillo." },
+            { title: "Tu Creatividad", desc: "La manera en que coloreabas y encontrabas belleza donde otros no la veían." },
+            { title: "Tu Honestidad Bruta", desc: "Siempre ibas con la verdad por delante, una de las cosas que más respeté de ti." },
+            { title: "Cómo Me Escuchabas", desc: "No solo oías mis palabras; realmente me escuchabas, me leías y me comprendías." },
+            { title: "Tu Intuición", desc: "Esa 'brujita' interna que siempre sabía exactamente cuando algo me pasaba." },
+            { title: "Tus Defectos", desc: "Porque te hacían humana, vulnerable, real... y absolutamente perfecta para mí." },
+            { title: "Nuestros Silencios", desc: "El poder estar sentados juntos sin decir una palabra y sentirnos totalmente en paz." },
+            { title: "Tu Energía", desc: "Esa vibra inconfundible que cambiaba la temperatura del ambiente en cuanto entrabas." },
+            { title: "Tu Determinación", desc: "Cuando te proponías algo en el trabajo o en tu vida, no parabas hasta conseguirlo." },
+            { title: "Tus Gestos de Ternura", desc: "Esas caricias suaves y repentinas que derretían mi corazón sin previo aviso." },
+            { title: "Tu Independencia", desc: "Admiré profundamente que fueras una mujer fuerte, autónoma y dueña de ti." },
+            { title: "Cómo Te Preocupabas", desc: "Ese cuidado genuino e instintivo por mi bienestar y el de toda tu familia." },
+            { title: "Tu Memoria para los Detalles", desc: "Cómo recordabas esas pequeñas cosas sobre mí que incluso yo mismo olvidaba." },
+            { title: "Nuestro Gusto Musical", desc: "Compartir canciones y crear juntos el playlist que ahora es nuestra banda sonora." },
+            { title: "Tus Ojitos Cafés", desc: "Me perdí en ellos incontables veces; eran todo lo que necesitaba para sentirme en casa." },
+            { title: "Tu Generosidad", desc: "La forma en que dabas sin esperar nada a cambio, con el corazón totalmente abierto." },
+            { title: "Cómo Dormías", desc: "Verte descansar a mi lado, tranquila y vulnerable, me daba una paz indescriptible." },
+            { title: "La Confianza", desc: "La fe ciega que alguna vez tuvimos en nosotros y en la historia que construíamos." },
+            { title: "El Lenguaje de tu Piel", desc: "La forma en que encajábamos, como si estuviéramos hechos a la medida." },
+            { title: "Tus Ganas de Descubrir", desc: "Esa sed constante de aprender, de ver cosas nuevas, de no quedarte quieta." },
+            { title: "Tu Sencillez", desc: "Cómo podíamos ser inmensamente felices con solo un atardecer o comiendo unos churros." },
+            { title: "Tu Elegancia Natural", desc: "Una clase y porte que llevabas contigo sin esfuerzo, a donde quiera que ibas." },
+            { title: "Tu Misterio", desc: "El hecho de que, sin importar cuánto tiempo pasara, siempre había algo nuevo en ti." },
+            { title: "Nuestra Complicidad", desc: "Esas miradas cruzadas entre la gente que lo decían absolutamente todo sin hablar." },
+            { title: "Esa Noche en tu Cuarto", desc: "La conexión brutal y la química indescriptible que tuvimos cuando apagaste la luz." },
+            { title: "La Tarde en Chapultepec", desc: "Besarnos en el pasto, perder la noción del tiempo y sentir que el mundo era nuestro." },
+            { title: "El Viaje a Huasca", desc: "Quedarnos sin dinero, empaparnos por la lluvia, pasar frío... y ser los más felices del mundo." },
+            { title: "Las Maruchan con Cars", desc: "Cómo un plan tan sencillo en tu casa se convirtió en uno de mis recuerdos favoritos." },
+            { title: "El Sushi Sorpresa", desc: "Ver tu emoción al entrar al restaurante; esa cara tuya fue mi mejor recompensa." },
+            { title: "La Carrera de Disfraces", desc: "Las risas, el esfuerzo y cruzar la meta juntos disfrazados, siendo solo nosotros dos." },
+            { title: "El Esfuerzo en el Tianguis", desc: "Verte trabajar y luchar hombro a hombro, demostrando de qué estabas hecha." },
+            { title: "Tu Amor por tu Hermana", desc: "La forma tan pura en que la cuidas y cómo se iluminó cuando la recogimos de la escuela." },
+            { title: "Tarde de Stranger Things", desc: "Comer los tres juntos en mi casa y simplemente existir, fue un momento de pura tranquilidad." },
+            { title: "La Fiesta de Fin de Año", desc: "Terminar borrachito y feliz, sabiendo que, sin importar el frío, mi amorcito estaba ahí." },
+            { title: "La Caminata en Tlalpan", desc: "Pasear a nuestro 'hijito', caminando hacia nuestras casas en un enero que parecía normal." },
+            { title: "El Zoológico en Febrero", desc: "Tu emoción al ver a los animalitos y las fotos tan hermosas que salieron ese día." },
+            { title: "Nuestros Mensajes de Madrugada", desc: "Cuando el silencio de la noche nos hacía confesar lo profundo que sentíamos." },
+            { title: "Tus Cartas", desc: "Las palabras que escribimos y nos regalamos, pedazos de alma en papel." },
+            { title: "La Forma en que me Llamabas", desc: "Mi nombre sonaba diferente cuando salía de ti, tenía un tono que extraño." },
+            { title: "Tu Respiración en mi Cuello", desc: "Esa sensación eléctrica y tierna al abrazarnos en la cama." },
+            { title: "El Gif de la Veladora", desc: "Esa tontería que ponía en mi pantalla en el trabajo solo para mandarte buenas vibras." },
+            { title: "Nuestro Refugio", desc: "El sentir que cuando el mundo nos lastimaba, correr hacia ti era mi salvación." },
+            { title: "Tus Pies Fríos", desc: "Buscar mi calor bajo las sábanas, un detalle tonto que se volvió entrañable." },
+            { title: "La Primera Vez que Vimos una Peli", desc: "Los nervios bonitos, las manos rozándose y las ganas de congelar el tiempo." },
+            { title: "Nuestra Promesa de Luchar", desc: "La terquedad con la que intentamos salvar lo nuestro, porque sabíamos que lo valía." },
+            { title: "Tu Integridad Intacta", desc: "Incluso cuando las cosas estaban mal, nunca dejaste de ser leal a tus principios." },
+            { title: "Tus Enfadados Adorables", desc: "Ese ceño fruncido que intentaba ser serio, pero terminaba derritiéndose con un beso." },
+            { title: "Los Viajes en Metrobús", desc: "Dormitar recargados el uno en el otro, recargando baterías para seguir el día." },
+            { title: "Tu Forma de Caminar", desc: "Ese paso firme y seguro que siempre me hacía mirarte desde lejos." },
+            { title: "La Ilusión de Nuestro Futuro", desc: "Atesoro lo bonito que fue imaginar que un día contaría nuestra historia a mis nietos." },
+            { title: "Tu Letra", desc: "Ver tus trazos en las notas que me dejaste, una extensión física de ti." },
+            { title: "Nuestras Peleas Absurdas", desc: "Incluso los desacuerdos los extraño, porque siempre terminaban en perdón." },
+            { title: "Tu Calidez Familiar", desc: "Cómo te integrabas con los míos y me hacías parte de los tuyos." },
+            { title: "Cómo Me Desarmabas", desc: "Frente a ti nunca pude usar armaduras; me hiciste vulnerable y lo amé." },
+            { title: "Tu Forma de Ver el Arte", desc: "Los colores que elegías, cómo te perdías pintando en mi casa." },
+            { title: "El Tono de Tus Audios", desc: "Escuchar tu voz a medio día, contándome cualquier cosa trivial." },
+            { title: "Mi Primera Prioridad", desc: "Amé la sensación de que, por primera vez, poner a alguien antes que a mí valía la pena." },
+            { title: "Tus Miedos Compartidos", desc: "Cuando me dejaste entrar a tus sombras y confiaste en que no te lastimaría." },
+            { title: "Nuestras Promesas en Secreto", desc: "Lo que nos juramos bajo la luna, aunque el tiempo haya decidido otra cosa." },
+            { title: "Tu Perfume en mi Almohada", desc: "El rastro físico de que la noche anterior habías sido mi mundo entero." },
+            { title: "Tu Capacidad de Perdonar", desc: "Cómo me mostraste que el amor real también se trata de entender los errores." },
+            { title: "Ese Privilegio de Verte Despertar", desc: "El momento exacto en que abrías los ojos y me regalabas la primera sonrisa del día." },
+            { title: "Cómo Me Defendías", desc: "Esa fiera lealtad con la que cuidabas lo nuestro de cualquier opinión externa." },
+            { title: "Tus Sorpresas", desc: "Cómo te esmerabas en hacerme feliz con detalles que no costaban dinero, sino corazón." },
+            { title: "La Paz Después del Sexo", desc: "La respiración agitada que se convertía en caricias largas y charlas en la oscuridad." },
+            { title: "Tu Tristeza", desc: "Amé incluso tus lágrimas, porque me permitieron ser tu hombro y consolarte." },
+            { title: "Nuestra Primera Fecha", desc: "El 11 de junio, el día en que dos universos colisionaron sin saber todo lo que vendría." },
+            { title: "La Sensación de Hogar", desc: "Contigo descubrí que el hogar no es un edificio, sino una persona." },
+            { title: "Tus Manías Tontas", desc: "Esos pequeños tics y costumbres que solo yo conocía y que me hacían adorarte más." },
+            { title: "La Electricidad", desc: "Esa tensión mágica que nunca desapareció, desde el día uno hasta el último abrazo." },
+            { title: "Tu Forma de Amar", desc: "Intensa, sin reservas, pura. Me enseñaste lo que es ser amado de verdad." },
+            { title: "Lo Que Fui Contigo", desc: "Amé la versión de Luis que nació estando a tu lado. Me hiciste mejor persona." },
+            { title: "La Nostalgia", desc: "Incluso amo este dolor que siento ahora, porque significa que lo nuestro fue real y enorme." },
+            { title: "Tu Nombre", desc: "Nadia. Cinco letras que abrigan mis dudas, iluminan mi alma y que nunca voy a olvidar." },
+            { title: "Simplemente Tú", desc: "Te amé por ser exactamente tú. Sin filtros, sin excusas. Toda tú, de principio a fin.", fullWidth: true }
         ];
 
+        // RENDERIZAR LAS 100 RAZONES EN EL GRID
         document.getElementById('reasons-grid').innerHTML = REASONS_DATA.map((item, idx) => `
-            <div class="flex items-start gap-5 p-6 rounded-2xl bg-white border border-gray-100 hover:shadow-md transition-all group ${item.fullWidth ? 'md:col-span-2 bg-gradient-to-r from-white to-rose-50' : ''}">
-                <span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-50 text-rose-400 font-serif font-bold flex items-center justify-center group-hover:bg-rose-500 group-hover:text-white transition-colors">${idx + 1}</span>
-                <div>
-                    <h3 class="font-serif text-lg text-gray-900 mb-1 group-hover:text-rose-600 transition-colors">${item.title}</h3>
-                    <p class="text-gray-500 font-light text-sm leading-relaxed">${item.desc}</p>
+            <div class="p-5 rounded-[1.25rem] bg-white/70 backdrop-blur-md border border-white hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group flex flex-col h-full ${item.fullWidth ? 'md:col-span-2 xl:col-span-4 bg-gradient-to-r from-white to-rose-50 shadow-sm' : 'shadow-sm'}">
+                <div class="flex items-center gap-3 mb-3">
+                    <span class="flex-shrink-0 w-8 h-8 rounded-full bg-rose-100/50 text-rose-400 font-serif font-bold flex items-center justify-center text-sm group-hover:bg-rose-400 group-hover:text-white transition-colors duration-300 shadow-inner">${idx + 1}</span>
+                    <h3 class="font-serif text-[1.1rem] text-gray-800 leading-tight group-hover:text-rose-600 transition-colors">${item.title}</h3>
                 </div>
+                <p class="text-gray-500 font-light text-[0.85rem] leading-relaxed flex-grow pl-11">${item.desc}</p>
             </div>
         `).join('');
 
+        // PARTICULAS DE FONDO
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        let particles = Array.from({length: 60}, () => ({x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*3+1, d: Math.random()*Math.PI*2, s: Math.random()*0.5+0.1, c: ['#F7CAD0','#C59FC9','#E5E7EB'][Math.floor(Math.random()*3)]}));
-        function animate() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.y-=p.s;p.x+=Math.sin(p.d)*0.2;if(p.y<-10)p.y=canvas.height+10;ctx.fillStyle=p.c;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();}); requestAnimationFrame(animate); }
+        let particles = Array.from({length: 60}, () => ({
+            x: Math.random()*canvas.width, 
+            y: Math.random()*canvas.height, 
+            r: Math.random()*3+1, 
+            d: Math.random()*Math.PI*2, 
+            s: Math.random()*0.5+0.1, 
+            c: ['#F7CAD0','#C59FC9','#E5E7EB'][Math.floor(Math.random()*3)]
+        }));
+        
+        function animate() { 
+            ctx.clearRect(0,0,canvas.width,canvas.height); 
+            particles.forEach(p => {
+                p.y -= p.s; 
+                p.x += Math.sin(p.d) * 0.2;
+                if(p.y < -10) {
+                    p.y = canvas.height + 10;
+                    p.x = Math.random() * canvas.width;
+                }
+                ctx.fillStyle = p.c; 
+                ctx.beginPath(); 
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); 
+                ctx.fill();
+            }); 
+            requestAnimationFrame(animate); 
+        }
         animate();
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+        
+        window.addEventListener('resize', () => { 
+            canvas.width = window.innerWidth; 
+            canvas.height = window.innerHeight; 
+        });
+        
         lucide.createIcons();
     </script>
 </body>
