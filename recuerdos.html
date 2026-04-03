@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nadia & Luis | Recuerdos</title>
+    <title>Nadia & Luis | Recuerdos (Archivo)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -32,8 +32,8 @@
                     <a href="recuerdos.html" class="nav-link active text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Recuerdos</a>
                     <a href="cuentos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Cuentos</a>
                     <a href="detalles.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Detalles</a>
-                    <a href="razones.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Por Qué</a>
-                    <a href="tiempo.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Tiempo</a>
+                    <a href="razones.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Lo que amé</a>
+                    <a href="tiempo.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">El Tiempo</a>
                 </div>
                 <button id="mobile-menu-btn" class="md:hidden text-gray-600"><i data-lucide="menu"></i></button>
             </div>
@@ -44,8 +44,8 @@
                 <a href="recuerdos.html" class="py-3 text-sm font-bold text-rose-500">Recuerdos</a>
                 <a href="cuentos.html" class="py-3 text-sm text-gray-600">Cuentos</a>
                 <a href="detalles.html" class="py-3 text-sm text-gray-600">Detalles</a>
-                <a href="razones.html" class="py-3 text-sm text-gray-600">Por Qué</a>
-                <a href="tiempo.html" class="py-3 text-sm text-gray-600">Tiempo</a>
+                <a href="razones.html" class="py-3 text-sm text-gray-600">Lo que amé</a>
+                <a href="tiempo.html" class="py-3 text-sm text-gray-600">El Tiempo</a>
             </div>
         </div>
     </nav>
@@ -53,8 +53,8 @@
     <main class="flex-grow pt-24 pb-12 px-4">
         <div class="max-w-7xl mx-auto">
             <div class="mb-12 text-center md:text-left border-b border-gray-200 pb-8">
-                <h2 class="font-serif text-5xl text-gray-900 mb-2">Recuerdos del Mes</h2>
-                <p class="text-gray-500 font-light text-lg">Fragmentos de tiempo capturados para siempre.</p>
+                <h2 class="font-serif text-5xl text-gray-900 mb-2">Nuestros Recuerdos</h2>
+                <p class="text-gray-500 font-light text-lg">Fragmentos de nuestro tiempo capturados para siempre.</p>
             </div>
             <div id="rdm-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 <!-- Data will be injected here -->
@@ -62,7 +62,9 @@
         </div>
     </main>
 
-    <footer class="py-6 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100">Hecho con amor • 2025</footer>
+    <footer class="py-6 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100">
+        Hecho con amor • 2025 - 2026 <br> Para Nadia, gracias por todo.
+    </footer>
 
     <script>
         document.getElementById('mobile-menu-btn').addEventListener('click', () => {
@@ -71,11 +73,25 @@
         
         // --- DATA & RENDER ---
         const RDM_DATA = [
+            { 
+                date: "Marzo 2026", 
+                title: "Tarde de Stranger Things", 
+                icon: "tv", 
+                image: "https://i.imgur.com/c9N0qQA.jpeg", 
+                story: "Me acompañaste a recoger a mi hermana a su escuela y verla tan feliz de vernos me llenó el corazón. Después llegamos a mi casa, comimos juntos y nos pusimos a ver Stranger Things los tres. Fue una tarde sencilla, pero de las más lindas y tranquilas que recuerdo." 
+            },
+            { 
+                date: "Febrero 2026", 
+                title: "Paseo por el Zoológico", 
+                icon: "sun", 
+                image: "https://i.imgur.com/WTCor6e.jpeg", 
+                story: "Decidimos ir al zoológico de Aragón porque yo tenía muchísimas ganas de visitarlo. Caminamos, vimos a los animalitos y pasamos un rato muy entretenido (incluso mi mamá nos acompañó un ratito). Todo fue muy especial y salieron unas fotos preciosas que siempre voy a atesorar." 
+            },
             { date: "Enero 2026", title: "Caminata en Tlalpan", icon: "footprints", image: "https://i.imgur.com/cESeW0S.png", story: "Es un día normal, no hicimos mucho en enero ya que nos enfocamos más en trabajar, pero es un recuerdo lindo de nuestro \"hijito\" y nosotros caminando por Tlalpan hacia nuestras casitas." },
             { date: "Diciembre 2025", title: "Fiesta de Fin de Año", icon: "party-popper", image: "https://i.imgur.com/VWhovSK.jpeg", story: "Fue una reunión de fin de año con compañeros del trabajo donde comimos carnita deliciosa. Pasamos mucho frío y no llegamos a nuestras casas para descansar juntitos, pero terminé bien borrachito y muy feliz con mi amorcito." },
             { date: "Noviembre 2025", title: "Carrera y Arte", icon: "palette", image: "https://i.imgur.com/nG2DwyG.jpeg", story: "Una carrera muy linda en la mañana con tu mamá, sobrinos y Thonys. Aunque llegué tarde por el tráfico, el día se arregló pintando en tu casita y comiendo un rico pollo rostizado de barbacoa." },
             { date: "Octubre 2025", title: "Carrera de Disfraces", icon: "trophy", image: "https://i.imgur.com/NADoali.png", story: "Octubre fue un mes increíble (¡y el cumpleaños de la cumpleañera!), pero el recuerdo de la carrera se lleva el premio. El simple hecho de vestirnos con nuestros disfraces y cruzar la meta juntos fue una prueba de lo mucho que podemos divertirnos sin importar el plan. Un recuerdo de esfuerzo y risas que solo tú y yo entendemos." },
-            { date: "Septiembre 2025", title: "Sushi Sorpresa", icon: "utensils-crossed", image: "https://i.imgur.com/8KdnXcO.png", story: "Después de varias semanas, por fin te di la sorpresa de llevarte a comer el sushi que tanto querías. Verte emocionada al entrar al restaurante ya era el mejor regalo para mí. La cena estuvo deliciosa y el ambiente muy bonito. Fue nuestra forma de celebrar un mes más de novios, recordando que hasta los deseos más pequeños se cumplen cuando estamos juntos." },
+            { date: "Septiembre 2025", title: "Sushi Sorpresa", icon: "utensils-crossed", image: "https://i.imgur.com/8KdnXcO.png", story: "Después de varias semanas, por fin te di la sorpresa de llevarte a comer el sushi que tanto querías. Verte emocionada al entrar al restaurante ya era el mejor regalo para mí. La cena estuvo deliciosa y el ambiente muy bonito. Fue nuestra forma de celebrar un mes más, recordando que hasta los deseos más pequeños se cumplen cuando estamos juntos." },
             { date: "Agosto 2025", title: "Aventura en Huasca", icon: "globe", image: "https://i.imgur.com/6oUe2OE.png", story: "Este fue, sin duda, el mejor mes de todos. Te llevé de sorpresa a Huasca de Ocampo. No tenías idea hasta que llegamos. Pasamos dos días sin dinero, nos mojamos muchísimo por la lluvia y pasamos mucho frío, pero logramos comer, hospedarnos y fuimos inmensamente felices. Nada importó porque dormimos juntos. Terminamos super pobres, pero no me arrepiento de haber vivido esa aventura contigo. Lo valió todo." },
             { date: "Julio 2025", title: "Nuestro Primer Mes", icon: "star", image: "https://i.imgur.com/meMSF3e.png", story: "¡Nuestro primer mes! 🥳 Lo celebramos con una cena especial en 'Los Tacos de Peri'. Me acuerdo perfecto de esa noche, no solo por los tacos (que estaban buenísimos), sino porque grabamos un video diciendo cómo nos sentíamos. Es un tesoro tener ese clip. Es increíble ver todo lo que hemos construido desde ese momento." },
             { date: "Junio 2025", title: "Maruchan & Cars", icon: "film", image: "https://i.imgur.com/2JLEukH.png", story: "Nuestro primer recuerdo del mes. La primera vez que vimos 'Cars' juntos en tu casa. El plan era simple: nos preparamos unas Maruchan (que sabían a gloria) y nos acurrucamos a ver la película. No sé qué fue mejor, la película, las sopas o tu compañía. Creo que fue todo junto. Un plan sencillo, pero perfecto." }
