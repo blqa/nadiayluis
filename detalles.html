@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nadia & Luis | Detalles</title>
+    <title>Nadia & Luis | Detalles (Archivo)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
@@ -14,6 +14,9 @@
         .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.3); }
         .nav-link.active { color: #E11D48; font-weight: 600; }
         .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: rgba(244, 63, 94, 0.2); border-radius: 20px; }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -29,8 +32,8 @@
                     <a href="recuerdos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Recuerdos</a>
                     <a href="cuentos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Cuentos</a>
                     <a href="detalles.html" class="nav-link active text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Detalles</a>
-                    <a href="razones.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Por Qué</a>
-                    <a href="tiempo.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Tiempo</a>
+                    <a href="razones.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Lo que amé</a>
+                    <a href="tiempo.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">El Tiempo</a>
                 </div>
                 <button id="mobile-menu-btn" class="md:hidden text-gray-600"><i data-lucide="menu"></i></button>
             </div>
@@ -41,17 +44,23 @@
                 <a href="recuerdos.html" class="py-3 text-sm text-gray-600">Recuerdos</a>
                 <a href="cuentos.html" class="py-3 text-sm text-gray-600">Cuentos</a>
                 <a href="detalles.html" class="py-3 text-sm font-bold text-rose-500">Detalles</a>
-                <a href="razones.html" class="py-3 text-sm text-gray-600">Por Qué</a>
-                <a href="tiempo.html" class="py-3 text-sm text-gray-600">Tiempo</a>
+                <a href="razones.html" class="py-3 text-sm text-gray-600">Lo que amé</a>
+                <a href="tiempo.html" class="py-3 text-sm text-gray-600">El Tiempo</a>
             </div>
         </div>
     </nav>
 
     <main class="flex-grow pt-24 pb-12 px-4">
-        <div class="max-w-7xl mx-auto space-y-24">
+        <div class="max-w-7xl mx-auto space-y-20">
             
+            <div class="text-center mb-8">
+                <span class="text-rose-400 font-serif italic text-xl">Archivo del corazón</span>
+                <h2 class="font-serif text-4xl md:text-5xl text-gray-900 mt-2">Detalles Inolvidables</h2>
+            </div>
+
             <!-- A. Playlist -->
             <div class="max-w-4xl mx-auto">
+                <h3 class="font-serif text-2xl text-gray-900 mb-6 text-center italic">La música que nos acompañó</h3>
                 <div class="glass-card p-2 rounded-[24px] shadow-xl overflow-hidden">
                     <iframe style="border-radius: 15px" src="https://open.spotify.com/embed/playlist/2TRy6O7KcV1kNLAvXqiAVq?utm_source=generator&theme=0" width="100%" height="152" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
@@ -59,73 +68,157 @@
 
             <!-- B. Poems -->
             <div>
-                <h3 class="font-serif text-3xl text-gray-900 mb-8 text-center italic">Poemas del Corazón</h3>
-                <div id="poems-grid" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto"></div>
+                <h3 class="font-serif text-3xl text-gray-900 mb-8 text-center italic">Poemas y Versos</h3>
+                <div id="poems-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"></div>
             </div>
 
-            <!-- C. Open When -->
+            <!-- C. Cartas y Confesiones (NUEVO) -->
             <div>
-                <h3 class="font-serif text-3xl text-gray-900 mb-8 text-center italic">Abrir Cuando...</h3>
+                <h3 class="font-serif text-3xl text-gray-900 mb-8 text-center italic">Cartas y Confesiones</h3>
+                <p class="text-center text-gray-500 font-light mb-8 max-w-2xl mx-auto text-sm">
+                    Pensamientos guardados, mensajes de madrugada y palabras que escribí cuando el corazón me dictaba. Toca cada carta para leerla.
+                </p>
+                <div id="letters-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-6xl mx-auto"></div>
+            </div>
+
+            <!-- D. Open When -->
+            <div>
+                <h3 class="font-serif text-3xl text-gray-900 mb-8 text-center italic">Mensajes para el Alma</h3>
                 <div id="open-when-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4"></div>
             </div>
         </div>
     </main>
 
-    <div id="open-when-modal" class="hidden fixed inset-0 z-[100] items-center justify-center p-4 bg-gray-900/20 backdrop-blur-md transition-opacity duration-300">
-        <div id="modal-content" class="bg-white/95 backdrop-blur-xl rounded-[2rem] p-8 md:p-12 max-w-lg w-full shadow-2xl relative border border-white"></div>
+    <!-- Generic Modal for Letters and Open When -->
+    <div id="generic-modal" class="hidden fixed inset-0 z-[100] items-center justify-center p-4 bg-gray-900/40 backdrop-blur-md transition-opacity duration-300 opacity-0">
+        <div id="modal-content" class="bg-white/95 backdrop-blur-xl rounded-[2rem] p-6 md:p-10 max-w-2xl w-full shadow-2xl relative border border-white flex flex-col max-h-[85vh]">
+            <!-- Content Injected Here -->
+        </div>
     </div>
 
-    <footer class="py-6 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100">Hecho con amor • 2025</footer>
+    <footer class="py-8 text-center text-gray-400 text-xs uppercase tracking-widest border-t border-gray-100 bg-white/50">
+        Hecho con amor • 2025 - 2026 <br> <span class="normal-case mt-2 block opacity-70">Para Nadia, gracias por todo lo que me diste.</span>
+    </footer>
 
     <script>
         document.getElementById('mobile-menu-btn').addEventListener('click', () => { document.getElementById('mobile-menu').classList.toggle('hidden'); });
 
+        // --- DATA DE POEMAS ---
         const POEMS_DATA = [
-            { title: "El Ritmo que Cede", body: `Tus ojitos cafés, no los dejo de ver.\nme miran y el mundo empieza a ceder.\nNo entiendo este ritmo, ni quiero entender,\nsolo sé que contigo, todo puede ser.\n\nNo hubo señales, ni explicación,\nsolo ese momento y la conexión.\nLlegaste a mi vida, sin darme opción,\ny en menos de nada, todo cambió.\n\nEse primer beso me hizo temblar,\ntu abrazo travieso me hizo volar.\nTan corto el momento, tan claro el deseo,\ndesde ese segundo supe que te quiero.`, author: "Luis" },
-            { title: "...", body: `...`, author: "Luis" }
+            { 
+                title: "NADIA", 
+                date: "18 de feb 2026",
+                body: `𝐍adie más podría 𝐀brigar mis 𝐃udas e 𝐈luminar mi 𝐀lma como tú. ♡\n\n𝐍avegaría cualquier mar 𝐀l 𝐃escubrir esa 𝐈ncreíble forma de 𝐀marme. ♡\n\n𝐍ecesito que sepas que 𝐀dorarte es mi 𝐃ulce e 𝐈nevitable 𝐀legría diaria. ♡\n\n𝐍unca terminaré de 𝐀gradecer al 𝐃estino por 𝐈niciar nuestra historia 𝐀sí. ♡\n\n𝐍o existe nada que 𝐀pague este 𝐃eseo 𝐈nmenso de 𝐀dmirarte siempre. ♡`, 
+                author: "Luis" 
+            },
+            { 
+                title: "El Ritmo que Cede", 
+                date: "El comienzo",
+                body: `Tus ojitos cafés, no los dejo de ver.\nme miran y el mundo empieza a ceder.\nNo entiendo este ritmo, ni quiero entender,\nsolo sé que contigo, todo puede ser.\n\nNo hubo señales, ni explicación,\nsolo ese momento y la conexión.\nLlegaste a mi vida, sin darme opción,\ny en menos de nada, todo cambió.\n\nEse primer beso me hizo temblar,\ntu abrazo travieso me hizo volar.\nTan corto el momento, tan claro el deseo,\ndesde ese segundo supe que te quiero.\n\nEl tiempo va rápido, sin descansar,\npero entre tus brazos se deja llevar.\nY aunque fue tan rápido lo que empezó,\ncada día contigo… se siente mejor.`, 
+                author: "Luis" 
+            },
+            { 
+                title: "Tu Mejor Estudiante", 
+                date: "Nota guardada",
+                body: `Quiero ser tu mejor estudiante, en serio.\nQuiero aprender de cada instante que paso contigo, y ahora que por fin estoy encontrando mi lugar, te juro que voy a mejorar todo lo que hice antes.\nQuiero ser ese superhéroe de capa para poderte salvar de cualquier cosa que te atrapa, quiero ser el mejor aprendiz y encontrar lo que me mueva el piso y me haga ser feliz.\n\nSoy dueño de mi tiempo, y el mejor tiempo que invierto lo invierto estando contigo, aprendiendo a estar lejos de los males, porque para todo lo demás yo sé que hay muchos manuales.\nQuiero ser profesional en la materia de estar vivo, y quiero un doctorado en cómo ser mejor contigo.\n\nQuiero una especialidad en la arquitectura de tu calma, ser ese refugio seguro que te mereces, el que te sana el alma.\nEstudio el pasado, no para atormentarme, sino para que nunca vuelva a equivocarme.\nMi título final, el que de verdad vale, es ser el hombre que por ti sobresale. Que un día me mires y digas 'estoy orgullosa de él', porque nuestro amor ya no es de papel.`, 
+                author: "Luis" 
+            }
+        ];
+
+        // --- DATA DE CARTAS (NUEVO) ---
+        const LETTERS_DATA = [
+            { id: 'l1', date: "5 de feb 2026", title: "Antes de dormir", icon: "moon", content: `Amor, antes de que cierres los ojos, quiero pedirte algo, suelta todo lo que pasó hoy. Ya hiciste suficiente, ya diste todo lo que tenías que dar y el mundo va a seguir girando aunque tú descanses unas horas.\n\nNada de lo que te preocupa se va a resolver ahora en tu cabeza, así que déjalo afuera de la cama. Ahora solo existimos tú, yo y la tranquilidad de saber que estamos bien. Respira profundo, suelta los hombros y descansa. Te lo mereces.` },
+            { id: 'l2', date: "7 de enero 2026", title: "La distancia", icon: "message-circle", content: `Nadia, mi amor, mi cielo, te escribo esto ya tarde porque el silencio me puso a pensar mucho y necesitaba decírtelo. La verdad es que estos días sin vernos se me hicieron eternos y como estamos acostumbrados a estar juntos diario, sentir esta distancia física me pegó más de lo que imaginé. Me di cuenta de que mi día no se siente igual si no estás tú. 😞💔\n\nEstando en el trabajo me sentía triste o mal por no poder estar ahí contigo en el tianguis ayudándote a cargar o a organizar, me pesaba saber que tú estabas cansada y chamando mientras yo estaba lejos y en mi mente por sentirme cerca o de ayuda, puse un gif de una veladora en mi pantalla para mandarte buena vibra con diosito jsjs. Ver todo el esfuerzo que hiciste estos días me confirmó lo mucho que admiro tu fortaleza, a ti. ❤️‍🩹✨\n\nY es que contigo me pasa algo que no sé ni cómo explicar, solo no sé.. no me había pasado antes, ¿sabes? me siento completamente abierto y soy yo mismo, dejando que veas cada parte de mí y eso me hace muy feliz, pero también me hace sentir muy vulnerable. No te voy a mentir, a veces me da miedo y obvio no porque dude de ti, sino porque lo que siento es tan grande que me asusta la idea de perderlo. 😌🥰\n\nPero ese miedo vale la pena porque amo tu esencia. Como diría Shrek, la esencia es como las capas de una cebolla y no importa lo que pase afuera, en tu forma más real y profunda sigues siendo tú, y eso es lo que te hace invaluable para mí. (Nunca dijo eso jsjs). Te quiero y te amo por tu integridad y la claridad con la que ves el mundo. 👸♥️\n\nEstoy muy emocionado por este año que empieza y por todo lo que viene. Espero seguir haciendo de todo para demostrarte mi amor y para cuidar esto que hemos construido en estos 6, casi 7 meses. De verdad, te amo en todo el sentido de la palabra. Ya me urge verte y abrazarte. Descansa, corazón. 😴💖` },
+            { id: 'l3', date: "5 de noviembre 2025", title: "Muero por ti", icon: "heart", content: `Muero por ti, no de cualquier forma, sino en el intento desesperado de arreglar lo nuestro. Te prometo que esta lucha no será en vano, porque siempre has sido mi anhelo, la pieza que faltaba en mi vida.\n\nSé que la verdad es que tú te sientes incompleta, y yo, sin ti, no soy nada. Me estoy ahogando en la intensidad de tus sentimientos, pero prefiero caer sabiendo que lo di todo, aunque el dolor sea inmenso. Ya he aceptado esta realidad.\n\nMi tiempo es tuyo, y solo la muerte de mi corazón podría hacerme fallarte. Que piensen que estoy triste por ti, no importa… la verdad es que tú fuiste la única razón de mi felicidad.` },
+            { id: 'l4', date: "29 de octubre 2025", title: "Mi verdad", icon: "shield", content: `Ya te dije esto que es lo que me da miedo, ese ruido en mi cabeza sobre no ser suficiente, y quiero empezar por ahí, porque ser así de vulnerable, poder decirte eso, solo es posible porque confío en ti más que en nadie.\n\nSabes que confío plenamente en ti, si tú me dices que algo es azul, yo no necesito verlo, yo no dudo... yo sé que es azul porque confío en tu verdad, en que eres la persona más honesta y real que conozco, y con esa misma verdad, con esa misma seriedad con la que yo me tomo tu palabra, quiero que sepas esto, porque esta es mi verdad, esto es lo que yo sé con la misma certeza con la que sé que el cielo es azul (o del color que tú me digas que es).\n\nTe amo.\n\nPero mi “te amo” no es una palabra vacía. Es un TE AMO, que significa que eres mi hogar, la única persona que me hace sentir en paz, que calla todas mis inseguridades solo con estar ahí.\n\nSignifica que admiro quién eres, me inspiras, me haces querer ser una mejor versión de mí, no por presión, sino porque veo lo increíble que eres y quiero estar a tu altura, quiero merecerte cada día.\n\nY sobre mis intenciones... quiero que sepas que esto es lo más serio de mi vida. No estoy jugando, no estoy probando, no estoy “pasando el rato”.\n\nCuando pienso en mi futuro, cuando pienso en lo que quiero construir, la única persona que veo a mi lado eres tú. Quiero que seas mi compañera para todo… para lo bueno, para lo malo, para crecer, para resolver y para celebrar.\n\nTú eres la persona con la que quiero tenerlo todo,, eso es lo que siento por ti, es mi verdad. ❤️‍🩹` },
+            { id: 'l5', date: "12 de octubre 2025", title: "Me viste diferente", icon: "eye", content: `❤️‍🩹\n\nHola, Nadia:\n\nA veces me sorprende lo mucho que ha cambiado mi vida desde que llegaste, cómo todo aquello que antes tenía un ritmo monótono y predecible empezó a transformarse poco a poco hasta volverse algo completamente distinto, algo que no sabría poner en palabras pero que siento cada día; antes caminaba sin rumbo, cayendo una y otra vez en los mismos vacíos, creyendo que nadie realmente me veía, que solo pasaba frente a las personas sin dejar huella, pero entonces apareciste tú, y tu mirada me detuvo, me hizo sentir visto de una manera que nadie más había logrado, como si, por primera vez, alguien no solo me observara, sino que realmente me entendiera.\n\nNo sé en qué momento exacto cambió todo, pero desde entonces nada volvió a sentirse igual; contigo, incluso el silencio tiene sentido, y la rutina dejó de pesar tanto, porque de alguna manera lograste que todo se sintiera más ligero, más humano. A veces me descubro pensando en lo efímera que puede ser la vida, en cómo se nos escapan los instantes sin darnos cuenta, y no tengo idea de cuántos de ellos se me habrán ido contigo, pero sí sé que los que viví a tu lado valen más que todos los demás; hay algo en ti que me hace respirar distinto, como si mi corazón encontrara un ritmo nuevo cada vez que estás cerca.\n\nNunca pediste nada, y quizás por eso quise darte todo, no por necesidad ni por miedo a perderte, sino porque había en ti una sinceridad tan pura que me hizo querer quedarme ahí, construir algo contigo, quedarme un poco más de lo que el tiempo permite; no quería volver a sentirme solo, y no hablo de esa soledad física que se llena con compañía superficial, sino de esa otra, más silenciosa, la que aparece cuando uno se da cuenta de que nadie lo ve por completo.\n\nTú sí lo hiciste, Nadia, me viste diferente, y eso cambió la forma en que me veo a mí mismo; por eso quiero que te quedes, no porque te necesite para existir, sino porque contigo la vida tiene otra temperatura, otro brillo, otro motivo.\n\nCon cariño,\nLuis` },
+            { id: 'l6', date: "3 meses juntos", title: "Nuestra historia", icon: "book", content: `Nadia,\n\nQuiero empezar esta carta siendo completamente honesto, cada palabra que estás leyendo nace de lo más profundo de mí. No hay nada inventado, nada exagerado, nada puesto solo para sonar bonito. Todo lo que te escribo es 100% real, porque contigo no me sale fingir ni aparentar.\n\nMe siento totalmente entregado a ti. No es una entrega a medias ni condicional, es una entrega consciente, llena de ganas y de amor. Estoy dispuesto a todo por tu felicidad, porque verte sonreír se ha convertido en una de mis mayores motivaciones diarias. No exagero cuando digo que tu alegría ilumina la mía, y que incluso en mis días más pesados, basta con escuchar tu voz o leer un mensaje tuyo para sentir que vale la pena seguir adelante.\n\nSé que el camino hasta aquí no ha sido sencillo. El pasado todavía se asoma a veces, y es verdad que no está completamente superado. Pero lejos de verlo como un obstáculo, lo reconozco como parte de nuestra historia. Es una prueba de que no todo comenzó perfecto, de que hubo momentos complicados antes de ser novios, y de que aún así decidimos darnos la oportunidad. Para mí, eso tiene un valor inmenso: no elegimos el camino fácil, elegimos el real, con sus dudas, sus heridas y también sus esperanzas. Y justamente por eso creo que lo nuestro tiene tanta fuerza. Porque no nació en medio de ilusiones pasajeras, sino enfrentando la realidad, con todo lo que implica.\n\nAdmiro profundamente tu carácter, Nadia. Admiro esa manera tuya de mirar los problemas y buscar soluciones, de no quedarte estancada en lo difícil, sino de encontrar una salida. Incluso cuando tenemos diferencias o cuando surge algo que nos incomoda, siempre encuentro en ti esa disposición de resolverlo, de hablarlo, de buscar el equilibrio. Y eso, más que nada, refuerza mi confianza en ti y en nosotros. Saber que no huyes de los problemas, sino que los enfrentas, me hace sentir afortunado de estar a tu lado.\n\nQuiero que tengas siempre presente que yo estoy aquí para ti. No como una frase vacía, sino en lo concreto: en las llamadas que contesto a cualquier hora, en los mensajes que nunca dejo pasar, en la manera en que siempre busco estar disponible para ti. Para mí no es un esfuerzo, es lo natural. Porque cuando alguien se convierte en tu prioridad, su voz, sus palabras, su tranquilidad y su compañía pasan a estar en el centro de todo. Y tú eres mi prioridad, Nadia. Nunca lo dudes.\n\nHay algo más que hace que lo nuestro sea especial: los cuentos que te escribo. Tal vez para otros sea un detalle más, pero para mí es una forma muy íntima de decirte lo que siento. No cualquiera recibe mis historias, mis ideas, mis mundos inventados. Eso es algo que solo comparto contigo, porque contigo me nace esa creatividad que pocas personas logran despertar en mí. Es mi manera de regalarte algo único, de dejarte ver una parte de mí que no muestro con facilidad. Cada cuento que te escribo es una extensión de mi amor, una prueba de que no solo quiero decirte lo que siento, sino también inventar formas distintas de demostrártelo.\n\nNo hay un solo día en el que no te recuerde cuánto te amo. Ya sea en un mensaje, en una llamada o en una palabra al oído, busco reafirmártelo siempre. Porque el amor no es algo que se diga una vez y ya; es algo que se cultiva a diario, que se reafirma con acciones, con detalles y con presencia. Y aunque pueda sonar repetitivo, para mí nunca es suficiente decirte lo que significas. Cada “te amo” que te doy es nuevo, fresco y lleno de verdad.\n\nHoy, después de tres meses, me doy cuenta de que lo nuestro no es simplemente una relación más. Es una historia que estamos escribiendo juntos, con todo lo que conlleva. Me emociona pensar en lo que hemos logrado en tan poco tiempo, y aún más en lo que nos queda por construir. Porque estoy seguro de algo: este amor que tenemos es real, fuerte y capaz de crecer cada día más.\n\nTe prometo, Nadia, que no voy a fallarte. No quiero que pase un solo día en el que sientas que no recibiste de mí el amor que mereces. Mi compromiso contigo es total: darte mi mejor versión, apoyarte en cada meta, escucharte en cada duda y acompañarte en cada paso. Sé que habrá momentos complicados, pero también sé que, mientras sigamos poniendo de nuestra parte, no habrá nada que nos detenga.\n\nPienso en el futuro y lo imagino contigo. No me da miedo soñarlo, porque creo en lo que tenemos. Creo en nosotros. Y aunque aún estemos escribiendo los primeros capítulos de esta historia, estoy convencido de que si seguimos con esta entrega, con esta paciencia y con este amor, vamos a llegar muy lejos.\n\nFeliz tercer mes, mi amor. Gracias por elegirme, por darme tu cariño, tu confianza y tu tiempo. Gracias por permitirme ser parte de tu vida. Y gracias, sobre todo, por enseñarme que amar no es perfecto, pero sí es lo más verdadero que podemos vivir.\n\nCon todo mi amor y mi entrega,\nLuis` },
+            { id: 'l7', date: "Jueves 27 de marzo de 2025", title: "Aquel día en Chapultepec", icon: "sun", content: `El día transcurrió con total normalidad hasta las 12:30 pm. Justo a esa hora, recibí un mensaje de ella, me decía que no entraría a trabajar. Añadió que, si iba al comedor, podría despedirme a lo lejos.\nSubí de inmediato, prácticamente corriendo. Efectivamente, ahí estaba, del otro lado de la avenida.\nLe pregunté por qué no entraba. Me respondió que no se sentía muy bien anímicamente y que prefería irse por ahí, sola.\n\nAl instante, le pregunté si quería que me saliera del trabajo y fuera con ella. Ella dudó al principio, dijo que no quería que yo perdiera mi jornada laboral.\nAún así, decidí salir. Fui a donde estaba, en un parque muy cercano.\nAhí platicamos unos minutos, hasta que le ofrecí que fuéramos a Chapultepec. No lo dudó ni un segundo en aceptar. Para ese punto, debo decir, ya no la notaba triste, su semblante había cambiado.\n\nLlegamos al bosque. Compramos dos sangrías preparadas y unos churros, y nos dedicamos a buscar un sitio tranquilo en el pasto para poder acostarnos.\nCuando lo encontramos, nos instalamos. Platicamos, alimentamos a unos pájaros y ardillas que se acercaron... pero lo que más hicimos, fue besarnos, ahí, recostados.\n\nLlegamos a ese lugar cerca de las 4:00 pm. Cuando nos pidieron que nos retiráramos porque ya iban a cerrar, eran las 6:30pm. No supimos cómo pasó tanto tiempo, simplemente perdimos la noción.\nElla había mencionado antes su interés sobre una obra de teatro que empezaba a las 8:00 pm. Le sugerí que fuéramos, y tampoco se negó.\n\nFuimos a la obra. Por cierto, por muy poco y no llegamos a tiempo. Yo en ese momento me sentía pleno, derramaba serotonina. Fue un momento, una anécdota súper linda.\nSaliendo de ahí, el plan era llevarla a su casa.\nNos dormimos un poco en el metrobús, necesitábamos recargar algo de energía. Luego pedimos un Didi compartido. Durante el camino, las cosas comenzaron a salirse de control... el contacto físico comenzó a ser más intenso.\n\nElla me preguntó si realmente quería llegar a mi casa.\nRespondí que... "depende".\nMe dijo que cancelara el viaje compartido y que nos bajáramos los dos en su casa. En ese momento, ambos entendimos perfectamente qué es lo que queríamos.\nElla pidió un Didi.\nLlegamos. Pedí la habitación, entramos, dejamos nuestras cosas y todo comenzó.\n\nElla puso la habitación muy oscura y me dijo que la encontrara. Al momento de encontrarla, ahí empezó todo. La desvestí, me desvistió. La recosté y bajé.\nCuando subí, solo la sentí ahí acostada, viéndome. Y comenzó.\nFue tan intenso, tan bueno... no lo olvidaré. Es preciosa. Recuerdo sus gemidos cuando entraba por completo. Incluso me hizo parar varias veces.\n\nAl terminar, comentamos lo increíble que fue. Pedimos un Didi cada uno y nos fuimos a nuestras respectivas casas.\nFue, simplemente, un día hermoso. ♡` },
+            { id: 'l8', date: "Reflexión", title: "El miedo a perderte", icon: "feather", content: `Debo reconocerlo, el pensamiento de que algún día te marches de mi vida me aterra, sé que dolerá demasiado. Es una ironía, porque no estaba buscando esto y, sin embargo, te encontré. Antes creía que nadie me entendía de verdad, pero al ver tu sonrisa, empecé a dudar de ese pensamiento. Tus ojos me invitaban a acercarme, y mi instinto me incitaba a intentarlo. Fue el destino el que nos empujó.\n\nNoté en nuestras miradas que la atracción era mutua, y esa conexión se sintió al instante en que me acerqué a tus labios en el parque, ese día, fue automático, pura magia. Aunque he sido impulsivo, he dejado claro que tu mirada me ha dejado sin palabras.\n\nSentirme así no es normal. Quiero seguir explorando quién eres, qué hay en ti que me transforma de esta manera. Contigo es distinto, todo lo es. Te prometo que no quiero pensar en nadie más. No voy a dejar escapar lo que finalmente he encontrado, lo que siento que es para mi. Solo a tu lado el tiempo se detiene, y el “para siempre”, parece tan poco, lo sentí desde el primer beso.` },
+            { id: 'l9', date: "Nota guardada", title: "Mi propósito", icon: "compass", content: `Siempre quisimos permanecer juntos, que todo se resolvería. Y yo luché, sí, luché con todas mis fuerzas. No fue una lucha contra ti, sino contra mi yo pasado. Si te causé dolor, no fue por falta de amor, sino por mi falta de dominio propio. Pero eso me reveló mi único propósito actual, salvarte a ti, incluso mientras tu mente solo contempla el final. Hice lo imposible para que te quedaras, y aunque a veces dudo de lo que obtuve, sé que el tiempo invertido no fue en vano.\n\nMe atormenta la idea de haberte hecho perder el tiempo al creer que un intento más nos traería la felicidad. Me hundo por dentro porque a veces ni yo me comprendo. ¿Cómo podría entender nuestra relación si mi propio miedo me impedía hacer lo correcto? Por eso ahora acepto que nunca podrás darme lo que no posees ni reside en ti, y eso está bien.\n\nMi propósito es claro, convertirme en el hombre que te ofrezca protección, paz. Ahora entiendo que, antes de cometer un error que nos destruya, debo salvarme a mí mismo... para poder salvarte a ti. Por ello, si voy a quedarme, que sea a tu lado, y si he de avanzar, que sea por el camino de la verdad. Mi meta es que mis decisiones sean guiadas por la razón, y que mis errores solo me indiquen el rumbo para cuidarte mejor.` },
+            { id: 'l10', date: "Pensamiento", title: "Sueños compartidos", icon: "cloud", content: `Sueño con un día en que todo mejore, en que la mala termine. Sé que mis peores miedos se cumplieron, pero mantengo la esperanza de que mis sueños también lo harán. No soy muy bueno en ver cómo se va quien amo, y me aterra no haber aprendido nada de mis errores, que solo me hayan enseñado a sufrir. A pesar de las deudas y la sensación de colapso, de no encontrar una salida, estoy seguro de que un día miraré hacia atrás, con mis nietos a mi lado, contándoles mi historia.\n\nAhora comprendo que extrañar no es lo mismo que recordar, la nostalgia es una herida abierta. Hay cosas efímeras, temporales, pero otras, como tú, quiero que permanezcan hasta el último momento. Corazón, aunque estés aquí, temo perderte, porque así es la vida. No temo a la muerte, sino a no volver a verte. Si no lo había dicho antes, es porque expresar el amor nunca fue mi fuerte.` },
+            { id: 'l11', date: "Despedida", title: "Aceptación", icon: "wind", content: `Acepto esta dolorosa realidad, aunque el amor que siento por ti es verdadero y fuiste más que mi otra mitad... fuiste mi todo. Entiendo tus razones y solo me queda aceptar que tu sonrisa ya no iluminará mi vida. Aunque mi corazón quiera romperse y no dejar de llorar, me obligo a sonreír y a recordar con alegría cada momento a tu lado, para que esa sea la imagen que guardes de mí.\n\nSé que con el tiempo me olvidarás, pero aun sabiendo que no estaré, dejo sembrado en tu vida el amor y las promesas que eran tuyas, porque esta relación me dejó el alma destruida y acepto que los corazones se equivocan.\n\nPuede que pronto te vea con otra persona, y aunque no exista un "nosotros" en el futuro, seguiré escribiéndote en mi mente y en mis notas, son mensajes e historias que quizás nunca leas, a menos que el destino nos dé otra oportunidad.\n\nNo te vayas. Te juro que este amor es imborrable. Si te lastimé, fue porque yo mismo buscaba desesperadamente una salida a los problemas que atormentaban mi vida. Por mis errores, me toca avanzar con dificultad, solo quiero que sepas que el amor que era para ti, permanece intacto, sembrado en tu jardín.` },
+            { id: 'l12', date: "Confesión", title: "Me niego a aceptar", icon: "anchor", content: `Me niego a aceptar que ya no estés en mi vida, a sentirme solo o a verte sola. Tardé en reconocer mis sentimientos, lo sé, pero por favor, no quiero asimilar tu ausencia. Sigo aquí, incondicionalmente. Llámame cuando quieras, sin importar dónde esté, y llegaré al instante.\n\nTrabajaré incansablemente, no para darte lujos innecesarios, sino para construir la estabilidad que mereces. Paso mis días mirando tu foto, siempre fuiste mi verdadero amor.\n\nQuisimos estar juntos hasta el final, y aunque ahora solo quede una herida abierta, algo tan significativo como lo nuestro no se olvida. No quiero aceptar tu partida porque mi amor por ti sigue vivo. Si te escribo todo esto, es para que sepas que estoy creando un futuro diferente, un final que sí podamos merecer.` },
+            { id: 'l13', date: "Memoria", title: "Cuando apareciste", icon: "sparkles", content: `Justo cuando creí que estaba mejor solo, que nadie podía comprenderme, tú apareciste. Me había prometido nunca más volver a sentirme vulnerable, a no abrirme, pero aquí estoy, aferrado a ti, incapaz de soltarte. Ahora te lo prometo, solo necesito estar contigo.\n\nJuraba que no me faltaba nada, pero tú me mostraste todo lo que me estaba perdiendo. Sé que te tengo a ti, que eres lo mejor para mí, y ya no hay nada más que pedir. Recuerdo ese momento en que nos escapamos de la rutina, creando nuestro propio mundo coloreando. Hablamos por horas y ese beso, en ese instante, lo cambió todo, enamórndome por completo.` },
+            { id: 'l14', date: "Una súplica", title: "Quédate un segundo más", icon: "clock", content: `Por favor solo quédate un segundo más, te lo pido. Solo necesito que me des una señal, déjame saber si todo esto que tenemos sigue vivo. O dime la verdad, dime si ya es demasiado tarde, si sientes que ya no quieres estar conmigo.\n\nTengo que saber si debo apostarlo todo o si ya tengo que darlo por perdido, porque siento que esto se está apagando. Y lo siento. Por favor no te vayas, te juro que el amor real no se olvida así de fácil. Sé que te lastimé, te causé una herida, pero fue porque yo mismo estaba buscando una salida a todos los problemas que tenía en mi vida. Te prometo que por todos mis errores, estoy dispuesto a pagar el precio. Pero no te vayas. Solo dime que esto sigue vivo.` },
+            { id: 'l15', date: "Invitación", title: "Nuestro paraíso", icon: "map", content: `Dicen que hay un lugar al que yo te quiero llevar, un lugar que nadie sabe dónde está, pero te juro que conmigo puedes llegar. Es nuestro paraíso secreto, ese lugar oculto y misterioso donde por fin nos inunda la paz, donde el viento nos acaricia y sé que contigo ahí quiero estar siempre.\n\nAgárrate fuerte, que quiero llevarte a ese lugar donde nada ni nadie va a lastimarte. Yo sé que sufriste en el pasado, y mucho de eso fue mi culpa, pero acá en nuestro refugio no hay tiempo, ni futuro ni presente, solo es cuestión de entendernos. Aquí somos nosotros en nuestra mejor versión posible, sin condiciones, sin preocupaciones. Quiero que vengas y pintes todo con tus colores, porque te lo juro, a tu lado las cosas siempre se ven mejores.\n\nTengo este lugar para llevarte, solo agarra mi mano y suelta todos tus males, lo que en el mundo son malos modos, aquí son buenos modales. Estamos solos, acompañados por la magia de este momento, en un lugar que nunca conoció la tortura del tiempo. Aquí no hay intrusos que nos molesten. Es nuestro. Y si el mundo te aburre, si te sientes tensa o cansada, ven conmigo a escapar de la rutina. Esta es una invitación formal a nuestro continente, un lugar donde nadie va a juzgarte por querer ser diferente, donde por fin podemos ser solo nosotros.` },
+            { id: 'l16', date: "Esa noche", title: "Intimidad", icon: "flame", content: `Desnuda te quiero. No quiero que hablemos más, no hace falta. No prendamos la luz, para brillar ya estás tú, eres el único brillo que necesito ver en esta oscuridad. Estamos solos, no hay nadie mirándonos, solo tú aquí en la cama, sintiendo cómo nos morimos de ganas, se puede casi tocar en el aire. Es que nunca tuve tanta química con nadie, eres increíble.\n\nTe pones encima, siento tu peso, la forma en que te mueves, ese movimiento es una locura total, simplemente increíble. Estamos transpirados, pegados, piel con piel, sintiéndolo todo. Tus besos y tu peso encima de mi cuerpo, cómo me encanta verte, me pierdo viéndote. No quiero ir a ningún otro lado, quiero esto aquí, en la cama, agarrarte el pelo, sentirte. Solo quiero repetir esa sensación una y otra vez.` },
+            { id: 'l17', date: "Aquel beso", title: "Electricidad", icon: "zap", content: `Juro que jamás en la vida mi alma se había sentido así. Siento mi corazón latir con una fuerza que me asusta y me encanta, fue un impacto, una locura.\n\nLiteralmente me paraste el mundo con ese beso, en ese parque, contigo siento esa electricidad que con nadie más toqué, nadie más existe. Mira en la que estamos, me siento increíble, tu amor es todo lo que necesito, es la única energía que me mueve, no quiero parar de sentir esto.\n\nEstamos tocando las nubes, ¿te das cuenta de lo que es esto? Confía en mí, quiero tomar tu mano y que nos escapemos de todo, como si fuera la primera vez que decimos te amo de verdad, quiero flecharte el corazón y que ya no pienses en nada más, solo en este sentimiento, solo conmigo.` }
         ];
 
         const OPEN_WHEN_DATA = [
-            { id: 'extrañas', title: "Si me extrañas", icon: "heart", color: "text-rose-500", content: "Lo sé, la vida a veces aprieta. Permítete sentir lo que necesites, pero no te quedes ahí. Recuerda lo increíble y fuerte que eres. Date un respiro, escucha tu canción favorita, y mañana o en un ratito intentemos que sea un poquito mejor. Estoy contigo, aunque no estemos cerca en este momento." },
-            { id: 'triste', title: "Si estás triste", icon: "frown", color: "text-purple-500", content: "Hey, no me gusta nada que estés así. Es completamente válido sentirse mal, pero no estás sola. Recuerda que después de la lluvia siempre sale el sol (y a veces un arcoíris). Te mando el abrazo más fuerte del mundo." },
-            { id: 'querer', title: "Si necesitas amor", icon: "star", color: "text-pink-500", content: "Uy, si tienes que abrir esto es que no lo estoy diciendo suficiente. Que no se te olvide NUNCA. Eres mi persona favorita por muchísimas razones: tu risa, tu inteligencia, tu bondad... Te quiero infinitamente." },
-            { id: 'reir', title: "Si necesitas reír", icon: "laugh", color: "text-purple-600", content: "Encontré esto y me acordé de ti al instante. Espero que te rías tanto como yo (prepárate, es tonto)... Imagina un pingüino resbalándose en el hielo. 🐧💨 ¡Espero haberte sacado una sonrisa, jiji!" },
-            { id: 'ansiosa', title: "Si te sientes ansiosa", icon: "life-buoy", color: "text-blue-400", content: "Respira. Inhala... 1, 2, 3, 4. Mantén... 1, 2, 3, 4. Exhala... 1, 2, 3, 4. Todo va a estar bien. Estás a salvo y yo estoy contigo. Cierra los ojos un momento y concéntrate solo en mi voz diciéndote que todo pasará." }
+            { id: 'extrañas', title: "Cuando me extrañes", icon: "heart", color: "text-rose-500", content: "Sé que ya no estoy ahí para abrazarte, pero los recuerdos que construimos siempre serán tuyos. Si alguna vez sientes que la distancia duele, recuerda las tardes en Chapultepec o nuestras pláticas interminables. El tiempo pasa, pero lo que fuimos siempre tendrá un rincón cálido en mi memoria." },
+            { id: 'triste', title: "Cuando estés triste", icon: "cloud-rain", color: "text-blue-500", content: "Me duele no poder ser quien te seque las lágrimas ahora. Pero siempre admiré tu fuerza. Eres la mujer que no se rinde. Llora si lo necesitas, suelta todo, y recuerda que después de la tormenta siempre salías adelante. Siempre creeré en ti, desde donde esté." },
+            { id: 'querer', title: "Cuando dudes del amor", icon: "star", color: "text-pink-500", content: "Tal vez nuestros caminos se separaron, pero no dudes nunca de lo mucho que te amé. Fuiste mi prioridad, mi mundo entero por un tiempo. Ese amor fue real, sincero y profundo. Nunca olvides que eres alguien por quien vale la pena darlo todo." },
+            { id: 'reir', title: "Cuando necesites sonreír", icon: "smile", color: "text-purple-500", content: "¿Te acuerdas de cuando nos perdimos o las tonterías que decíamos en el metrobús? Conserva esas sonrisas. La vida es muy corta para perder esa risa tuya que tanto iluminaba mis días. Busca un buen recuerdo nuestro y sonríe, que te ves preciosa haciéndolo." },
+            { id: 'ansiosa', title: "Cuando sientas ansiedad", icon: "wind", color: "text-teal-400", content: "Cierra los ojos. Respira. 1, 2, 3... Sé que el mundo a veces hace mucho ruido. Aunque ya no pueda tomar tu mano para calmarte, recuerda las veces que lo hicimos juntos. Todo pasa. Eres capaz de superar cualquier cosa, siempre te lo dije y siempre lo pensaré." },
+            { id: 'dudar', title: "Cuando dudes de ti", icon: "sparkles", color: "text-amber-500", content: "Mírate al espejo. Eres la misma persona que me inspiró a ser mejor. Tienes una luz increíble, una integridad que me dejaba mudo y un corazón gigante. No dejes que los malos días ni los tropiezos te hagan olvidar lo invaluable que eres." },
+            { id: 'cancion', title: "Al oír nuestra canción", icon: "music", color: "text-indigo-400", content: "Si de casualidad suena esa melodía y sientes un nudo en la garganta, no lo reprimas. Canta. Recuerda lo que se sentía estar en nuestro propio planeta por esos minutos. Fueron instantes mágicos que nadie nos podrá quitar jamás, un pedacito de tiempo solo nuestro." },
+            { id: 'pasado', title: "Al mirar al pasado", icon: "clock", color: "text-gray-500", content: "Espero que cuando veas hacia atrás, no veas solo el dolor del final. Quédate con las risas, los cuentos, los sushis sorpresa y los paseos agarrados de la mano. Quédate con la certeza de que nos quisimos mucho y nos enseñamos aún más." }
         ];
 
+        // RENDER POEMS
         document.getElementById('poems-grid').innerHTML = POEMS_DATA.map(poem => `
-            <div class="bg-white/60 p-8 rounded-2xl border border-white shadow-sm hover:shadow-md transition-all">
-                <h3 class="font-serif text-2xl text-gray-900 mb-4 text-center italic">${poem.title}</h3>
-                <p class="whitespace-pre-wrap text-gray-600 text-center leading-loose font-light text-sm md:text-base">${poem.body}</p>
-                <p class="text-right text-xs text-rose-400 mt-6 font-bold tracking-widest uppercase">— ${poem.author}</p>
+            <div class="bg-white/60 p-8 rounded-3xl border border-white shadow-sm hover:shadow-md transition-all flex flex-col h-full">
+                <span class="text-xs font-bold tracking-widest text-rose-400 uppercase text-center block mb-2">${poem.date}</span>
+                <h3 class="font-serif text-2xl text-gray-900 mb-6 text-center italic">${poem.title}</h3>
+                <p class="whitespace-pre-wrap text-gray-700 text-center leading-loose font-light text-sm flex-grow">${poem.body}</p>
+                <p class="text-right text-xs text-gray-400 mt-6 font-bold tracking-widest uppercase">— ${poem.author}</p>
             </div>
         `).join('');
 
+        // RENDER LETTERS
+        document.getElementById('letters-grid').innerHTML = LETTERS_DATA.map(letter => `
+            <button onclick="showGenericModal('${letter.title}', '${letter.date}', \`${letter.content.replace(/`/g, '\\`')}\`, '${letter.icon}', 'text-gray-600')" class="flex flex-col items-start p-5 bg-white/70 rounded-2xl shadow-sm border border-white hover:shadow-lg hover:-translate-y-1 transition-all group text-left">
+                <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-rose-100 transition-colors">
+                    <i data-lucide="${letter.icon}" class="w-5 h-5 text-gray-500 group-hover:text-rose-500 transition-colors"></i>
+                </div>
+                <h4 class="font-serif text-lg text-gray-900 mb-1 line-clamp-1">${letter.title}</h4>
+                <p class="text-[10px] text-gray-400 font-bold tracking-widest uppercase line-clamp-1">${letter.date}</p>
+            </button>
+        `).join('');
+
+        // RENDER OPEN WHEN
         document.getElementById('open-when-grid').innerHTML = OPEN_WHEN_DATA.map(card => `
-            <button onclick="showOpenWhenModal('${card.id}')" class="flex flex-col items-center justify-center p-4 bg-white/80 rounded-2xl shadow-sm border border-white hover:shadow-md hover:scale-[1.02] transition-all group aspect-square">
+            <button onclick="showGenericModal('${card.title}', 'Abrir Cuando...', \`${card.content.replace(/`/g, '\\`')}\`, '${card.icon}', '${card.color}')" class="flex flex-col items-center justify-center p-4 bg-white/80 rounded-2xl shadow-sm border border-white hover:shadow-md hover:scale-[1.02] transition-all group aspect-square">
                 <i data-lucide="${card.icon}" class="w-6 h-6 ${card.color} mb-2 opacity-70 group-hover:opacity-100"></i>
                 <span class="text-xs font-semibold text-gray-600 text-center leading-tight">${card.title}</span>
             </button>
         `).join('');
 
-        function showOpenWhenModal(id) {
-            const card = OPEN_WHEN_DATA.find(c => c.id === id);
-            const modal = document.getElementById('open-when-modal');
-            const content = document.getElementById('modal-content');
+        // MODAL LOGIC
+        function showGenericModal(title, subtitle, content, icon, colorClass) {
+            const modal = document.getElementById('generic-modal');
+            const modalContent = document.getElementById('modal-content');
             
-            content.innerHTML = `
-                <button onclick="document.getElementById('open-when-modal').classList.add('hidden'); document.getElementById('open-when-modal').classList.remove('flex');" class="absolute top-6 right-6 text-gray-400 hover:text-rose-500"><i data-lucide="x" class="w-6 h-6"></i></button>
-                <div class="flex flex-col items-center text-center">
-                    <div class="p-4 bg-rose-50 rounded-full mb-4"><i data-lucide="${card.icon}" class="w-8 h-8 ${card.color}"></i></div>
-                    <h3 class="font-serif text-2xl text-gray-900 mb-4">${card.title}</h3>
-                    <p class="text-lg text-gray-600 leading-relaxed font-light">${card.content}</p>
+            modalContent.innerHTML = `
+                <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400 hover:text-rose-500 transition-colors z-20"><i data-lucide="x" class="w-6 h-6"></i></button>
+                <div class="flex flex-col items-center text-center mb-6">
+                    <div class="p-3 bg-gray-50 rounded-full mb-3 shadow-sm border border-gray-100"><i data-lucide="${icon}" class="w-6 h-6 ${colorClass}"></i></div>
+                    <span class="text-[10px] font-bold tracking-[0.2em] text-rose-400 uppercase block mb-1">${subtitle}</span>
+                    <h3 class="font-serif text-3xl md:text-4xl text-gray-900">${title}</h3>
+                </div>
+                <div class="overflow-y-auto pr-2 custom-scrollbar flex-grow">
+                    <p class="text-base md:text-lg text-gray-700 leading-loose font-light whitespace-pre-wrap text-left md:text-justify px-2">${content}</p>
                 </div>
             `;
+            
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+            setTimeout(() => modal.classList.remove('opacity-0'), 10);
             lucide.createIcons();
         }
 
+        function closeModal() {
+            const modal = document.getElementById('generic-modal');
+            modal.classList.add('opacity-0');
+            setTimeout(() => {
+                modal.classList.remove('flex');
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        // BACKGROUND PARTICLES
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
