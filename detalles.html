@@ -72,7 +72,7 @@
                 <div id="poems-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto"></div>
             </div>
 
-            <!-- C. Cartas y Confesiones (NUEVO) -->
+            <!-- C. Cartas y Confesiones -->
             <div>
                 <h3 class="font-serif text-3xl text-gray-900 mb-8 text-center italic">Cartas y Confesiones</h3>
                 <p class="text-center text-gray-500 font-light mb-8 max-w-2xl mx-auto text-sm">
@@ -125,7 +125,7 @@
             }
         ];
 
-        // --- DATA DE CARTAS (NUEVO) ---
+        // --- DATA DE CARTAS ---
         const LETTERS_DATA = [
             { id: 'l1', date: "5 de feb 2026", title: "Antes de dormir", icon: "moon", content: `Amor, antes de que cierres los ojos, quiero pedirte algo, suelta todo lo que pasó hoy. Ya hiciste suficiente, ya diste todo lo que tenías que dar y el mundo va a seguir girando aunque tú descanses unas horas.\n\nNada de lo que te preocupa se va a resolver ahora en tu cabeza, así que déjalo afuera de la cama. Ahora solo existimos tú, yo y la tranquilidad de saber que estamos bien. Respira profundo, suelta los hombros y descansa. Te lo mereces.` },
             { id: 'l2', date: "7 de enero 2026", title: "La distancia", icon: "message-circle", content: `Nadia, mi amor, mi cielo, te escribo esto ya tarde porque el silencio me puso a pensar mucho y necesitaba decírtelo. La verdad es que estos días sin vernos se me hicieron eternos y como estamos acostumbrados a estar juntos diario, sentir esta distancia física me pegó más de lo que imaginé. Me di cuenta de que mi día no se siente igual si no estás tú. 😞💔\n\nEstando en el trabajo me sentía triste o mal por no poder estar ahí contigo en el tianguis ayudándote a cargar o a organizar, me pesaba saber que tú estabas cansada y chamando mientras yo estaba lejos y en mi mente por sentirme cerca o de ayuda, puse un gif de una veladora en mi pantalla para mandarte buena vibra con diosito jsjs. Ver todo el esfuerzo que hiciste estos días me confirmó lo mucho que admiro tu fortaleza, a ti. ❤️‍🩹✨\n\nY es que contigo me pasa algo que no sé ni cómo explicar, solo no sé.. no me había pasado antes, ¿sabes? me siento completamente abierto y soy yo mismo, dejando que veas cada parte de mí y eso me hace muy feliz, pero también me hace sentir muy vulnerable. No te voy a mentir, a veces me da miedo y obvio no porque dude de ti, sino porque lo que siento es tan grande que me asusta la idea de perderlo. 😌🥰\n\nPero ese miedo vale la pena porque amo tu esencia. Como diría Shrek, la esencia es como las capas de una cebolla y no importa lo que pase afuera, en tu forma más real y profunda sigues siendo tú, y eso es lo que te hace invaluable para mí. (Nunca dijo eso jsjs). Te quiero y te amo por tu integridad y la claridad con la que ves el mundo. 👸♥️\n\nEstoy muy emocionado por este año que empieza y por todo lo que viene. Espero seguir haciendo de todo para demostrarte mi amor y para cuidar esto que hemos construido en estos 6, casi 7 meses. De verdad, te amo en todo el sentido de la palabra. Ya me urge verte y abrazarte. Descansa, corazón. 😴💖` },
@@ -168,8 +168,8 @@
         `).join('');
 
         // RENDER LETTERS
-        document.getElementById('letters-grid').innerHTML = LETTERS_DATA.map(letter => `
-            <button onclick="showGenericModal('${letter.title}', '${letter.date}', \`${letter.content.replace(/`/g, '\\`')}\`, '${letter.icon}', 'text-gray-600')" class="flex flex-col items-start p-5 bg-white/70 rounded-2xl shadow-sm border border-white hover:shadow-lg hover:-translate-y-1 transition-all group text-left">
+        document.getElementById('letters-grid').innerHTML = LETTERS_DATA.map((letter, index) => `
+            <button data-index="${index}" class="letter-card-btn flex flex-col items-start p-5 bg-white/70 rounded-2xl shadow-sm border border-white hover:shadow-lg hover:-translate-y-1 transition-all group text-left">
                 <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mb-4 group-hover:bg-rose-100 transition-colors">
                     <i data-lucide="${letter.icon}" class="w-5 h-5 text-gray-500 group-hover:text-rose-500 transition-colors"></i>
                 </div>
@@ -179,12 +179,29 @@
         `).join('');
 
         // RENDER OPEN WHEN
-        document.getElementById('open-when-grid').innerHTML = OPEN_WHEN_DATA.map(card => `
-            <button onclick="showGenericModal('${card.title}', 'Abrir Cuando...', \`${card.content.replace(/`/g, '\\`')}\`, '${card.icon}', '${card.color}')" class="flex flex-col items-center justify-center p-4 bg-white/80 rounded-2xl shadow-sm border border-white hover:shadow-md hover:scale-[1.02] transition-all group aspect-square">
+        document.getElementById('open-when-grid').innerHTML = OPEN_WHEN_DATA.map((card, index) => `
+            <button data-index="${index}" class="open-when-card-btn flex flex-col items-center justify-center p-4 bg-white/80 rounded-2xl shadow-sm border border-white hover:shadow-md hover:scale-[1.02] transition-all group aspect-square">
                 <i data-lucide="${card.icon}" class="w-6 h-6 ${card.color} mb-2 opacity-70 group-hover:opacity-100"></i>
                 <span class="text-xs font-semibold text-gray-600 text-center leading-tight">${card.title}</span>
             </button>
         `).join('');
+
+        // EVENT LISTENERS PARA BOTONES CREADOS (Evita problemas con comillas y símbolos)
+        document.querySelectorAll('.letter-card-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = this.getAttribute('data-index');
+                const letter = LETTERS_DATA[index];
+                showGenericModal(letter.title, letter.date, letter.content, letter.icon, 'text-gray-600');
+            });
+        });
+
+        document.querySelectorAll('.open-when-card-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const index = this.getAttribute('data-index');
+                const card = OPEN_WHEN_DATA[index];
+                showGenericModal(card.title, 'Abrir Cuando...', card.content, card.icon, card.color);
+            });
+        });
 
         // MODAL LOGIC
         function showGenericModal(title, subtitle, content, icon, colorClass) {
