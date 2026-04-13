@@ -22,12 +22,13 @@
                     },
                     animation: { 
                         'float': 'float 6s ease-in-out infinite', 
-                        'bounce-slow': 'bounce 3s infinite', 
-                        'fade-in': 'fadeIn 1s ease-out' 
+                        'fade-in': 'fadeIn 1s ease-out',
+                        'slide-up': 'slideUp 0.5s ease-out forwards'
                     },
                     keyframes: { 
                         float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
-                        fadeIn: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
+                        fadeIn: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(50px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
                     }
                 }
             }
@@ -50,117 +51,60 @@
             border-left: 2px solid rgba(255,255,255,0.2);
         }
 
-        /* --- ANIMACIÓN 3D DEL LIBRO (MODAL) --- */
-        #book-modal {
-            backdrop-filter: blur(15px);
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-        #book-modal.active {
-            opacity: 1; pointer-events: all;
-        }
-
-        .scene {
-            width: 90vw; max-width: 800px;
-            height: 65vh; max-height: 550px;
-            perspective: 2500px;
-            display: flex; justify-content: center; align-items: center;
-        }
-
-        @media (max-width: 768px) {
-            .scene { width: 95vw; height: 50vh; }
-        }
-
-        .book {
-            position: relative;
-            width: 100%; height: 100%;
-            transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            /* Estado inicial: cerrado, por lo tanto centramos la mitad derecha */
-            transform: translateX(25%); 
-        }
-
-        /* Ajuste de posición del libro al abrir páginas */
-        .book.open { transform: translateX(0%); }
-        .book.closed-back { transform: translateX(-25%); }
-
-        .paper {
-            position: absolute;
-            width: 50%; height: 100%;
-            right: 0; top: 0;
-            transform-style: preserve-3d;
-            transform-origin: left center;
-            transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-            cursor: pointer;
-        }
-
-        .front, .back {
-            position: absolute;
-            width: 100%; height: 100%;
-            backface-visibility: hidden;
-            display: flex; flex-direction: column;
-            overflow: hidden;
-        }
-
-        /* Sombras para dar profundidad al pliegue central */
-        .front::before, .back::before {
-            content: ''; position: absolute; top: 0; bottom: 0; width: 30px; z-index: 10; pointer-events: none;
-        }
-        .front::before { left: 0; background: linear-gradient(to right, rgba(0,0,0,0.15), transparent); }
-        .back::before { right: 0; background: linear-gradient(to left, rgba(0,0,0,0.15), transparent); }
-
-        .front {
-            border-radius: 0 6px 6px 0;
-            transform: rotateY(0deg);
-        }
-        
-        .back {
-            border-radius: 6px 0 0 6px;
-            transform: rotateY(180deg);
-        }
-
-        .flipped {
-            transform: rotateY(-180deg);
-        }
-
-        /* Estilos de las páginas internas */
-        .page-content {
-            background-color: #FDFBF7;
+        /* --- MODO LECTOR (NUEVO) --- */
+        #reader-modal {
+            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            background-color: #FDFBF7; /* Color de papel cálido */
             background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+        }
+        
+        #reader-modal.active {
+            opacity: 1; pointer-events: all; transform: translateY(0);
+        }
+        
+        #reader-modal.hidden-state {
+            opacity: 0; pointer-events: none; transform: translateY(20px);
+        }
+
+        /* Tipografía y formato del lector */
+        .reader-text p {
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
             color: #333;
-            width: 100%; height: 100%;
-            padding: 2rem 1.5rem;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.02);
-            position: relative;
-        }
-        
-        @media (max-width: 768px) {
-            .page-content { padding: 1.25rem 1rem; }
         }
 
-        /* Portadas duras */
-        .hardcover .front, .hardcover .back {
-            background-color: var(--cover-color, #4A154B);
-            border: 2px solid rgba(0,0,0,0.1);
+        /* Letra capitular para dar estilo de libro clásico al primer párrafo */
+        .reader-text > div:not(.dedicatoria):first-child p:first-of-type::first-letter {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            float: left;
+            line-height: 0.8;
+            padding-right: 0.5rem;
+            padding-top: 0.2rem;
+            font-weight: bold;
+            color: var(--theme-color, #4A154B);
         }
-        .hardcover .front { border-radius: 0 8px 8px 0; box-shadow: 4px 4px 15px rgba(0,0,0,0.2); }
-        .hardcover .back { border-radius: 8px 0 0 8px; box-shadow: -4px 4px 15px rgba(0,0,0,0.2); }
         
-        /* Páginas interiores */
-        .page-content p {
-            margin-bottom: 1rem;
-            line-height: 1.6;
-            text-align: justify;
+        /* Estilos para etiquetas <strong> dentro del contenido (para títulos de capítulos) */
+        .reader-text strong {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--theme-color, #4A154B);
+            display: block;
+            margin-top: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
         }
-        .page-number {
-            position: absolute; bottom: 15px; font-size: 0.75rem; color: #999;
-        }
-        .front .page-number { right: 20px; }
-        .back .page-number { left: 20px; }
 
-        /* Ocultar barra de scroll en páginas */
-        .scrollable-page { overflow-y: auto; scrollbar-width: none; -ms-overflow-style: none; }
-        .scrollable-page::-webkit-scrollbar { display: none; }
+        /* Estilo para la dedicatoria en el libro 5 */
+        .dedicatoria {
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            color: #555;
+        }
     </style>
 </head>
 <body class="flex flex-col min-h-screen">
@@ -210,7 +154,7 @@
             </div>
 
             <!-- Grid de Libros -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12" id="books-grid">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 md:gap-12" id="books-grid">
                 <!-- Se inyectan con JS -->
             </div>
         </div>
@@ -221,37 +165,43 @@
         <p class="opacity-50">Para Nadia, gracias por todo.</p>
     </footer>
 
-    <!-- MODAL LECTOR DE LIBRO 3D -->
-    <div id="book-modal" class="fixed inset-0 z-50 flex flex-col items-center justify-center bg-gray-900/40">
+    <!-- MODAL LECTOR (NUEVO DISEÑO PARA TEXTOS LARGOS) -->
+    <div id="reader-modal" class="fixed inset-0 z-50 overflow-y-auto hidden-state flex flex-col">
         
-        <!-- Controles Superiores -->
-        <div class="absolute top-0 left-0 w-full p-4 md:p-6 flex justify-between items-center z-50">
-            <div class="text-white/80 text-xs md:text-sm font-light tracking-widest uppercase flex items-center gap-2">
-                <i data-lucide="book-open" class="w-4 h-4"></i> <span id="modal-book-title">Leyendo...</span>
+        <!-- Barra de Navegación del Lector -->
+        <div class="sticky top-0 w-full p-4 md:px-8 flex justify-between items-center z-50 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-gray-200/50 shadow-sm">
+            <div class="text-gray-500 text-xs md:text-sm font-light tracking-widest uppercase flex items-center gap-2">
+                <i data-lucide="book-open" class="w-4 h-4"></i> <span id="reader-nav-title" class="text-gray-800 font-medium truncate max-w-[200px] md:max-w-md">Leyendo...</span>
             </div>
-            <button id="close-book-btn" class="text-white/80 hover:text-white bg-black/20 hover:bg-black/40 p-2 rounded-full backdrop-blur-md transition-all">
+            <button id="close-reader-btn" class="text-gray-500 hover:text-rose-500 hover:bg-gray-200/50 p-2 rounded-full transition-all">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
         </div>
 
-        <!-- Escena 3D -->
-        <div class="scene">
-            <div class="book" id="book-element">
-                <!-- Las páginas se inyectan con JS -->
+        <!-- Portada Interna (Cabecera del Lector) -->
+        <div id="reader-cover" class="w-full min-h-[35vh] flex flex-col items-center justify-center p-8 text-center relative overflow-hidden shrink-0">
+            <div id="reader-cover-bg" class="absolute inset-0 z-0 opacity-95"></div>
+            <div class="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
+                <span id="reader-author" class="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] opacity-80 mb-4 block"></span>
+                <h1 id="reader-title" class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8 drop-shadow-md"></h1>
+                <div class="w-12 h-[2px] bg-white/40 mb-4"></div>
+                <span id="reader-date" class="font-sans text-xs opacity-70"></span>
             </div>
         </div>
 
-        <!-- Instrucciones y Controles Móviles -->
-        <div class="absolute bottom-8 left-0 w-full flex justify-center items-center gap-6 z-50">
-            <button id="prev-page-btn" class="md:hidden bg-white/10 hover:bg-white/20 backdrop-blur-md text-white p-3 rounded-full transition-colors shadow-lg">
-                <i data-lucide="chevron-left" class="w-6 h-6"></i>
-            </button>
-            <p class="text-white/70 text-[10px] md:text-sm font-light tracking-widest uppercase bg-black/20 px-4 py-2 rounded-full backdrop-blur-md">
-                Toca los lados para girar la página
-            </p>
-            <button id="next-page-btn" class="md:hidden bg-white/10 hover:bg-white/20 backdrop-blur-md text-white p-3 rounded-full transition-colors shadow-lg">
-                <i data-lucide="chevron-right" class="w-6 h-6"></i>
-            </button>
+        <!-- Contenido de Lectura -->
+        <div class="flex-grow w-full">
+            <div class="max-w-2xl mx-auto px-6 py-12 md:py-20">
+                <div id="reader-content" class="reader-text font-serif text-[1.1rem] md:text-[1.25rem] text-gray-800">
+                    <!-- El texto se inyecta aquí -->
+                </div>
+                
+                <!-- Fin del Relato -->
+                <div class="mt-24 mb-12 flex flex-col items-center justify-center text-center opacity-70">
+                    <i data-lucide="feather" class="w-6 h-6 text-gray-400 mb-4"></i>
+                    <span class="font-serif italic text-gray-500 text-sm">Fin de la lectura</span>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -260,44 +210,129 @@
         const libraryData = [
             {
                 id: "book1",
-                title: "El Primer Día",
+                title: "Bitácora de una Batalla",
                 author: "Luis",
-                color: "#701A33", // Rose/Burgundy oscuro
-                textColor: "#F7CAD0",
-                coverDate: "Octubre 2023",
+                color: "#18181b", // Zinc oscuro
+                textColor: "#d4d4d8",
+                coverDate: "10 de noviembre de 2025, 5:06 p.m.",
                 pages: [
-                    "Aún recuerdo el primer día que hablamos de verdad. Había un aire distinto en la habitación, como si el destino hubiera decidido que a partir de ese instante las cosas iban a cambiar para siempre.",
-                    "Me miraste y sonreíste. No fue una sonrisa cualquiera, fue esa que guardas para cuando algo realmente te da paz. Desde ese momento, supe que quería ser el motivo de esa sonrisa todos los días.",
-                    "El tiempo parecía detenerse cuando estábamos juntos. Las horas se hacían minutos y las despedidas siempre eran demasiado pronto. Era un pequeño infinito en un mundo ordinario.",
-                    "Y así comenzó nuestra historia. Sin planearlo, sin buscarlo, pero encontrando exactamente lo que ambos necesitábamos. El primer capítulo del mejor libro de mi vida."
+                    `<strong>Capítulo 1: El Cansancio de la Batalla</strong><p>Estoy harto.</p><p>Estoy harto de la sombra. De esa sombra larga que proyecta el pasado, de un error que cometí hace meses pero que sigue teniendo un voto en mi presente. Estoy harto de que tenga el poder de arruinar un día que podría haber sido perfecto.</p>`,
+                    `<p>Estoy harto de la culpa, sí, pero más que eso, estoy harto de su efecto. De la tristeza que te causé y de la tristeza que siento cada vez que veo que mis acciones pasadas todavía tienen el poder de lastimarte. Estoy harto de este ciclo vicioso, esta trampa que se repite: El pasado vuelve. Tú te sientes mal, con justa razón. Yo me siento culpable, también con justa razón. Y la conexión que tanto amamos, se rompe. Y volvemos a empezar.</p>`,
+                    `<p>Pero más que nada, estoy harto de la ironía.</p><p>Es el infierno más frustrante que existe. Ahora que por fin estoy siendo cien por ciento honesto, ahora que estoy poniendo la verdad absoluta sobre la mesa aunque me muera de miedo... mi verdad suena increíble, precisamente por culpa de las mentiras que dije antes. Es como estar gritando la verdad en una habitación donde todos piensan que sigues mintiendo. Estoy harto de tener que pagar el precio de la desconfianza que yo mismo sembré.</p>`,
+                    `<p>Estoy agotado del pasado. Se siente como correr en lodo. Cada vez que avanzamos y construimos algo bueno, el pasado me jala el pie y me hunde otra vez. Quiero construir un futuro contigo, pero siempre tengo que detenerme a parchar la grieta que yo mismo hice.</p>`,
+                    `<p>Y sí, estoy harto de mí mismo. Pero tengo que ser específico.</p><p>Estoy asqueado de la versión de mí que causó todo esto. Estoy harto del "yo de antes", de ese cobarde inmaduro que prefirió la comodidad de una mentira al valor de la verdad.</p>`,
+                    `<p>Pero no estoy harto de quien soy hoy.</p><p>Porque el "yo de ahora" está luchando. El "yo de ahora" es el que está teniendo las conversaciones incómodas, el que te está eligiendo con honestidad cada día. Pero estoy harto de que el "yo de antes" le siga pasando la factura al "yo de ahora".</p>`,
+                    `<p>Si me preguntas cómo se siente todo esto... es un peso constante. Como traer una mochila llena de piedras que yo mismo decidí meter ahí. Cada día me levanto y me la tengo que volver a poner. A veces, es un nudo en el pecho, justo cuando pienso que todo está bien, una palabra o una duda hace que todo se apriete y me cuesta respirar, porque el pánico a que todo se rompa de nuevo, vuelve.</p>`,
+                    `<p>Es un agotamiento mental profundo. La fatiga de estar en alerta máxima todo el tiempo. La fatiga de tener que probar, cada segundo de cada día, que el "yo de ahora", el que te ama, es real, y que el fantasma del "yo de antes" por fin se murió.</p><p>Es, simplemente, el cansancio de la batalla.</p>`,
+                    `<strong>Capítulo 2: El Amor Inquebrantable</strong><p>Si el capítulo anterior fue sobre la batalla, este es sobre la razón por la que lucho.</p><p>Es ella. Y el amor que siento por ella.</p><p>Es un amor que no sé cómo describir sin usar una contradicción: se siente como electricidad y como refugio, todo al mismo tiempo. Y de alguna manera, esa contradicción tiene todo el sentido del mundo.</p>`,
+                    `<p>Amo su inteligencia, la forma en que su mente trabaja y me reta a ver el mundo de maneras que yo no había considerado. Me inspira. Amo su fuerza, pero también amo su vulnerabilidad, el coraje que tuvo de mostrarme sus propias cicatrices, un acto que me dio el valor de mostrarle las mías.</p>`,
+                    `<p>Pero lo que más amo, lo que está en el centro de todo, es que ella ve todas mis versiones.</p><p>Ve mi "intensidad" y mi "creatividad", la de los poemas y no solo no se asusta, sino que lo admira. Ve al hombre que estoy tratando de ser cada día y, en lugar de juzgar al hombre que fui, apoya al que estoy construyendo.</p>`,
+                    `<p>Con ella, me siento en casa. Pero no es un hogar aburrido y estático. Es un hogar lleno de magia, de retos y de crecimiento.</p><p>Este amor no es una teoría; está probado en momentos muy claros que se repiten en mi mente.</p><p>Pienso en El Inicio, en ese parque. El primer beso. Fue pura magia, un momento sin lógica donde el destino parecía estar empujándonos y el mundo se detuvo.</p>`,
+                    `<p>Y pienso en La Complicidad de hoy. En cada chiste que hacemos en nuestro Google Sheets, cada vez que me dice que soy bueno escribiendo. Esos momentos son la prueba de que no solo somos nuestro pasado; somos un equipo que se divierte, que crea y que sigue construyendo algo nuevo, algo nuestro.</p>`,
+                    `<p>¿Por qué es el amor de mi vida?</p><p>Porque me hace sentir inspirado y, al mismo tiempo, me da una paz que nunca antes había sentido. Antes de ella, yo era solo caos. Era impulsivo, intenso, pero sin dirección. Ella es mi propósito.</p><p>Es el amor de mi vida porque no es un amor que "encontré" por casualidad. Es un amor que ambos estamos eligiendo construir activamente, todos los días, ladrillo por ladrillo.</p>`,
+                    `<p>Y por encima de todo, es el amor de mi vida porque sobrevivió.</p><p>Sobrevivió a mi peor versión. Sobrevivió a la verdad más fea. Un amor que puede pasar por ese infierno y salir del otro lado todavía sosteniendo un "te amo", no es un amor común.</p><p>Es inquebrantable.</p>`,
+                    `<p>Ella es el amor de mi vida porque me hace querer ser la mejor versión de mí. No por miedo, sino por pura admiración a ella. Quiero ser, cada día, el hombre que ella merece.</p><p>Ella es mi musa y es mi refugio. Es mi todo.</p>`,
+                    `<strong>Capítulo 3: El Miedo Más Profundo</strong><p>Si el amor inquebrantable es la razón por la que lucho, este capítulo es sobre lo que me aterroriza perder.</p><p>"Perderla".</p><p>Esa palabra no significa una pelea dramática para mí. No es un portazo, no son gritos. Para mí, "perderla" es un sonido: el silencio.</p>`,
+                    `<p>Es el escenario donde me despierto un día, agarro el teléfono, y me doy cuenta de que no hay un "buenos días, corazón". Es abrir nuestro Google Sheet y ver que la última edición en el chat fue hace tres días. Es ver que el "Archivador Automático" que construí para nosotros sigue corriendo fielmente a la 1 AM, pero ahora solo está archivando días vacíos.</p>`,
+                    `<p>"Perderla" es que ella deje de mandarme sus ideas o de pedirme ayuda con las herramientas que construí para los dos.</p><p>Es la muerte de la conexión. Es la normalidad volviéndose gris otra vez. Es el silencio donde antes había música.</p><p>Y lo que más me asusta de ese silencio no es el silencio en sí, sino la permanencia. El saber que es irreversible.</p>`,
+                    `<p>Me asusta darme cuenta de que el yo de ahora, que estoy construyendo, falló. Que todo el esfuerzo y la honestidad final... no fueron suficientes para sanar el daño que hizo el "yo de antes". Me asusta que el amor, nuestro amor, no haya sido suficiente para ganarle a la herida.</p>`,
+                    `<p>Y me aterroriza que ella vuelva a "soportar sus pensamientos" sola, como me dijo una vez. Me asusta que esté sufriendo en silencio, y que yo ya no tenga el derecho de ser su ancla.</p><p>¿Que si me asusta estar solo? Sí. Pero no es la soledad física. Es el retroceso. Es el miedo de volver a ser el "yo de antes", el que estaba perdido, sin dirección, el que se sentía vacío. Ella es mi propósito. Perderla es perder mi "por qué".</p>`,
+                    `<p>¿Que si me asusta que ella sufra? Me destroza. La culpa de haberla lastimado es el motor principal de mi cambio. Si la pierdo, significa que su dolor fue más grande que mi capacidad de sanarla. Y esa culpa es un peso insoportable.</p><p>Pero si me preguntas por el miedo más profundo, el que está debajo de todos los demás, es este: El terror de haber arruinado la única cosa real que he tenido.</p>`,
+                    `<p>Es la suma de todo. Es el terror de saber que encontré la "magia", la única conexión "inquebrantable", la única persona que me vio por completo... y que fui yo, con mi propia cobardía y mi propio ego, quien la destruyó.</p><p>Es el miedo de vivir el resto de mi vida sabiendo que tuve el amor de mi vida en mis manos y lo dejé ir por no haber sido el hombre que debía ser desde el principio.</p><p>Es el miedo a la irreversibilidad.</p>`,
+                    `<strong>Capítulo 4: El Hombre que Mintió</strong><p>Para entender al hombre que soy hoy, el que lucha esta batalla, primero tengo que confesar quién fui. Tengo que hablar del hombre que mintió.</p><p>Esta es la verdad, sin filtros.</p><p>Si me pregunto: ¿Por qué mentí? La respuesta es la más simple y la más dolorosa: Mentí por cobardía.</p>`,
+                    `<p>No fue una sola cosa. Fue una tormenta perfecta de miedo. Fue miedo a tu reacción, sí. Fue miedo a la confrontación. Fue el miedo cobarde a perder la paz y la conexión increíble que estaba empezando a tener contigo.</p><p>En lugar de ser un hombre y enfrentar el problema, elegí el camino del cobarde. Elegí la "solución" fácil de corto plazo, y al hacerlo, creé un problema mil veces peor a largo plazo.</p>`,
+                    `<p>Tenía pánico de esa conversación. Estaba tan feliz contigo, y tan inseguro de mí mismo, que no creía que pudiera retenerte si sabías la verdad completa.</p><p>Y aquí está la verdad más dura: Mentí para protegerme a mí. No te estaba protegiendo a ti. Esa es la excusa vacía que uno se dice para justifycarlo. Estaba protegiendo mi propia comodidad. Estaba protegiéndome de las consecuencias de mis propias acciones, o de mi falta de acción.</p><p>Fue un acto de egoísmo puro.</p>`,
+                    `<p>Recuerdo la sensación. Justo antes de mentir, sentí pánico. Un nudo en el estómago que me ahogaba, adrenalina tóxica. Es la sensación de estar en una esquina, atrapado, sabiendo que la verdad me iba a estallar en la cara.</p><p>Esa versión de mí... era un cobarde. Una persona débil e inmadura que no tenía el valor de enfrentar sus problemas. Era alguien asustado que prefería la comodidad de una mentira a la dificultad de la verdad. Era alguien sin integridad, y alguien que no te merecía.</p>`,
+                    `<p>Hoy, el "yo de ahora" le diría a esa versión: "El dolor que estás a punto de causar, a ella y a ti mismo, es mil veces peor que el minuto de valor que te cuesta decir la verdad AHORA. Deja de actuar por impulso. Sé un hombre. ¿Te da miedo perderla? Pues con tus mentiras es la única forma en que te garantizas que SÍ la vas a perder. Respira hondo. Aguanta el golpe. Y di la verdad. La honestidad duele una vez. La mentira que estás a punto de decir va a doler para siempre. No lo arruines."</p>`,
+                    `<strong>Capítulo 5: El Peso de la Culpa</strong><p>La culpa que dejó el "Hombre que Mintió" no es un grito. No es un evento dramático. Es un zumbido.</p><p>Es un ruido constante, de fondo, que nunca se apaga del todo. Y se vuelve más fuerte en el silencio.</p><p>Cuando ella está callada, mi primera reacción, mi pánico sordo, no es pensar que está cansada. Es pensar: "¿Qué hice? ¿Está enojada por lo que pasó? ¿Se acordó de todo?".</p>`,
+                    `<p>La culpa me golpea en los momentos buenos. Cuando ella está triste, aunque sea por algo del trabajo, mi cerebro me grita que es mi culpa.</p><p>No es algo que me despierta en la noche. Es algo que me impide dormir en paz. Es una deuda que siento que nunca termino de pagar, sin importar cuántos poemas escriba.</p>`,
+                    `<p>Pero esta culpa no me hizo sentir "malo", en el sentido simple. Me hizo sentir algo peor: me hizo sentir incompetente.</p><p>Es como si, al haber fallado moralmente como novio y como hombre, ahora tuviera la obligación de ser perfecto en todo lo demás solo para tener algo de valor. Siento que si no soy el novio más atento , entonces no soy nada. Mi fracaso en la honestidad me hizo dudar de mi valor en todo lo demás. Es un pánico constante a no ser "suficiente".</p>`,
+                    `<p>Y el castigo que me he impuesto ha sido el autosabotaje.</p><p>Es esa voz en mi cabeza que me dice que no merezco ser feliz. Mi castigo ha sido sentir que no tengo derecho a tener necesidades. Siento que no merezco quejarme, que no merezco que me contesten rápido, que no merezco que me pongan como prioridad. He estado pagando la deuda sintiendo que no merezco ser su igual; que solo merezco ser su sirviente.</p>`,
+                    `<p>Todo esto ha cambiado, por supuesto, cómo me veo en el espejo. Antes, cuando vivía en la mentira, no podía mirarme. Veía a un cobarde, a un farsante. Odiaba a ese tipo.</p><p>Ahora... es diferente. Ya no veo a ese hombre. Pero tampoco veo todavía al hombre que quiero ser. Veo al proceso. Veo a un tipo cansado. Veo las ojeras de la batalla. Veo a un guerrero que está en el lodo, agotado, pero que sigue de pie. Ya no veo a un mentiroso, pero veo a alguien que todavía carga la cicatriz.</p>`
                 ]
             },
             {
                 id: "book2",
-                title: "Cartas al Tiempo",
+                title: "El Manual de lo Nuestro",
                 author: "Luis",
-                color: "#1E293B", // Slate oscuro
-                textColor: "#CBD5E1",
-                coverDate: "Invierno 2024",
+                color: "#8B3A3A", // Terracota / Rojo ladrillo oscuro
+                textColor: "#FDFBF7",
+                coverDate: "17 de septiembre de 2025, 1:46 p.m.",
                 pages: [
-                    "Si pudiera hablar con el tiempo, le pediría que fuera más lento. Le rogaría que me dejara guardar cada detalle de tu rostro, cada inflexión de tu voz.",
-                    "A veces me asusta lo rápido que se escapan los momentos. Un día estamos riendo bajo la lluvia y al siguiente, es solo un recuerdo fotográfico en mi mente. Pero qué hermosos recuerdos.",
-                    "He escrito cientos de cartas mentales que nunca te entregué. Cartas donde te digo que eres mi lugar seguro, mi faro cuando todo se vuelve oscuro.",
-                    "Quizás el tiempo sea efímero, pero lo que grabamos en él es eterno. Estas páginas son mi intento de hacer inmortales los segundos que compartimos."
+                    `<strong>Introducción: Empezar en el Kilómetro Cero (No en Cero)</strong><p>Mi amor,</p><p>No te voy a pedir que "empecemos de cero".</p><p>Empezar de cero es una mentira. Es un insulto a tu dolor y una amnesia para mis errores. El cero no existe. El pasado pasó, y la herida que te causé es real.</p><p>Pero te ofrezco algo mucho más poderoso: te ofrezco empezar en el "Kilómetro Cero".</p><p>El Kilómetro Cero no es un borrón y cuenta nueva. Es el punto de partida de un camino que no existía antes. Un camino que construiremos juntos, no a pesar de lo que pasó, sino gracias a la lección que nos enseñó.</p><p>Ya no hay promesas vacías. Ya no hay súplicas desesperadas.</p><p>Este libro es un plan. Es un manual de operaciones. Es la arquitectura de nuestra reconstrucción.</p><p>Contiene las reglas que nos protegerán, las acciones que tomaremos y las herramientas que usaremos para asegurarnos de que cada ladrillo que pongamos esté hecho de una honestidad que ya no se puede romper.</p><p>Este es el manual de "lo nuestro". Y no es un libro que yo escribo solo para ti. Es el primer borrador del libro que, si tú aceptas, empezaremos a escribir juntos a partir de hoy.</p>`,
+                    `<strong>Capítulo 1: La Regla de la Transparencia Absoluta</strong><p>La antigua "regla" de nuestra relación, la que yo impuse con mi miedo, era el silencio. Era la creencia estúpida de que "lo que no sabe no le hace daño".</p><p>Esa regla está muerta.</p><p>Hoy, la enterramos y construimos la primera ley de nuestro Kilómetro Cero. Es la única regla que garantiza que esta nueva casa no se derrumbe.</p><p>La Regla de la Transparencia Absoluta.</p><p>Y esto no es poesía. Es un término técnico. Significa:</p><p>No más sorpresas: Nunca más te enterarás de algo importante por alguien que no sea yo.</p><p>No más silencios por "comodidad": Se acabaron las conversaciones difíciles que se evitan. Si algo me incomoda, si algo me da miedo, si algo tiene que ver contigo, lo sabrás. Elijo la incomodidad temporal de una verdad dura por encima de la falsa paz de un silencio cómodo.</p><p>No más "zonas grises": La confianza no sobrevive en la ambigüedad. Mi vida es un libro abierto para ti.</p><p>No más "protegerte": El error más grande fue creer que mentirte era una forma de protegerte. Ahora entiendo que la única forma de proteger "lo nuestro" es protegiendo la verdad.</p><p>Esta transparencia no es una opción. No es algo que haré "la mayoría del tiempo".</p><p>Es el aire que vamos a respirar.</p><p>Entiendo que, al principio, la carga de esta regla recae 99% sobre mí. Soy yo quien tiene que probar que esta ley es real. Y estoy listo para hacerlo. Esta es mi primera y más importante promesa de acción.</p>`,
+                    `<strong>Capítulo 2: El Protocolo para la Duda (Tu Derecho a Desconfiar)</strong><p>Mi amor, mi confianza está rota. Sería un imbécil si pretendiera que, solo por este libro, tú vas a despertar mañana confiando en mí al 100%.</p><p>No va a pasar. Y está bien.</p><p>Habrá días en que una sombra del pasado te golpee. Habrá momentos en que leas un mensaje mío y la herida vieja te haga dudar. Te sentirás insegura. Tendrás miedo.</p><p>En el pasado, tu intuición te gritaba y yo la silenciaba. Eso se acabó.</p><p>Bienvenida a la segunda regla de nuestro Kilómetro Cero: El Protocolo para la Duda.</p><p>A partir de hoy, tienes el derecho absoluto e innegable a dudar. Tu duda no me ofende. Tu miedo no me enoja. Es la consecuencia lógica de mis acciones, y la acepto.</p><p>Pero no vamos a dejar que esa duda gane. Así es como la vamos a manejar juntos:</p><p>1. Tu Derecho: Hablarlo. En el segundo que sientas esa punzada de miedo, esa inseguridad, no te la vas a guardar. No vas a dejar que crezca en el silencio. Tu única responsabilidad es decírmelo. "Tengo miedo", "Me acordé de esto", "Me siento insegura ahora mismo".</p><p>2. Mi Obligación: Escucharte (Sin Defenderme). Este es mi trabajo. Cuando tú vengas a mí con esa duda, NO me voy a defender. NO te voy a decir "ya hablamos de esto". NO me voy a frustrar.</p><p>Mi única respuesta será: "Gracias por decírmelo". "Entiendo por qué te sientes así".</p><p>3. Mi Acción: Darte Paz. Mi reacción inmediata será la calma y la transparencia. Te voy a abrazar (física o verbalmente) y te daré la certeza que necesitas en ese momento. ¿Necesitas una respuesta? Te la doy. ¿Necesitas que te escuche? Te escucho.</p><p>El objetivo de este protocolo no es que dejes de dudar mágicamente. El objetivo es que cada vez que la duda aparezca, la recibamos juntos con tanta honestidad y calma, que la duda pierda su poder.</p><p>Repetiremos este protocolo cien veces si es necesario. Mil veces. Lo haremos hasta que los días buenos sean tantos, que los días malos se queden sin argumentos.</p><p>Tu paz es la prioridad. Y este protocolo es el escudo para protegerla.</p>`,
+                    `<strong>Capítulo 3: La Arquitectura de la Confianza (El Ladrillo Diario)</strong><p>Las grandes promesas y los protocolos de emergencia son la base. Pero una casa no se construye solo con cimientos y alarmas contra incendios. Se construye con el trabajo diario, ladrillo a ladrillo.</p><p>La confianza no va a volver de golpe. No va a volver con un gran gesto, ni siquiera con este libro.</p><p>La confianza va a volver un martes por la tarde. Un jueves por la mañana. Volverá en los momentos pequeños, aburridos y consistentes.</p><p>Este es nuestro plan de arquitectura: El Ladrillo Diario.</p><p>¿Qué es un "ladrillo"?</p><p>Es un "buenos días", enviado a tiempo, que te da paz.</p><p>Es un "¿cómo te sientes hoy?", donde genuinamente me quedo a escuchar la respuesta.</p><p>Es una acción mía que coincide exactamente con una palabra que te dije la semana pasada.</p><p>Es cada vez que aplicamos con éxito el "Protocolo para la Duda" (Cap 2), y tú te vas a dormir sintiéndote un 1% más segura que el día anterior.</p><p>Es cada vez que cumplo la "Regla de Transparencia" (Cap 1), aunque sea incómodo para mí.</p><p>Un solo ladrillo no significa nada. Cien ladrillos pueden parecer un desorden. Pero mil ladrillos, puestos con paciencia, uno cada día, en el mismo lugar, con la misma intención... mil ladrillos construyen una fortaleza.</p><p>Esta es mi promesa de acción más importante. No te pido que confíes en mí hoy. Te pido que me dejes poner el ladrillo de hoy. Y el de mañana. Y el de pasado mañana.</p><p>Te pido que me dejes demostrarte, en lo cotidiano (en nuestro chat, en nuestras llamadas, en nuestras citas), que estoy comprometido con el trabajo manual de reconstruir nuestro hogar.</p><p>La paciencia es mi nueva herramienta. Y la consistencia será mi prueba.</p>`,
+                    `<strong>Capítulo 4: Prohibido Dejar de Reír</strong><p>Hay un peligro silencioso en una reconstrucción como la nuestra.</p><p>El peligro es que, en nuestro esfuerzo por ser serios, honestos y transparentes, nos olvidemos de ser nosotros.</p><p>El pasado que intentamos sanar fue pesado. Fue doloroso y solemne. Y es muy fácil dejar que esa solemnidad lo infecte todo, que cada conversación se vuelva una terapia y que cada mirada sea un análisis.</p><p>No lo voy a permitir.</p><p>Por eso, la cuarta regla de este manual es tan importante como las tres primeras: Prohibido Dejar de Reír.</p><p>Esta no es una regla frívola. Es una estrategia de guerra. Es nuestra arma más poderosa contra el pasado.</p><p>Nuestra conexión real, la que sé que sigue ahí, no se basaba en el drama. Se basaba en la complicidad. En las bromas internas que nadie más entendía. En los gustos compartidos que nos hacían sentir un equipo. En la ternura de las conversaciones sin filtro.</p><p>Esa ligereza, esa risa, es el "nosotros" que estoy luchando por salvar.</p><p>Nos comprometo a ambos, pero especialmente a mí, a buscar activamente nuestra risa. Nos comprometo a no dejar que el fantasma de mi error se siente a la mesa con nosotros, ni vea películas con nosotros, ni nos arruine un chiste.</p><p>La risa es la prueba de que el presente es más fuerte que el pasado.</p><p>La primera vez que te rías conmigo, con total abandono, sin un rastro de duda en tu mirada... ese día sabremos que estamos ganando. Y vamos a pelear por ese día, todos los días.</p>`,
+                    `<strong>Capítulo 5: El Contrato de "Corazón" y "Vida"</strong><p>Durante mucho tiempo, nuestros apodos han sido mi forma de decirte lo que significas para mí: mi "Corazón", mi "Vida".</p><p>Eran la verdad, pero en el pasado, eran una verdad pasiva. Hoy, en el Kilómetro Cero, esas palabras se convierten en un contrato. Se convierten en nuestro recordatorio de trabajo.</p><p>Este es el "Contrato de Corazón y Vida".</p><p>Mi Compromiso como tu "Vida":</p><p>Si soy tu "Vida", mi deber es darte vida, no quitártela.</p><p>Me comprometo a ser tu fuente de energía, no de agotamiento.</p><p>Me comprometo a ser tu paz, no tu ansiedad.</p><p>Me comprometo a ser tu aire fresco, no el humo que te impide respirar.</p><p>Mi trabajo es construir, nutrir y proteger tu calma con cada acción, como lo dictan los capítulos anteriores (Transparencia, Protocolo para la Duda, Ladrillo Diario).</p><p>Mi Petición (Tu Rol como mi "Corazón"):</p><p>Tú eres mi "Corazón". Eres el centro que me mantiene cuerdo y enfocado.</p><p>Tu rol no es perdonarme por obligación. Tu rol es seguir siendo mi brújula moral.</p><p>Te pido que sigas siendo el centro. Que cuando me veas flaquear o desviarme, me lo recuerdes.</p><p>Tu trabajo es seguir latiendo con honestidad, especialmente en los momentos en que yo más necesite escuchar la verdad (como lo dicta el Protocolo para la Duda).</p><p>Este contrato es nuestro recordatorio mutuo. Yo trabajo para ser la "Vida" que mereces. Y tú eres el "Corazón" que me recuerda por qué lo hago. Es un acuerdo de interdependencia, donde mis acciones te dan paz y tu presencia me da propósito.</p>`,
+                    `<strong>Capítulo 6: El Futuro (Una Página en Blanco para Dos)</strong><p>Has llegado al final de este manual.</p><p>En estas páginas, te he ofrecido las herramientas que he podido construir a partir de mis errores: la Transparencia (Cap 1), el Protocolo para la Duda (Cap 2), el Ladrillo Diario (Cap 3), la Risa (Cap 4) y nuestro Contrato (Cap 5).</p><p>Este es el plan. Es la arquitectura de la casa que yo me comprometo a construir. Es mi mitad del trabajo, definida y por escrito.</p><p>Pero el manual está incompleto. Y debe estarlo.</p><p>Porque un "nosotros" no lo puede escribir un "yo".</p><p>Este es el último capítulo, y es diferente a todos los demás. Es una página en blanco. Es el espacio que te he estado guardando, el espacio que mi egoísmo y mis miedos ocupaban antes.</p><p>Este capítulo no tiene reglas mías, ni protocolos, ni promesas unilaterales.</p><p>Este capítulo solo tiene una pregunta: "¿Qué construimos aquí ahora?"</p><p>Es tu turno de tomar la pluma. No para firmar mi plan, sino para empezar a co-escribir el nuestro. Para añadir tus propias reglas, tus necesidades, tus sueños para este "Kilómetro Cero".</p><p>Este manual es la prueba de mi compromiso total. Pero el futuro, nuestro verdadero futuro, es el libro que solo podemos escribir juntos.</p><p>Estoy listo. El bolígrafo está aquí. ¿Empezamos?</p>`
                 ]
             },
             {
                 id: "book3",
-                title: "Pequeños Detalles",
-                author: "Nadia & Luis",
-                color: "#312E81", // Indigo profundo
-                textColor: "#E0E7FF",
-                coverDate: "Primavera 2025",
+                title: "Demasiado Tarde",
+                author: "Luis",
+                color: "#1e293b", // Slate oscuro / Gris carbón
+                textColor: "#e2e8f0",
+                coverDate: "19 de agosto de 2025, 4:42 a.m.",
                 pages: [
-                    "Son los pequeños detalles los que construyen los grandes amores. No son los fuegos artificiales, sino el café por la mañana y el mensaje de 'llegué bien'.",
-                    "Amo cómo se te arruga la nariz cuando ríes y cómo siempre buscas mi mano cuando caminamos por la calle. Esas pequeñas cosas son mi hogar.",
-                    "Guardo aquella flor marchita en el libro de poesía, el boleto de cine de nuestra primera cita y la envoltura del dulce que compartimos.",
-                    "Porque al final, cuando todo se reduce a su esencia, lo único que importa es la constelación de pequeños detalles que formamos juntos."
+                    `<strong>Prólogo</strong><p>El silencio tiene un peso.</p><p>El mío tiene la forma exacta de su espalda mientras se alejaba. O quizás tiene la forma de sus ojos llenándose de lágrimas. Da igual. Es pesado, y está aquí, y no me deja respirar.</p><p>Dicen que la gente puede cambiar. Es una de esas frases bonitas que te pones en la biografía de Instagram. Lo que no te dicen es que el pasado no. El pasado es una maldita estatua de marmol. No puedes moverlo, no puedes pedirle perdón. Solo puedes sentarte a su lado y ver cómo jode todo lo que intentas construir.</p><p>Yo cambié.</p>`,
+                    `<p>Me convertí en el hombre que ella merecía. Aprendí a ser honesto. Aprendí a escuchar. Aprendí a poner a alguien más antes que a mi propio egoísmo. Dejé de ser el insensible que solo sabía tomar y destruir.</p><p>Pero aquí está la verdadera tragedia, lo que me tiene despierto a las tres de la mañana: logré cambiar, pero demasiado tarde.</p><p>Aprendí a amar de verdad, y la primera lección fue que el "yo" de ahora tenía que pagar la deuda del "yo" de antes.</p><p>¿Cómo le pides que confíe en tus manos, si esas mismas manos fueron las que hicieron mas difícil el camino? ¿Cómo le juras que esta vez es real, si tu voz es la misma que usaste para mentirle mirándola a los ojos? ¿De qué sirve ser el hombre correcto ahora, si los recuerdos que ella tiene son del hombre equivocado? ¿Para qué me sirve este nuevo corazón, si el daño que hice con el viejo ya es irreparable? Y al final... ¿cómo le demuestro que la amo más que a nada, si la única prueba de amor definitiva que me queda es soltarla para que, por fin, pueda sanar lejos de mí?</p>`,
+                    `<p>El hombre que soy ahora la ama con una intensidad que me parte los huesos.</p><p>El hombre que era antes se aseguró de que ella nunca pudiera creerme.</p><p>Esta no es una historia sobre cómo el amor me salvó. Es la historia de cómo la encontré, y en mi intento de convertirme en alguien digno de ella, tuve que aceptar que el daño ya estaba hecho.</p>`,
+                    `<strong>CAPÍTULO 1</strong><p>Mi vida, en ese entonces, funcionaba con un motor principal, mi ego. Mis decisiones no se basaban en el bien o el mal, sino en lo que me hacía sentir bien a mí. Lo que me daba validación. Y tenía un talento especial para compartir.</p><p>Tenía mi vida. Y en mi vida, había otra persona. Una costumbre. Una relación de esas que no van a ningún lado pero que te sirven para no sentirte solo el sábado por la noche. No era amor, era... conveniencia.</p><p>Y entonces, en el trabajo, empecé a notarla.</p><p>No fue un plan, fue una distracción, unas "miraditas".</p><p>Y poco a poco, sin darme cuenta, me fui acercando.</p>`,
+                    `<p>Empezamos a hablar. Primero de trabajo, luego de estupideces. Y por primera vez en años, yo no estaba "jugando". Estaba disfrutando, me hacía reír, me hacía sentir... ligero, ser yo.</p><p>Aquí es donde cualquier persona normal habría puesto un freno. Habría dicho: "Espera. Estás sintiendo algo real por esta mujer. Tienes que arreglar tu otra situación".</p><p>Pero yo no era normal. Era un imbécil.</p><p>Y así, mientras me enamoraba perdidamente de ella por un lado, seguía manteniendo mi otra vida por el otro.</p><p>Aquí empezaron los errores. Las mentiras.</p><p>Las mentiras no fueron para conquistarla. Las mentiras fueron para ocultar.</p><p>Solo decía puras mentiras cobardes.</p><p>Y ella me creía.</p>`,
+                    `<p>¿Por qué no iba a hacerlo? Ella, que era toda luz y honestidad, no podía ni pensar que el tipo que la miraba como si fuera magia, le estuviera mintiendo en la cara.</p><p>Cada día que pasaba, lo que sentía por ella crecía. Era real. Era lo más real que había sentido en mi puta vida. Pero cada mentira que contaba para proteger mi "otra vida" era una palada de tierra.</p><p>No era un insensible que no sentía nada. Era peor. Era un cobarde que lo sentía todo por ella, pero que amaba más a su propio ego como para soltar lo demás.</p><p>Yo era el "yo" que se estaba enamorando. Y también era el "yo" que la estaba engañando.</p><p>Ambos éramos la misma persona.</p><p>Me estaba convirtiendo en el hombre de su vida y, al mismo tiempo, en la peor decepción que jamás tendría. Y lo peor de todo... es que yo lo sabía. Y seguí cavando.</p>`,
+                    `<strong>CAPÍTULO 2</strong><p>El enamoramiento por ella fue una revelación y una condena a partes iguales.</p><p>Era el amor más puro, más real, que jamás había sentido. Ella me desnudó el alma sin siquiera tocarme, me hizo desear ser un hombre de verdad, cambiar. Con ella, yo era la mejor versión de mí.</p><p>Pero esa versión solo existía en el espacio que las mentiras me permitían construir.</p><p>Mi ego no era un villano. Era alguien con mucho miedo. No me permitía terminar con mi otra situación. El miedo a la confrontación, el pánico a ser visto como el "malo" por el mundo exterior, era más fuerte que el respeto que le debía a la mujer que amaba.</p><p>Y así, mientras mi corazón se llenaba de ella, mi vida se vaciaba de honestidad.</p>`,
+                    `<p>La dualidad era mi infierno personal. Por un lado, la alegría de su presencia, la ligereza de su risa, la promesa de un futuro brillante, hermoso. Por el otro, la culpa era un nudo constante y frío en el estómago y garganta.</p><p>Cada vez que me miraba, mi conciencia me gritaba la verdad. Mi alma quería rendirse a ella, confesar, empezar de cero. Pero mi cobardía me ataba la lengua.</p><p>Y entonces, todo se volvía químico. La mentira se normalizó.</p><p>No eran mentiras para engañarla en ese momento. Eran mentiras para ocultar mi pasado. Eran pequeños ajustes en la realidad que me permitían seguir respirando. Pero cada ajuste era una pequeña dosis de veneno.</p><p>Yo sabía que la amaba. Y sabía que ese amor no podía sobrevivir sobre una base podrida.</p>`,
+                    `<p>Ella, en su honestidad, un día me habló de la confianza. Dijo que para ella era lo único que no tenía perdón, el único abismo real.</p><p>Y mi ego narcisista, en lugar de aceptar la derrota y confesar, escuchó la advertencia y dijo: Tienes que asegurar esta relación a toda costa.</p><p>El amor se convirtió en una coartada para mi cobardía. Yo creía que, si la amaba lo suficiente, ese amor en el presente iba a "sanar" lo que sucedió desde mi inicio.</p><p>No entendí que mi amor no era una cura. Era la capa de azúcar sobre una píldora amarga.</p><p>En ese momento de mi vida, me convertí en dos hombres. El que la adoraba y el que le mentía. Y mi tragedia era que, frente a ella, los dos hombres usaban el mismo rostro.</p><p>Me estaba enamorando. Y al mismo tiempo, la estaba armando para el dolor. Estaba construyendo nuestra historia, pero la estaba levantando sobre arena movediza. Y la caída, yo lo presentía en cada nervio, iba a ser por mi propia mano.</p>`
+                ]
+            },
+            {
+                id: "book4",
+                title: "No me sueltes",
+                author: "Luis",
+                color: "#0f172a", // Navy oscuro / Azul abismal
+                textColor: "#f8fafc",
+                coverDate: "Julio - Septiembre 2025",
+                pages: [
+                    `<strong>Introducción: El hombre que te escribe desde el abismo</strong><p>Mi amor,</p><p>Te escribo esta carta desde el vértigo.</p><p>Es el vértigo de un hombre que se asoma al borde de su propia estupidez y ve, con una claridad aterradora, el abismo que cavó. Un abismo donde, del otro lado, tu mano se empieza a soltar de la mía.</p><p>Yo me puse aquí. Mis decisiones, mis miedos, mis silencios... me trajeron a este precipicio.</p><p>Lo tenía todo. Y no lo vi.</p><p>Tenía tu risa. Tenía tu confianza. Tenía tus "buenos días". Tenía al único amor de mi vida, a la única persona en el mundo que me miró y me hizo sentir en casa. Y lo arriesgué todo. Lo arriesgué por nada.</p><p>Ahora veo cómo te alejas, cómo la luz de lo nuestro se apaga por mi culpa, y el pánico es real. Es un terror frío que me paraliza.</p><p>Estas páginas no son un argumento. Son una súplica.</p><p>Son el sonido de un corazón aterrado. El terror de un hombre que por fin entendió, quizá demasiado tarde, que eres única. Irremplazable. Y que una vida sin ti no es solo una vida triste... es el terror de no tener vida en absoluto.</p><p>Este es mi corazón en la mano. Esta es mi alma aterrada. Esto es todo lo que me queda de mí, rogando que no te sueltes.</p>`,
+                    `<strong>Capítulo 1: La anatomía de mi estupidez</strong><p>¿Cómo llegué aquí? ¿Cómo un hombre que te ama tanto puede ser el arquitecto de su propia ruina?</p><p>La respuesta es simple y me quema la garganta: mi estupidez.</p><p>No fue un solo error. Fue una cadena de actos cobardes, uno tras otro, donde elegí mi comodidad por encima de tu paz. Donde mi miedo a la confrontación fue más grande que mi amor por la integridad. Donde mi egoísmo me hizo creer que podía protegerte de una verdad, cuando en realidad solo me estaba protegiendo a mí.</p><p>Y cada mentira, cada omisión, era un ladrillo que yo mismo ponía en el muro que hoy nos separa.</p><p>Yo fui el cobarde que permitió que su miedo pagara "impuestos" con tu tranquilidad. Yo fui el egoísta que te miraba a los ojos, te decía "te amo", y al mismo tiempo te ocultaba las dagas que yo mismo estaba clavando en nuestra confianza.</p><p>Esta es la anatomía de mi fracaso: permití que el miedo fuera más fuerte que el respeto que te tengo.</p><p>Y ahora vivo con el castigo. El castigo no es tu enojo. El castigo es este terror mudo de saber que yo, y solo yo, rompí lo más valioso que he tenido. Es el pánico de ver cómo te alejas, sabiendo que fui yo quien te dio el mapa de la salida.</p>`,
+                    `<strong>Capítulo 2: El castigo de saber que eres irremplazable</strong><p>El verdadero castigo de mi fracaso no es tu enojo. Ni siquiera es el silencio que crece entre nosotros.</p><p>El verdadero castigo es mi claridad. Es esta lucidez horrible, que me despierta a las tres de la mañana con el corazón en la garganta, gritando una sola verdad: Eres irremplazable.</p><p>Te juro que he intentado, en mi pánico, mentirme. He intentado decirme que "el tiempo cura", que "conoceré a alguien más".</p><p>Es una broma cruel. ¿Conocer a quién?</p><p>¿A alguien que no se ríe con esa complicidad que desarma? ¿Alguien que no me va a mandar un sticker que me haga reír solo? ¿Alguien que no va a convertir una ida a un pueblito mágico en una experiencia inolvidable?</p><p>El mundo está lleno de gente, mi amor, pero está trágicamente vacío de ti.</p><p>Cualquier otro abrazo sería un refugio temporal, pero el tuyo es el único al que pertenezco. Cualquier otra risa sería solo ruido. Cualquier otra conversación estaría vacía, porque no sería nuestra.</p><p>Este es mi terror. No es el miedo a estar solo.</p><p>Es el pánico de tener que vivir en un mundo donde existan otras personas, pero donde ya no pueda tocarte a ti. Es el terror de saber que lo tuve todo... la risa, la inteligencia, la ternura, el hogar... todo en una sola persona, y estoy viendo cómo se me escapa de las manos.</p><p>Y la estoy perdiendo no por un desastre natural, no por mala suerte. La estoy perdiendo por mí.</p><p>Ese es mi infierno. Saber que eres única, y ver cómo te vas, mientras yo sigo sosteniendo el arma con la que maté nuestra confianza.</p>`,
+                    `<strong>Capítulo 3: El infierno de los buenos recuerdos</strong><p>¿Sabes cuál es el verdadero castigo del arrepentimiento? No es el silencio que dejas. Es el eco de lo que fuimos.</p><p>El infierno son los buenos recuerdos.</p><p>El infierno es cerrar los ojos y escuchar tu risa, para abrirlos y darme cuenta de que fui yo quien la silenció.</p><p>Es recordar la sensación de seguridad que me dabas, y saber que yo te pagué con mentiras y te ofrecí solo inseguridad. Es el sabor de la traición que me tengo a mí mismo.</p><p>Me despierto en la madrugada y lo primero que siento es el pánico. El pánico de que este dolor que siento, esta angustia, no es nada comparado con lo que tú sentiste mientras yo te fallaba.</p><p>He convertido nuestro santuario en un campo minado.</p><p>Camino por los recuerdos de nuestros planes, de nuestras bromas, de la forma en que el mundo desaparecía cuando estábamos juntos... y todo está manchado. Todo está envenenado.</p><p>Lo envenené yo.</p><p>Quiero huir de los recuerdos, pero son lo único que me queda de ti. Y quiero abrazarlos, pero queman. Queman con la verdad de mi estupidez.</p><p>Este es el terror que me desgarra: el hombre que te amaba con locura, es el mismo hombre que destruyó metódicamente todo lo que amaba. Y ahora tengo que vivir en las ruinas, atormentado por los fantasmas de la felicidad que yo mismo asesiné.</p>`,
+                    `<strong>Capítulo 4: El terror del silencio</strong><p>El pánico tiene un sonido, ¿sabías?</p><p>Es el silencio.</p><p>Es el silencio ensordecedor de mi teléfono. Es el silencio de una habitación que se siente demasiado grande porque tú no estás.</p><p>Antes, el mundo podía estar cayéndose, pero si tú estabas ahí, todo estaba bien. Tu presencia era mi calma. Ahora, todo puede estar perfecto, pero si tú no estás, nada está bien.</p><p>Y no estás.</p><p>Miro la pantalla de mi teléfono como un idiota, esperando. Esperando una luz, un mensaje, una señal... esperando que esto sea solo una pesadilla de la que voy a despertar.</p><p>Pero no despierto.</p><p>El terror real, el que me desgarra, es el de la costumbre. Mi pulgar sigue buscándote por inercia. Mi corazón sigue esperando tu "buenos días" para empezar a latir. Mi mente sigue formulando chistes que solo tú entenderías, para luego recordar que ya no puedo enviártelos.</p><p>Me estoy volviendo loco en este silencio.</p><p>Es el terror de las mañanas vacías y las noches que son demasiado largas. Es la agonía de saber que te vas a dormir, y yo ya no soy la persona que te da las buenas noches.</p><p>Este silencio no es paz. Es la ausencia de todo lo bueno.</p><p>Y lo peor de todo, es que este silencio lo construí yo. Lo compré con mis mentiras. Lo pagué con mi cobardía. Y ahora, me estoy ahogando en él.</p>`,
+                    `<strong>Capítulo 5: ¿Qué hago si mi "Corazón" se va?</strong><p>Te llamo "Corazón". Te llamo "Vida".</p><p>No eran apodos. Eran la verdad más cruda.</p><p>Con el tiempo, dejaste de ser solo la mujer que amaba para convertirte, literalmente, en el centro de mi mundo. Te volviste el órgano que bombeaba la sangre de mis días, la razón por la que mi pecho se sentía cálido, la única cosa que le daba sentido a todo.</p><p>Y ahora, en este silencio, me doy cuenta del horror de mi error.</p><p>La pregunta que me desgarra el alma cada noche, la que me deja sin aire, es:</p><p>¿Qué se supone que hago si mi "Corazón" se va?</p><p>¿Cómo se supone que voy a respirar si el amor de mi "Vida" decide que su camino ya no es junto al mío? ¿Qué soy yo sin ti? ¿Una cáscara? ¿Un fantasma?</p><p>Este es el pánico. No es solo que te extrañe, mi amor. Es que me estoy vaciando.</p><p>Me estoy desangrando por la herida que yo mismo abrí. Siento cómo se me escapa la vida, porque mi vida eres tú.</p><p>Mi terror no es solo que te vayas. Es que si te vas, te llevas todo. Te llevas el "yo" que solo existía cuando me mirabas. Te llevas mi paz, mi risa, mi identidad.</p><p>Me estoy quedando sin mí. Y estoy aterrado.</p>`,
+                    `<strong>Capítulo 6: La Súplica (No me sueltes)</strong><p>He pasado cada página de esta carta describiéndote el infierno en el que vivo. El infierno de mis errores, el infierno de mis recuerdos, el infierno del silencio que me está matando.</p><p>Pero todo, mi amor, todo se reduce a esto. A una sola petición. A una súplica.</p><p>Por favor.</p><p>Por favor, no te vayas.</p><p>Te lo estoy pidiendo con las mismas manos que te lastimaron. Te lo estoy rogando con la misma boca que te mintió.</p><p>Sé que no lo merezco.</p><p>Dios, sé que no lo merezco. Tienes todo el derecho de soltarme. Tienes toda la razón en querer huir de mí y buscar la paz que yo mismo te robé. Sería lo justo.</p><p>Pero no te estoy pidiendo justicia. Te estoy pidiendo misericordia.</p><p>Te pido que mires más allá del imbécil que te falló, y veas por un segundo al hombre aterrado que te escribe esto. Al hombre que sabe, con una certeza que le quema el alma, que eres el único, maldito, amor de su vida.</p><p>No me dejes en este abismo que yo mismo cavé. No me dejes con este silencio como único compañero. No sé cómo vivir en un mundo donde tú no estés. No quiero aprender.</p><p>Estoy en el borde, mi vida. Y estoy aterrado.</p><p>Por favor, corazón.</p><p>No me sueltes.</p>`
+                ]
+            },
+            {
+                id: "book5",
+                title: "Confúndeme con Él",
+                author: "Luis",
+                color: "#fbcfe8", // Rosa pálido / Pétalo de rosa
+                textColor: "#4c0519", // Rose oscuro
+                coverDate: "3 de marzo de 2026",
+                pages: [
+                    `<div class="dedicatoria">
+                        <p>Escrito para mi chaparrita, mi Nadia.</p>
+                        <p>"A ti, porque aunque no me prometas el futuro, haces que mi presente sea perfecto."</p>
+                    </div>`,
+                    `<p>Hace tiempo leí una frase que se me quedó grabada: "Y si no soy el amor de tu vida, confúndeme con él". Te confieso que inmediatamente pensé en nosotros. Sé que nunca me has dicho esas palabras, y quiero que sepas que no escribo estas páginas para pedírtelas ni para presionarte. Las escribo porque para mí, tú sí lo eres. Este pequeño libro no es una exigencia de futuro, es mi forma de pedirte permiso para amarte hoy con la intensidad de toda una vida, y dejarte claro por qué vales cada segundo.</p>`,
+                    `<strong>Capítulo 1: Tu manera de ser</strong><p>Si alguien me pregunta por qué estoy tan seguro de lo que siento, la respuesta es simple, tu manera de ser. Me enamora que todo en ti me dé una ternura increíble; todo tú, "en chiquito". Me encanta ir por ahí, ver una taza minúscula o un CUALQUIER cosa pequeña y pensar de inmediato: "si tú fueras esto, serías exactamente así".</p>`,
+                    `<p>Me fijo en todo. En tus ojitos, en tus chistecitos malos que me hacen el día, y en esa manía tuya de levantar la ceja cuando estás analizando una situación. Me da mil años de vida escuchar tu risita fingida y burlona, ese "jijiii" tan tuyo, o el privilegio de oír tu vocecita cantando en esas contadas ocasiones en las que te dejas escuchar. Mi lugar seguro se ha convertido en sentir cómo me tomas del brazo al caminar, o el peso de tu cabeza cuando te quedas dormida en mi hombro en el transporte.</p>`,
+                    `<p>Pero lo que más me fascina es el contraste. Eres chiquita y tierna, sí, pero al mismo tiempo admiro inmensamente la gran mujer que eres. Me encanta lo directa que eres para decir las cosas, lo enfocada que estás en lo que quieres conseguir y lo trabajadora que demuestras ser todos los días. Eres súper linda y, admitámoslo, a veces un poquito necia, pero es precisamente ese carácter el que me confirma que no me enamoré de una idea, sino de ti, exactamente así como eres.</p>`,
+                    `<strong>Capítulo 2: Mi certeza</strong><p>No fue algo que planeara ni que estuviera buscando, simplemente me tomó por sorpresa, y qué hermosa sorpresa. Dicen que te das cuenta de que encontraste a la persona indicada cuando sientes paz, pero conmigo fue diferente: yo supe que eras tú en el momento exacto en que sentí unas ganas inmensas de ser una mejor persona. Y lo más bonito es que no me lo pediste, simplemente tu existencia me inspiró a hacerlo.</p>`,
+                    `<p>Si te soy sincero, has mejorado mi vida en todos y cada uno de los aspectos habidos y por haber. Así de simple y así de inmenso. Toma cualquier rincón de mi día a día, y en todos vas a encontrar que tu presencia me ha ayudado a estar mejor. Me impulsaste a buscar una estabilidad que antes ni siquiera consideraba, tanto económica como mental. Llegaste cuando yo me encontraba en un hoyo, atrapado en una etapa oscura de la que no sabía cómo salir, y tú fuiste esa fuerza que me ayudó a dejar todo eso atrás para volver a empezar.</p>`,
+                    `<p>Contigo mejoró mi visión del mundo. Me ayudaste a percibir las cosas de otra manera, a tomar decisiones más sabias y a analizar las situaciones con más claridad. Hasta en mi propia casa me ayudaste a abrir los ojos y encontrar nuevas formas de apoyar y estar presente. Cambiaste mi entorno desde la raíz.</p>`,
+                    `<p>Pero lo más importante es que me regalaste un propósito. Sé que llevamos 8 meses al momento de escribir esto y tal vez alguien diría que es muy pronto para hablar de ciertas cosas, pero contigo el tiempo se mide diferente y no hay miedos. Yo ya me veo viviendo contigo, viajando juntos a mil lugares, teniendo un bebito y formando una familia. No tengo la menor duda.</p>`,
+                    `<p>Y si tuviera que elegir el momento exacto en el que mi certeza se volvió inquebrantable, fue cuando me dejaste entrar en tu mente. Cuando leí tu manera tan perfecta de escribir, cuando empecé a entender tu forma de ver el mundo y de procesar la vida... fua, me voló la cabeza. Me di cuenta de que no solo tienes esa ternura en chiquito que me derrite, sino que por dentro eres oro puro.</p><p>Por eso, llamarte el amor de mi vida no es una forma de atarte; es simplemente la única forma que encuentro para explicar la magnitud de lo que causas en mí.</p>`,
+                    `<strong>Capítulo 3: Las reglas de nuestra "confusión"</strong><p>Llegamos a la parte más importante de este libro y de mi propuesta. Si vas a aceptar el trato de confundirme con el amor de tu vida, necesito que sepas cuáles son las reglas de esta "confusión". No te preocupes, no incluyen exigencias, presiones ni promesas forzadas; son simplemente las cosas que yo me comprometo a hacer por ti todos los días.</p>`,
+                    `<p>Primera regla: Confúndeme con él y déjame ser tu lugar de descanso. Cuando tu lado terco y trabajador te deje agotada por estar tan enfocada en tus metas, déjame abrazarte, hacerte sentir chiquita y protegida, y ser siempre ese hombro en el que te puedes quedar dormida sin importar a dónde vayamos.</p>`,
+                    `<p>Segunda regla: Confúndeme con él y permíteme disfrutar de todos tus matices. Déjame escuchar tus chistes malos, celebrar cada vez que levantas la ceja analizando una situación, y hacer todo lo posible por provocarte esa risita burlona "jijiii" que me da mil años de vida. Confúndeme con él y déjame pedirte que me cantes bajito, solo para mí.</p>`,
+                    `<p>Tercera regla: Confúndeme con él y tómame del brazo siempre que caminemos juntos. Déjame demostrarte con acciones que todo ese futuro hermoso que ya veo con nosotros (los viajes, la familia, la vida juntos) lo estoy construyendo desde hoy, dándote mi mejor versión.</p>`,
+                    `<p>Y la regla más importante de todas: Confúndeme con él y, simplemente, déjate querer. No me debes un "para siempre" hoy; solo déjame amarte en este presente con la intensidad de una vida entera. Déjame cuidarte, admirar tu mente brillante y tratarte, hoy y mañana, como la reina absoluta de mi historia.</p>`,
+                    `<strong>Epílogo: Mi presente perfecto</strong><p>Llegamos al final de estas páginas, pero espero que sea solo el principio de todo lo demás. Quería dejarte todo esto por escrito para que, si algún día el mundo hace ruido, si te sientes cansada o si llegas a dudar de lo increíble que eres, puedas abrir este librito y verte a través de mis ojos.</p>`,
+                    `<p>No sé exactamente qué nos depare el futuro, aunque ya te confesé que mi corazón ya hizo todos los planes del mundo contigo. Pero no te preocupes por el mañana. Mi único objetivo con esto es que sepas que hoy, aquí y ahora, te amo con la certeza de quien por fin encontró su lugar.</p>`,
+                    `<p>Así que, mi amor, mi vida, mi chaparrita, mi flaquita, mi cielo, mi mujer fuerte y brillante... si aún no estás lista para decir que soy el amor de tu vida, de verdad no pasa nada. Solo mírame, tómame del brazo, regálame esa risita tuya y, por favor, confúndeme con él…</p>`
                 ]
             }
         ];
@@ -328,152 +363,56 @@
         });
 
 
-        // --- LÓGICA DEL MOTOR 3D DEL LIBRO ---
-        const modal = document.getElementById('book-modal');
-        const bookElement = document.getElementById('book-element');
-        const modalTitle = document.getElementById('modal-book-title');
-        let currentSheet = 0;
-        let totalSheets = 0;
+        // --- LÓGICA DEL MOTOR DEL LECTOR ---
+        const readerModal = document.getElementById('reader-modal');
 
         function openBook(bookId) {
             const book = libraryData.find(b => b.id === bookId);
             if (!book) return;
 
-            modalTitle.innerText = book.title;
-            bookElement.innerHTML = '';
+            // Actualizar interfaz del lector
+            document.getElementById('reader-nav-title').innerText = book.title;
+            document.getElementById('reader-title').innerText = book.title;
+            document.getElementById('reader-author').innerText = book.author;
+            document.getElementById('reader-date').innerText = book.coverDate;
             
-            // Lógica para estructurar las páginas (1 hoja = 2 páginas [frente y reverso])
-            // Hoja 0: Portada (Frente) / Interior Portada (Reverso)
-            // Hoja 1: Página 1 (Frente) / Página 2 (Reverso)
-            // ...
-            // Última hoja: Interior Contraportada (Frente) / Contraportada (Reverso)
-            
-            const sheetsData = [];
-            
-            // Hoja 1: Portada
-            sheetsData.push({
-                isHardcover: true,
-                frontHTML: `
-                    <div class="w-full h-full flex flex-col items-center justify-center p-8 text-center" style="--cover-color: ${book.color}; color: ${book.textColor};">
-                        <div class="border-2 border-white/20 w-full h-full p-4 flex flex-col items-center justify-center relative">
-                            <span class="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] opacity-70 mb-4">${book.author}</span>
-                            <h1 class="font-serif text-3xl md:text-5xl font-bold leading-tight mb-8">${book.title}</h1>
-                            <div class="w-12 h-[2px] bg-white/40 mb-4"></div>
-                            <span class="font-sans text-[10px] opacity-60 absolute bottom-6">${book.coverDate}</span>
-                        </div>
-                    </div>`,
-                backHTML: `<div class="page-content" style="background-color: ${book.color}; opacity: 0.9;"></div>` // Interior tapa dura
-            });
+            // Aplicar colores del libro
+            document.getElementById('reader-cover-bg').style.backgroundColor = book.color;
+            document.getElementById('reader-cover').style.color = book.textColor;
+            document.getElementById('reader-content').style.setProperty('--theme-color', book.color);
 
-            // Agrupar contenido en pares (Página frente, Página reverso)
-            const contentPages = book.pages;
-            for (let i = 0; i < contentPages.length; i += 2) {
-                const frontContent = contentPages[i];
-                const backContent = contentPages[i+1] || ""; // Puede quedar vacío
-                const pageNumFront = i + 1;
-                const pageNumBack = i + 2;
-
-                sheetsData.push({
-                    isHardcover: false,
-                    frontHTML: `
-                        <div class="page-content scrollable-page">
-                            <p class="font-serif text-sm md:text-base lg:text-lg text-gray-800">${frontContent}</p>
-                            <span class="page-number">${pageNumFront}</span>
-                        </div>`,
-                    backHTML: `
-                        <div class="page-content scrollable-page">
-                            ${backContent ? `<p class="font-serif text-sm md:text-base lg:text-lg text-gray-800">${backContent}</p>` : `<div class="flex h-full items-center justify-center opacity-30"><i data-lucide="feather" class="w-8 h-8"></i></div>`}
-                            <span class="page-number">${pageNumBack}</span>
-                        </div>`
-                });
-            }
-
-            // Hoja Final: Contraportada
-            sheetsData.push({
-                isHardcover: true,
-                frontHTML: `<div class="page-content" style="background-color: ${book.color}; opacity: 0.9;"></div>`, // Interior contraportada
-                backHTML: `
-                    <div class="w-full h-full flex flex-col items-center justify-center p-8 text-center" style="--cover-color: ${book.color}; color: ${book.textColor};">
-                        <i data-lucide="heart" class="w-8 h-8 opacity-50 mb-4"></i>
-                        <span class="font-serif italic text-sm opacity-70">Fin.</span>
-                    </div>`
-            });
-
-            totalSheets = sheetsData.length;
-            currentSheet = 0;
-
-            // Construir HTML del libro
-            sheetsData.forEach((sheet, index) => {
-                const zIndex = totalSheets - index;
-                const hardClass = sheet.isHardcover ? 'hardcover' : '';
+            // Inyectar contenido en formato continuo
+            // Envolvemos cada segmento en un div para mantener estructura si es necesario
+            const contentHTML = book.pages.map((content, index) => {
+                // Preservar la dedicatoria tal cual
+                if(content.includes('class="dedicatoria"')) return content;
                 
-                const paper = document.createElement('div');
-                paper.className = `paper ${hardClass}`;
-                paper.id = `sheet-${index}`;
-                paper.style.zIndex = zIndex;
-                
-                // Event listeners para girar tocando la hoja
-                paper.innerHTML = `
-                    <div class="front" onclick="turnPage(1, ${index})">${sheet.frontHTML}</div>
-                    <div class="back" onclick="turnPage(-1, ${index})">${sheet.backHTML}</div>
-                `;
-                bookElement.appendChild(paper);
-            });
+                // Si el contenido no está ya envuelto en etiquetas, lo envolvemos en <p>
+                const finalContent = content.startsWith('<') ? content : `<p>${content}</p>`;
+                // Añadimos una clase para ayudar al selector CSS de la letra capitular
+                return `<div class="content-block">${finalContent}</div>`;
+            }).join('');
+            
+            document.getElementById('reader-content').innerHTML = contentHTML;
 
+            // Mostrar Modal de Lectura
+            readerModal.classList.remove('hidden-state');
+            readerModal.classList.add('active');
+            
+            // Bloquear scroll de la página trasera y hacer scroll al inicio del modal
+            document.body.style.overflow = 'hidden'; 
+            readerModal.scrollTop = 0;
+            
+            // Refrescar iconos por si acaso
             lucide.createIcons();
-            
-            // Estado inicial de transformación
-            updateBookPosition();
-            
-            modal.classList.add('active');
-            document.body.style.overflow = 'hidden'; // Bloquear scroll fondo
         }
 
-        function turnPage(direction, clickedIndex) {
-            if (direction === 1 && currentSheet < totalSheets) {
-                // Avanzar página
-                const sheet = document.getElementById(`sheet-${currentSheet}`);
-                sheet.classList.add('flipped');
-                sheet.style.zIndex = currentSheet; // Reordenar Z-Index para que quede bajo en la izquierda
-                currentSheet++;
-            } else if (direction === -1 && currentSheet > 0) {
-                // Retroceder página
-                currentSheet--;
-                const sheet = document.getElementById(`sheet-${currentSheet}`);
-                sheet.classList.remove('flipped');
-                setTimeout(() => {
-                    sheet.style.zIndex = totalSheets - currentSheet; // Restaurar Z-index cuando termine animacion o casi
-                }, 400); // Mitad de la transición
-            }
-            updateBookPosition();
-        }
-
-        // Esta función centra el libro visualmente dependiendo de si está cerrado o abierto
-        function updateBookPosition() {
-            if (currentSheet === 0) {
-                // Cerrado (portada visible) -> Mover a la izquierda para centrar la mitad derecha
-                bookElement.className = 'book closed-front';
-                bookElement.style.transform = 'translateX(25%)';
-            } else if (currentSheet === totalSheets) {
-                // Cerrado al revés (contraportada) -> Mover a la derecha para centrar mitad izquierda
-                bookElement.className = 'book closed-back';
-                bookElement.style.transform = 'translateX(-25%)';
-            } else {
-                // Abierto -> Centrado para ver ambas páginas
-                bookElement.className = 'book open';
-                bookElement.style.transform = 'translateX(0%)';
-            }
-        }
-
-        // Controles modal
-        document.getElementById('close-book-btn').addEventListener('click', () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto'; // Restaurar scroll
+        // Cerrar Modal
+        document.getElementById('close-reader-btn').addEventListener('click', () => {
+            readerModal.classList.remove('active');
+            readerModal.classList.add('hidden-state');
+            document.body.style.overflow = 'auto'; // Restaurar scroll del fondo
         });
-
-        // Controles de botones flotantes para móviles
-        document.getElementById('next-page-btn').addEventListener('click', () => turnPage(1));
-        document.getElementById('prev-page-btn').addEventListener('click', () => turnPage(-1));
 
 
         // --- UTILIDADES GLOBALES (Menú Móvil y Partículas) ---
