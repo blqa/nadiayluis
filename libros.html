@@ -35,11 +35,31 @@
         }
     </script>
     <style>
-        body { background-color: #FAFAFA; color: #2D1B2E; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
+        body { 
+            background-color: #FAFAFA; 
+            color: #2D1B2E; 
+            overflow-x: hidden; 
+            -webkit-tap-highlight-color: transparent; 
+            transition: background-color 1.5s ease-in-out;
+        }
         
+        /* Transition global al Modo Noche */
+        body.night-active {
+            background-color: #0B0F19 !important;
+        }
+
         /* Fondos y UI general */
         .noise-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
-        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.3); }
+        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.3); transition: all 1s ease; }
+        
+        body.night-active .glass-nav {
+            background: rgba(11, 15, 25, 0.6);
+            border-bottom-color: rgba(255,255,255,0.05);
+        }
+        body.night-active .glass-nav span, body.night-active .glass-nav a, body.night-active .glass-nav i {
+            color: #e2e8f0;
+        }
+
         .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .glass-card:hover { transform: translateY(-8px) scale(1.02); background: rgba(255, 255, 255, 0.95); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15); }
         .nav-link.active { color: #E11D48; font-weight: 600; }
@@ -53,7 +73,7 @@
 
         /* --- MODO LECTOR (NUEVO) --- */
         #reader-modal {
-            transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+            transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
             background-color: #FDFBF7; /* Color de papel cálido */
             background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
         }
@@ -64,6 +84,38 @@
         
         #reader-modal.hidden-state {
             opacity: 0; pointer-events: none; transform: translateY(20px);
+        }
+
+        /* --- ESTILOS DE MODO NOCHE (LIBROS OSCUROS) --- */
+        #reader-modal.night-mode {
+            background-color: rgba(11, 15, 25, 0.75); /* Cristal nocturno */
+            backdrop-filter: blur(16px);
+            background-image: none;
+        }
+
+        #reader-modal.night-mode .sticky {
+            background: rgba(11, 15, 25, 0.8);
+            border-bottom-color: rgba(255,255,255,0.05);
+        }
+
+        #reader-modal.night-mode .reader-text p {
+            color: #cbd5e1; /* Gris claro/plateado */
+        }
+
+        #reader-modal.night-mode #reader-nav-title,
+        #reader-modal.night-mode i,
+        #reader-modal.night-mode .font-serif.italic {
+            color: #94a3b8;
+        }
+
+        #reader-modal.night-mode .dedicatoria {
+            color: #94a3b8;
+            border-bottom-color: rgba(255,255,255,0.1);
+        }
+
+        #reader-modal.night-mode #close-reader-btn:hover {
+            background-color: rgba(255,255,255,0.1);
+            color: #f87171;
         }
 
         /* Tipografía y formato del lector */
@@ -83,6 +135,7 @@
             padding-top: 0.2rem;
             font-weight: bold;
             color: var(--theme-color, #4A154B);
+            transition: color 0.5s ease;
         }
         
         /* Estilos para etiquetas <strong> dentro del contenido (para títulos de capítulos) */
@@ -94,6 +147,7 @@
             margin-top: 2rem;
             margin-bottom: 0.5rem;
             font-weight: 700;
+            transition: color 0.5s ease;
         }
 
         /* Estilo para la dedicatoria en el libro 5 */
@@ -124,7 +178,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-16 md:h-20">
                 <a href="#" class="flex-shrink-0 cursor-pointer z-50">
-                    <span class="font-serif text-xl md:text-3xl text-gray-900 tracking-tight">N <span class="text-rose-400 font-light">&</span> L</span>
+                    <span class="font-serif text-xl md:text-3xl text-gray-900 tracking-tight transition-colors" id="logo-text">N <span class="text-rose-400 font-light">&</span> L</span>
                 </a>
                 
                 <div class="hidden md:flex space-x-8 items-center">
@@ -151,12 +205,12 @@
     <main class="flex-grow flex flex-col pt-24 md:pt-32 relative px-4 pb-20">
         
         <div class="max-w-6xl mx-auto w-full">
-            <div class="text-center mb-12 md:mb-20 animate-fade-in">
+            <div class="text-center mb-12 md:mb-20 animate-fade-in" id="main-header">
                 <span class="text-xs md:text-sm uppercase tracking-[0.3em] text-rose-400 font-semibold mb-3 block">Nuestra Biblioteca</span>
-                <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl text-gray-900 leading-none tracking-tight mb-6">
+                <h1 class="font-serif text-4xl md:text-6xl lg:text-7xl text-gray-900 leading-none tracking-tight mb-6 transition-colors duration-1000">
                     Historias y <br class="md:hidden" /> Cuentos
                 </h1>
-                <p class="text-sm md:text-lg text-gray-500 font-light max-w-2xl mx-auto italic">
+                <p class="text-sm md:text-lg text-gray-500 font-light max-w-2xl mx-auto italic transition-colors duration-1000">
                     "Estos libros son una cápsula del tiempo de mis emociones más intensas. Los escribí cuando la confusión y el sentimiento hablaban más fuerte que la razón. Te pido una disculpa si te topas con algo feo o que pueda lastimar; todo fue escrito desde la vulnerabilidad y el amor, no desde la maldad."
                 </p>
             </div>
@@ -168,7 +222,7 @@
         </div>
     </main>
 
-    <footer class="py-6 md:py-8 text-center text-gray-400 text-[10px] md:text-xs uppercase tracking-widest border-t border-gray-100 bg-white/50 backdrop-blur-sm px-4">
+    <footer class="py-6 md:py-8 text-center text-gray-400 text-[10px] md:text-xs uppercase tracking-widest border-t border-gray-100 bg-white/50 backdrop-blur-sm px-4 relative z-10 transition-colors duration-1000" id="main-footer">
         <p class="mb-2">Hecho con amor • <a href="#" class="hover:text-rose-300 transition-colors cursor-default">2025 - 2026</a></p>
         <p class="opacity-50">Para Nadia, gracias por todo.</p>
     </footer>
@@ -177,7 +231,7 @@
     <div id="reader-modal" class="fixed inset-0 z-50 overflow-y-auto hidden-state flex flex-col">
         
         <!-- Barra de Navegación del Lector -->
-        <div class="sticky top-0 w-full p-4 md:px-8 flex justify-between items-center z-50 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-gray-200/50 shadow-sm">
+        <div class="sticky top-0 w-full p-4 md:px-8 flex justify-between items-center z-50 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-gray-200/50 shadow-sm transition-colors duration-500">
             <div class="text-gray-500 text-xs md:text-sm font-light tracking-widest uppercase flex items-center gap-2">
                 <i data-lucide="book-open" class="w-4 h-4"></i> <span id="reader-nav-title" class="text-gray-800 font-medium truncate max-w-[200px] md:max-w-md">Leyendo...</span>
             </div>
@@ -188,7 +242,7 @@
 
         <!-- Portada Interna (Cabecera del Lector) -->
         <div id="reader-cover" class="w-full min-h-[35vh] flex flex-col items-center justify-center p-8 text-center relative overflow-hidden shrink-0">
-            <div id="reader-cover-bg" class="absolute inset-0 z-0 opacity-95"></div>
+            <div id="reader-cover-bg" class="absolute inset-0 z-0 opacity-95 transition-colors duration-500"></div>
             <div class="relative z-10 max-w-3xl mx-auto flex flex-col items-center">
                 <span id="reader-author" class="font-sans text-[10px] md:text-xs uppercase tracking-[0.3em] opacity-80 mb-4 block"></span>
                 <h1 id="reader-title" class="font-serif text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-8 drop-shadow-md"></h1>
@@ -198,7 +252,7 @@
         </div>
 
         <!-- Contenido de Lectura -->
-        <div class="flex-grow w-full">
+        <div class="flex-grow w-full relative z-10">
             <div class="max-w-2xl mx-auto px-6 py-12 md:py-20">
                 <div id="reader-content" class="reader-text font-serif text-[1.1rem] md:text-[1.25rem] text-gray-800">
                     <!-- El texto se inyecta aquí -->
@@ -220,7 +274,7 @@
                 id: "book1",
                 title: "Bitácora de una Batalla",
                 author: "Luis",
-                color: "#18181b", // Zinc oscuro
+                color: "#18181b", 
                 textColor: "#d4d4d8",
                 coverDate: "10 de noviembre de 2025, 5:06 p.m.",
                 pages: [
@@ -263,7 +317,7 @@
                 id: "book2",
                 title: "El Manual de lo Nuestro",
                 author: "Luis",
-                color: "#8B3A3A", // Terracota / Rojo ladrillo oscuro
+                color: "#8B3A3A", 
                 textColor: "#FDFBF7",
                 coverDate: "17 de septiembre de 2025, 1:46 p.m.",
                 pages: [
@@ -280,9 +334,10 @@
                 id: "book3",
                 title: "Demasiado Tarde",
                 author: "Luis",
-                color: "#1e293b", // Slate oscuro / Gris carbón
+                color: "#1e293b", 
                 textColor: "#e2e8f0",
                 coverDate: "19 de agosto de 2025, 4:42 a.m.",
+                nightMode: true, // ¡ACTIVADOR DEL MODO NOCHE!
                 pages: [
                     `<strong>Prólogo</strong><p>El silencio tiene un peso.</p><p>El mío tiene la forma exacta de su espalda mientras se alejaba. O quizás tiene la forma de sus ojos llenándose de lágrimas. Da igual. Es pesado, y está aquí, y no me deja respirar.</p><p>Dicen que la gente puede cambiar. Es una de esas frases bonitas que te pones en la biografía de Instagram. Lo que no te dicen es que el pasado no. El pasado es una maldita estatua de marmol. No puedes moverlo, no puedes pedirle perdón. Solo puedes sentarte a su lado y ver cómo jode todo lo que intentas construir.</p><p>Yo cambié.</p>`,
                     `<p>Me convertí en el hombre que ella merecía. Aprendí a ser honesto. Aprendí a escuchar. Aprendí a poner a alguien más antes que a mi propio egoísmo. Dejé de ser el insensible que solo sabía tomar y destruir.</p><p>Pero aquí está la verdadera tragedia, lo que me tiene despierto a las tres de la mañana: logré cambiar, pero demasiado tarde.</p><p>Aprendí a amar de verdad, y la primera lección fue que el "yo" de ahora tenía que pagar la deuda del "yo" de antes.</p><p>¿Cómo le pides que confíe en tus manos, si esas mismas manos fueron las que hicieron mas difícil el camino? ¿Cómo le juras que esta vez es real, si tu voz es la misma que usaste para mentirle mirándola a los ojos? ¿De qué sirve ser el hombre correcto ahora, si los recuerdos que ella tiene son del hombre equivocado? ¿Para qué me sirve este nuevo corazón, si el daño que hice con el viejo ya es irreparable? Y al final... ¿cómo le demuestro que la amo más que a nada, si la única prueba de amor definitiva que me queda es soltarla para que, por fin, pueda sanar lejos de mí?</p>`,
@@ -299,9 +354,10 @@
                 id: "book4",
                 title: "No me sueltes",
                 author: "Luis",
-                color: "#0f172a", // Navy oscuro / Azul abismal
+                color: "#0f172a", 
                 textColor: "#f8fafc",
                 coverDate: "Julio - Septiembre 2025",
+                nightMode: true, // ¡ACTIVADOR DEL MODO NOCHE!
                 pages: [
                     `<strong>Introducción: El hombre que te escribe desde el abismo</strong><p>Mi amor,</p><p>Te escribo esta carta desde el vértigo.</p><p>Es el vértigo de un hombre que se asoma al borde de su propia estupidez y ve, con una claridad aterradora, el abismo que cavó. Un abismo donde, del otro lado, tu mano se empieza a soltar de la mía.</p><p>Yo me puse aquí. Mis decisiones, mis miedos, mis silencios... me trajeron a este precipicio.</p><p>Lo tenía todo. Y no lo vi.</p><p>Tenía tu risa. Tenía tu confianza. Tenía tus "buenos días". Tenía al único amor de mi vida, a la única persona en el mundo que me miró y me hizo sentir en casa. Y lo arriesgué todo. Lo arriesgué por nada.</p><p>Ahora veo cómo te alejas, cómo la luz de lo nuestro se apaga por mi culpa, y el pánico es real. Es un terror frío que me paraliza.</p><p>Estas páginas no son un argumento. Son una súplica.</p><p>Son el sonido de un corazón aterrado. El terror de un hombre que por fin entendió, quizá demasiado tarde, que eres única. Irremplazable. Y que una vida sin ti no es solo una vida triste... es el terror de no tener vida en absoluto.</p><p>Este es mi corazón en la mano. Esta es mi alma aterrada. Esto es todo lo que me queda de mí, rogando que no te sueltes.</p>`,
                     `<strong>Capítulo 1: La anatomía de mi estupidez</strong><p>¿Cómo llegué aquí? ¿Cómo un hombre que te ama tanto puede ser el arquitecto de su propia ruina?</p><p>La respuesta es simple y me quema la garganta: mi estupidez.</p><p>No fue un solo error. Fue una cadena de actos cobardes, uno tras otro, donde elegí mi comodidad por encima de tu paz. Donde mi miedo a la confrontación fue más grande que mi amor por la integridad. Donde mi egoísmo me hizo creer que podía protegerte de una verdad, cuando en realidad solo me estaba protegiendo a mí.</p><p>Y cada mentira, cada omisión, era un ladrillo que yo mismo ponía en el muro que hoy nos separa.</p><p>Yo fui el cobarde que permitió que su miedo pagara "impuestos" con tu tranquilidad. Yo fui el egoísta que te miraba a los ojos, te decía "te amo", y al mismo tiempo te ocultaba las dagas que yo mismo estaba clavando en nuestra confianza.</p><p>Esta es la anatomía de mi fracaso: permití que el miedo fuera más fuerte que el respeto que te tengo.</p><p>Y ahora vivo con el castigo. El castigo no es tu enojo. El castigo es este terror mudo de saber que yo, y solo yo, rompí lo más valioso que he tenido. Es el pánico de ver cómo te alejas, sabiendo que fui yo quien te dio el mapa de la salida.</p>`,
@@ -316,8 +372,8 @@
                 id: "book5",
                 title: "Confúndeme con Él",
                 author: "Luis",
-                color: "#fbcfe8", // Rosa pálido / Pétalo de rosa
-                textColor: "#4c0519", // Rose oscuro
+                color: "#fbcfe8", 
+                textColor: "#4c0519", 
                 coverDate: "3 de marzo de 2026",
                 pages: [
                     `<div class="dedicatoria">
@@ -347,7 +403,7 @@
                 id: "book6",
                 title: "100 razones para no dejarte ir y una razón para hacerlo",
                 author: "Luis",
-                color: "#475569", // Slate
+                color: "#475569", 
                 textColor: "#f8fafc",
                 coverDate: "Abril de 2026",
                 pages: [
@@ -355,7 +411,7 @@
                         <p>Para Nadia.</p>
                         <p>Porque fuiste, eres y siempre serás la historia que más me dolió aprender a leer.</p>
                     </div>`,
-                    `<strong>Prólogo</strong><p>Hay amores que se aferran a los huesos, que dejan eco en las habitaciones vacías y que nos cambian para siempre. Este libro es un inventario de mis sentimientos, un mapa de todo lo que aún vive en mi memoria. Son cien razones nacidas de la esperanza, del arrepentimiento y del amor profundo; cien motivos, ahora convertidos en historia, por los que mi corazón se niega a cerrar este capítulo.</p>`,
+                    `<strong>Prólogo</strong><p>Hay amores que se aferran a los huesos, que dejan eco en las habitaciones vacías y que nos cambian para পুন siempre. Este libro es un inventario de mis sentimientos, un mapa de todo lo que aún vive en mi memoria. Son cien razones nacidas de la esperanza, del arrepentimiento y del amor profundo; cien motivos, ahora convertidos en historia, por los que mi corazón se niega a cerrar este capítulo.</p>`,
                     `<p>Y, al final, la razón más importante de todas: la que me obliga a entender que el amor, a veces, significa abrir las manos.</p>`,
                     `<strong>Capítulo 1: El eco de lo que fuimos</strong><p>Porque aún te amo y porque nadie me ha mirado como tú. Todo empezó en el trabajo. Primero fueron las miradas, ese jugueteo silencioso de cruzarnos en los pasillos y sostenernos los ojos un segundo más de lo "normal". El coqueteo disfrazado de rutina hasta que por fin me atreví a hablarte. Te pregunté tu nombre, otro día te di mi número y entonces hiciste esa pequeña trampa que me encantó: esa llamada de WhatsApp de un solo segundo. «Me equivoqué, quería mandar un mensaje, qué pena», me dijiste después. Empezamos a platicar y me atrapaste por completo. Recuerdo que lo primero que me voló la cabeza fue tu ortografía perfecta; no tardé ni un minuto en decírtelo. Así de fácil, con letras bien acentuadas y una llamada "accidental", te metiste en mi vida.</p>`,
                     `<p>Te convertiste en mi refugio, porque fuiste hogar, no solo una persona, y porque a tu lado mis días libres jamás volvieron a ser tristes. En mi cabeza, la palabra "hogar" tiene forma de esos días. No necesitábamos lujos ni planes enormes. Nuestro plan perfecto era salir a caminar, comer en el puesto de tacos cerca de tu casa y bromear con que íbamos a ver a "tu amigo" el taquero. Era ir al cine, encerrarnos a ver series o inscribirnos a esas carreras de 5 kilómetros para correr juntos. Estar contigo era fácil. Era el lugar donde yo quería estacionar la vida y simplemente quedarme.</p>`,
@@ -395,8 +451,8 @@
                 id: "book7",
                 title: "N.A.D.I.A",
                 author: "Luis",
-                color: "#312e81", // Indigo Profundo
-                textColor: "#e0e7ff", // Azul claro
+                color: "#312e81", 
+                textColor: "#e0e7ff", 
                 coverDate: "14 de abril de 2026",
                 pages: [
                     `<p>Escribir es, en el fondo, una forma de buscarte. Durante mucho tiempo intenté redactar frases perfectas, metáforas complejas y versos que sonaran a eternidad, solo para darme cuenta de que la poesía no estaba en lo que decía, sino en quién estaba pensando mientras lo hacía.</p><p>Me di cuenta de que no importa hacia dónde mire, en qué dirección escriba o cómo acomode las palabras: todas las formas posibles de mi amor terminan deletreando tu nombre. No es solo un conjunto de letras; es el mapa de mi regreso, el código de mis latidos y el refugio donde siempre quiero estar.</p><p>Aquí estás. En el principio, en el centro, al final y atravesando cada una de mis letras. Porque hay nombres que no se dicen, se habitan. Y el tuyo es el único lugar donde me siento en casa.</p>`,
@@ -442,8 +498,8 @@
                             </div>
                         </div>
                     </div>
-                    <h2 class="font-serif text-xl text-gray-800 mb-1">${book.title}</h2>
-                    <p class="text-xs text-gray-500 uppercase tracking-widest">${book.coverDate}</p>
+                    <h2 class="font-serif text-xl text-gray-800 mb-1 transition-colors duration-1000" id="title-${book.id}">${book.title}</h2>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest transition-colors duration-1000" id="date-${book.id}">${book.coverDate}</p>
                 </div>
             `;
             booksGrid.innerHTML += cardHTML;
@@ -452,10 +508,28 @@
 
         // --- LÓGICA DEL MOTOR DEL LECTOR ---
         const readerModal = document.getElementById('reader-modal');
+        window.particleMode = 'normal'; // Control global de partículas
 
         function openBook(bookId) {
             const book = libraryData.find(b => b.id === bookId);
             if (!book) return;
+
+            // Revisar si es modo noche
+            if (book.nightMode) {
+                readerModal.classList.add('night-mode');
+                document.body.classList.add('night-active');
+                window.particleMode = 'stars';
+                
+                // Asegurar que el color principal de la capitular se vea bien de noche
+                document.getElementById('reader-content').style.setProperty('--theme-color', book.textColor);
+            } else {
+                readerModal.classList.remove('night-mode');
+                document.body.classList.remove('night-active');
+                window.particleMode = 'normal';
+                
+                // Color normal
+                document.getElementById('reader-content').style.setProperty('--theme-color', book.color);
+            }
 
             // Actualizar interfaz del lector
             document.getElementById('reader-nav-title').innerText = book.title;
@@ -463,20 +537,16 @@
             document.getElementById('reader-author').innerText = book.author;
             document.getElementById('reader-date').innerText = book.coverDate;
             
-            // Aplicar colores del libro
+            // Aplicar colores del libro a la portada del modal
             document.getElementById('reader-cover-bg').style.backgroundColor = book.color;
             document.getElementById('reader-cover').style.color = book.textColor;
-            document.getElementById('reader-content').style.setProperty('--theme-color', book.color);
 
             // Inyectar contenido en formato continuo
-            // Envolvemos cada segmento en un div para mantener estructura si es necesario
-            const contentHTML = book.pages.map((content, index) => {
-                // Preservar la dedicatoria tal cual
+            const contentHTML = book.pages.map((content) => {
                 if(content.includes('class="dedicatoria"')) return content;
+                if(content.includes('class="text-center')) return content; // Para acrosticos
                 
-                // Si el contenido no está ya envuelto en etiquetas, lo envolvemos en <p>
                 const finalContent = content.startsWith('<') ? content : `<p>${content}</p>`;
-                // Añadimos una clase para ayudar al selector CSS de la letra capitular
                 return `<div class="content-block">${finalContent}</div>`;
             }).join('');
             
@@ -490,7 +560,6 @@
             document.body.style.overflow = 'hidden'; 
             readerModal.scrollTop = 0;
             
-            // Refrescar iconos por si acaso
             lucide.createIcons();
         }
 
@@ -499,8 +568,11 @@
             readerModal.classList.remove('active');
             readerModal.classList.add('hidden-state');
             document.body.style.overflow = 'auto'; // Restaurar scroll del fondo
+            
+            // Restaurar modo de día
+            document.body.classList.remove('night-active');
+            window.particleMode = 'normal';
         });
-
 
         // --- UTILIDADES GLOBALES (Menú Móvil y Partículas) ---
         const menuBtn = document.getElementById('mobile-menu-btn');
@@ -534,12 +606,23 @@
         function animateParticles() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             particles.forEach(p => {
-                p.y -= p.s; 
-                p.x += Math.sin(p.d) * 0.2;
+                if (window.particleMode === 'stars') {
+                    // Estrellas parpadeantes que flotan muy lento
+                    p.y -= p.s * 0.1; 
+                    p.x += Math.sin(p.d) * 0.05;
+                    const opacity = Math.abs(Math.sin(Date.now() * 0.001 * p.s + p.r)) * 0.8 + 0.2;
+                    ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                } else {
+                    // Partículas normales flotando
+                    p.y -= p.s; 
+                    p.x += Math.sin(p.d) * 0.2;
+                    ctx.fillStyle = p.c; 
+                }
+                
                 if(p.y < -10) { p.y = canvas.height + 10; p.x = Math.random() * canvas.width; }
-                ctx.fillStyle = p.c; 
+                
                 ctx.beginPath(); 
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); 
+                ctx.arc(p.x, p.y, window.particleMode === 'stars' ? p.r * 0.8 : p.r, 0, Math.PI*2); 
                 ctx.fill();
             });
             requestAnimationFrame(animateParticles);
