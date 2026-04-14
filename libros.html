@@ -545,6 +545,34 @@
                         choices: []
                     }
                 }
+            },
+            {
+                id: "book9",
+                title: "¿?¿?¿?",
+                author: "Luis",
+                color: "#c2410c", 
+                textColor: "#fffbeb",
+                coverDate: "Octubre 2026",
+                type: "timeCapsule",
+                unlockDate: "2026-10-17T00:00:00",
+                pages: [
+                    `<strong>Capítulo 1: El tiempo a nuestro favor</strong><p>Si estás leyendo esto, significa que el otoño ha llegado y la paciencia nos trajo hasta aquí. Guardé este pequeño texto hace meses con la esperanza de que, al abrirse, estemos juntos viendo caer las hojas o compartiendo un café caliente.</p>`,
+                    `<p>Octubre siempre me ha parecido un mes mágico, pero hoy lo es mucho más porque te tengo conmigo. Gracias por esperar. Gracias por quedarte.</p>`
+                ]
+            },
+            {
+                id: "book10",
+                title: "¿?¿?¿?",
+                author: "Luis",
+                color: "#0f766e", 
+                textColor: "#f0fdf4",
+                coverDate: "Diciembre 2026",
+                type: "timeCapsule",
+                unlockDate: "2026-12-04T00:00:00",
+                pages: [
+                    `<strong>Capítulo 1: Un final para empezar</strong><p>¡Llegó diciembre! El mes de los balances, del frío rico, de las cobijas compartidas y las fiestas. Cuando bloqueé este libro, imaginaba cómo estaríamos en este punto exacto del año. Mi único deseo era que lo termináramos juntos, riendo y preparando el siguiente año.</p>`,
+                    `<p>Quiero ser tu refugio, tu Año Nuevo, y todos los días intermedios. Feliz diciembre, mi amor. Abrígate bien, que yo me encargo de los abrazos.</p>`
+                ]
             }
         ];
 
@@ -552,6 +580,9 @@
         const booksGrid = document.getElementById('books-grid');
 
         libraryData.forEach(book => {
+            const isLocked = book.type === 'timeCapsule' && new Date() < new Date(book.unlockDate);
+            const lockIcon = isLocked ? `<i data-lucide="lock" class="w-4 h-4 absolute top-3 right-3 text-white/70 drop-shadow-md"></i>` : '';
+
             const cardHTML = `
                 <div class="glass-card rounded-3xl p-6 flex flex-col items-center text-center cursor-pointer group" onclick="openBook('${book.id}')">
                     <div class="relative w-32 h-44 md:w-40 md:h-56 mb-6 transition-transform duration-500 group-hover:-translate-y-4 group-hover:rotate-2">
@@ -559,6 +590,7 @@
                         <div class="absolute inset-0 bg-black/20 translate-x-2 translate-y-2 blur-md rounded-r-lg rounded-l-sm"></div>
                         <!-- Cubierta del libro -->
                         <div class="absolute inset-0 rounded-r-lg rounded-l-sm book-spine flex flex-col justify-center items-center p-4" style="background-color: ${book.color};">
+                            ${lockIcon}
                             <div class="border border-white/20 w-full h-full p-2 flex flex-col justify-between items-center text-center">
                                 <span class="font-sans text-[8px] uppercase tracking-widest opacity-60 mt-2" style="color: ${book.textColor}">${book.author}</span>
                                 <h3 class="font-serif text-sm md:text-base leading-tight font-bold" style="color: ${book.textColor}">${book.title}</h3>
@@ -578,10 +610,13 @@
         const readerModal = document.getElementById('reader-modal');
         const readerFooter = document.getElementById('reader-footer');
         window.particleMode = 'normal'; // Control global de partículas
+        window.countdownInterval = null;
 
         function openBook(bookId) {
             const book = libraryData.find(b => b.id === bookId);
             if (!book) return;
+
+            clearInterval(window.countdownInterval);
 
             // Revisar si es modo noche
             if (book.nightMode) {
@@ -610,6 +645,9 @@
             if (book.type === 'interactive') {
                 readerFooter.classList.add('hidden'); // Ocultar el footer genérico
                 renderInteractiveNode(book.id, book.startNode);
+            } else if (book.type === 'timeCapsule' && new Date() < new Date(book.unlockDate)) {
+                readerFooter.classList.add('hidden');
+                renderLockedCapsule(book);
             } else {
                 readerFooter.classList.remove('hidden');
                 document.getElementById('reader-footer-text').innerText = "Fin de la lectura";
@@ -663,8 +701,81 @@
             readerModal.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // --- FUNCIÓN PARA RENDERIZAR CÁPSULAS DEL TIEMPO ---
+        window.renderLockedCapsule = function(book) {
+            const contentDiv = document.getElementById('reader-content');
+            const unlockDateObj = new Date(book.unlockDate);
+            
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const formattedDate = unlockDateObj.toLocaleDateString('es-ES', options);
+            
+            const html = `
+                <div class="flex flex-col items-center justify-center py-16 md:py-24 text-center animate-fade-in">
+                    <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center mb-6 shadow-inner border border-gray-200">
+                        <i data-lucide="lock" class="w-10 h-10" style="color: ${book.color}"></i>
+                    </div>
+                    <h2 class="font-serif text-2xl md:text-4xl font-bold mb-4 text-gray-800">Cápsula Bloqueada</h2>
+                    <p class="text-gray-500 mb-10 max-w-md text-sm md:text-base leading-relaxed">
+                        Este recuerdo aún se está escribiendo. Vuelve el <strong class="text-gray-800">${formattedDate}</strong> para descubrir lo que he guardado aquí para ti.
+                    </p>
+
+                    <div class="flex flex-wrap justify-center gap-3 md:gap-5 w-full">
+                        <div class="bg-white/60 backdrop-blur-md border border-gray-200 rounded-2xl p-4 min-w-[70px] md:min-w-[90px] shadow-sm flex flex-col items-center">
+                            <span class="text-2xl md:text-4xl font-serif font-bold text-gray-800" id="cd-days">--</span>
+                            <span class="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-gray-400 mt-2 font-sans">Días</span>
+                        </div>
+                        <div class="bg-white/60 backdrop-blur-md border border-gray-200 rounded-2xl p-4 min-w-[70px] md:min-w-[90px] shadow-sm flex flex-col items-center">
+                            <span class="text-2xl md:text-4xl font-serif font-bold text-gray-800" id="cd-hours">--</span>
+                            <span class="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-gray-400 mt-2 font-sans">Horas</span>
+                        </div>
+                        <div class="bg-white/60 backdrop-blur-md border border-gray-200 rounded-2xl p-4 min-w-[70px] md:min-w-[90px] shadow-sm flex flex-col items-center">
+                            <span class="text-2xl md:text-4xl font-serif font-bold text-gray-800" id="cd-minutes">--</span>
+                            <span class="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-gray-400 mt-2 font-sans">Min</span>
+                        </div>
+                        <div class="bg-white/60 backdrop-blur-md border border-gray-200 rounded-2xl p-4 min-w-[70px] md:min-w-[90px] shadow-sm flex flex-col items-center">
+                            <span class="text-2xl md:text-4xl font-serif font-bold text-gray-800" id="cd-seconds">--</span>
+                            <span class="text-[9px] md:text-[11px] uppercase tracking-[0.2em] text-gray-400 mt-2 font-sans">Seg</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            contentDiv.innerHTML = html;
+            lucide.createIcons();
+            
+            const updateCountdown = () => {
+                const now = new Date().getTime();
+                const distance = unlockDateObj.getTime() - now;
+                
+                if (distance < 0) {
+                    clearInterval(window.countdownInterval);
+                    openBook(book.id); 
+                    return;
+                }
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                const elDays = document.getElementById('cd-days');
+                const elHours = document.getElementById('cd-hours');
+                const elMins = document.getElementById('cd-minutes');
+                const elSecs = document.getElementById('cd-seconds');
+                
+                if(elDays) elDays.innerText = days;
+                if(elHours) elHours.innerText = hours.toString().padStart(2, '0');
+                if(elMins) elMins.innerText = minutes.toString().padStart(2, '0');
+                if(elSecs) elSecs.innerText = seconds.toString().padStart(2, '0');
+            };
+            
+            updateCountdown(); 
+            window.countdownInterval = setInterval(updateCountdown, 1000);
+        }
+
         // Cerrar Modal
         document.getElementById('close-reader-btn').addEventListener('click', () => {
+            clearInterval(window.countdownInterval);
             readerModal.classList.remove('active');
             readerModal.classList.add('hidden-state');
             document.body.style.overflow = 'auto'; // Restaurar scroll del fondo
