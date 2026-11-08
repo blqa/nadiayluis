@@ -194,6 +194,48 @@ p { margin: 0 0 1em; }
 }
 .menu-boton svg { width: 26px; height: 26px; }
 
+/* "Más" (se abre hacia abajo) */
+.mas { position: relative; }
+.mas-boton {
+  display: inline-flex; align-items: center; gap: .25rem;
+  font: inherit; font-size: .92rem;
+  color: var(--tinta-suave);
+  background: none; border: 0; border-bottom: 1.5px solid transparent;
+  padding: .25rem 0; cursor: pointer;
+}
+.mas-boton:hover, .mas.abierto .mas-boton { color: var(--tinta); }
+.mas-boton[aria-current] { color: var(--tinta); border-bottom-color: var(--cereza); }
+.mas-boton svg { width: 14px; height: 14px; transition: transform .25s; }
+.mas.abierto .mas-boton svg { transform: rotate(180deg); }
+.mas-lista {
+  position: absolute; top: calc(100% + 1.1rem); right: -.75rem;
+  min-width: 14.5rem;
+  list-style: none; margin: 0; padding: .5rem;
+  background: var(--hoja);
+  border: 1px solid var(--polvo);
+  border-radius: 16px;
+  box-shadow: 0 24px 48px -20px #2b183073, 0 2px 6px #2b18301a;
+  opacity: 0; transform: translateY(-8px) scale(.98); transform-origin: top right;
+  pointer-events: none; visibility: hidden;
+  transition: opacity .2s, transform .25s cubic-bezier(.2,.8,.2,1), visibility .2s;
+}
+.mas.abierto .mas-lista { opacity: 1; transform: none; pointer-events: auto; visibility: visible; }
+.mas-lista a {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  padding: .55rem .8rem; border-radius: 10px; border-bottom: 0;
+  font-size: .95rem;
+}
+.mas-lista a:hover { background: var(--papel-2); }
+.mas-lista a[aria-current="page"] { color: var(--cereza); border-bottom: 0; }
+.candado { width: .8em; height: .8em; margin-left: .35em; opacity: .55; vertical-align: -.05em; flex: none; }
+.mas-lista .candado { margin-left: 0; }
+
+.menu-progreso {
+  position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
+  background: linear-gradient(90deg, var(--pastel), var(--cereza));
+  transform-origin: left; transform: scaleX(var(--p, 0));
+}
+
 @media (max-width: 760px) {
   .menu-boton { display: block; }
   .menu-enlaces {
@@ -206,7 +248,15 @@ p { margin: 0 0 1em; }
     border-bottom: 1px solid var(--polvo);
     padding: 0.5rem 1.25rem 1.25rem;
   }
-  .menu.abierto .menu-enlaces { display: flex; }
+  .menu.abierto .menu-enlaces { display: flex; max-height: calc(100svh - 4rem); overflow-y: auto; }
+  .mas-boton { display: none; }
+  .mas-lista {
+    position: static; opacity: 1; transform: none; pointer-events: auto; visibility: visible;
+    min-width: 0; padding: 0; background: none; border: 0; box-shadow: none;
+  }
+  .mas-lista a { padding: .85rem 0; border-radius: 0; border-bottom: 1px solid var(--polvo); font-size: 1.15rem; font-family: var(--serif); }
+  .mas-lista a:hover { background: none; }
+  .mas-lista a[aria-current="page"] { border-bottom: 1px solid var(--polvo); }
   .menu-enlaces a {
     display: block;
     padding: 0.85rem 0;
@@ -255,3 +305,111 @@ p { margin: 0 0 1em; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   html { scroll-behavior: auto; }
 }
+
+/* =========================================================
+   Detalles de pulido: grano, transiciones, aparecer, tarjetas
+   ========================================================= */
+
+/* Un grano finísimo sobre todo, como papel de verdad */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 60;
+  pointer-events: none;
+  opacity: .045;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+:root[data-modo="oscuro"] body::before { opacity: .07; }
+
+/* Al cambiar de página, un fundido suave; el menú se queda quieto */
+@view-transition { navigation: auto; }
+.menu { view-transition-name: menu; }
+::view-transition-old(root), ::view-transition-new(root) { animation-duration: .32s; }
+
+/* Aparecer al hacer scroll */
+.revela {
+  opacity: 0; transform: translateY(24px);
+  transition: opacity .85s cubic-bezier(.2,.7,.2,1), transform .85s cubic-bezier(.2,.7,.2,1);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+.revela.visto { opacity: 1; transform: none; }
+/* Las tarjetas ya tienen su propio “transition” (el brillo al pasar); aquí se suma el de aparecer */
+.tarjeta.revela {
+  transition: opacity .85s cubic-bezier(.2,.7,.2,1), transform .85s cubic-bezier(.2,.7,.2,1);
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+/* Entrada del título (con  class="entra"  y  style="--i:n" ) */
+@keyframes sube {
+  from { opacity: 0; transform: translateY(28px); filter: blur(8px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+.entra {
+  display: inline-block;
+  animation: sube 1s cubic-bezier(.2,.7,.2,1) both;
+  animation-delay: calc(var(--i, 0) * 130ms + 120ms);
+}
+
+/* Tarjetas con un brillo rosa al pasar */
+.tarjeta {
+  background: var(--hoja);
+  border: 1px solid var(--polvo);
+  border-radius: 20px;
+  padding: 1.4rem 1.5rem;
+  transition: transform .3s cubic-bezier(.2,.8,.2,1), box-shadow .3s, border-color .3s;
+}
+.tarjeta:hover {
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--cereza) 45%, var(--polvo));
+  box-shadow: 0 22px 40px -24px color-mix(in srgb, var(--cereza) 55%, transparent);
+}
+
+/* Aviso que aparece abajo (“Nadia está pensando en ti”) */
+.toast {
+  position: fixed; left: 50%; bottom: 1.5rem; z-index: 70;
+  transform: translate(-50%, 140%);
+  display: flex; align-items: center; gap: .6rem;
+  padding: .8rem 1.25rem;
+  background: var(--hoja); color: var(--tinta);
+  border: 1px solid color-mix(in srgb, var(--cereza) 40%, var(--polvo));
+  border-radius: 999px;
+  box-shadow: 0 18px 40px -16px #2b183080;
+  font-family: var(--serif); font-size: 1.05rem;
+  transition: transform .5s cubic-bezier(.2,1.2,.3,1);
+  max-width: calc(100vw - 2rem);
+}
+.toast.visible { transform: translate(-50%, 0); }
+.toast svg { width: 1.1rem; color: var(--cereza); flex: none; }
+
+/* Cuadro para entrar (buzón, pregunta del día, sueños compartidos) */
+.acceso {
+  max-width: 30rem;
+  padding: 1.75rem;
+  background: var(--hoja);
+  border: 1px solid var(--polvo);
+  border-radius: 24px;
+  box-shadow: 0 30px 60px -40px color-mix(in srgb, var(--cereza) 60%, transparent);
+}
+.acceso h2 { font-size: 1.6rem; line-height: 1.15; }
+.acceso p { color: var(--tinta-suave); margin: .6rem 0 1.25rem; font-size: .98rem; }
+.acceso form { display: grid; gap: .75rem; }
+.acceso label { font-size: .88rem; color: var(--tinta-suave); display: grid; gap: .3rem; }
+.acceso input, .campo {
+  font: inherit;
+  padding: .75rem 1rem;
+  border: 1.5px solid var(--polvo);
+  border-radius: 14px;
+  background: var(--papel);
+  color: var(--tinta);
+  width: 100%;
+}
+.acceso input:focus, .campo:focus { border-color: var(--cereza); outline: none; }
+textarea.campo { resize: vertical; min-height: 6.5rem; line-height: 1.5; font-family: var(--serif); font-size: 1.1rem; }
+.acceso .error { color: var(--cereza); font-size: .92rem; margin: 0; min-height: 1.3em; }
+.acceso .quien { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+.acceso .quien .boton { justify-content: center; font-family: var(--serif); font-size: 1.3rem; padding: 1rem; }
+.sesion {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem 1rem;
+  font-size: .92rem; color: var(--tinta-suave); margin-bottom: 2rem;
+}
+.sesion strong { color: var(--tinta); font-family: var(--serif); font-weight: 500; font-size: 1.05rem; }
+.sesion button { font: inherit; font-size: .88rem; background: none; border: 0; padding: 0; color: var(--cereza); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }

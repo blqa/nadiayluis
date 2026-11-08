@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site.css?v=20261108d">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108e">
   <style>
     .progreso { font-family: var(--serif); font-size: 1.25rem; margin: 0 0 2rem; }
     .progreso strong { color: var(--cereza); font-weight: 500; }
@@ -64,6 +64,16 @@
     }
     form.nuevo input:focus { border-color: var(--cereza); outline: none; }
     .nota { color: var(--tinta-suave); font-size: .92rem; margin-top: 1rem; }
+
+    .compartir { max-width: 44rem; margin-top: 2.5rem; border-top: 1px solid var(--polvo); padding-top: 1.5rem; }
+    .compartir summary { cursor: pointer; font-family: var(--serif); font-size: 1.25rem; list-style: none; display: flex; align-items: center; gap: .6rem; }
+    .compartir summary::-webkit-details-marker { display: none; }
+    .compartir summary::after { content: "+"; color: var(--cereza); font-size: 1.5rem; line-height: 1; transition: transform .25s; }
+    .compartir[open] summary::after { transform: rotate(45deg); }
+    .compartir .contenido-compartir { padding-top: 1.25rem; }
+    .compartir .sincro { color: var(--tinta-suave); font-size: .92rem; margin: 0; }
+    .compartir .sincro::before { content: ""; display: inline-block; width: .55rem; height: .55rem; border-radius: 50%; background: var(--cereza); margin-right: .5rem; animation: latido-suave 2.4s ease-in-out infinite; }
+    @keyframes latido-suave { 50% { opacity: .3; } }
   </style>
 </head>
 <body>
@@ -81,11 +91,19 @@
       <input id="nuevo-texto" type="text" maxlength="120" placeholder="Por ejemplo: ir a un concierto juntos" required>
       <button class="boton" type="submit">Agregar</button>
     </form>
-    <p class="nota">Lo que palomees o agregues aquí se guarda en este teléfono.</p>
+    <p class="nota" id="nota-guardado">Lo que palomees o agregues aquí se guarda en este teléfono.</p>
+
+    <details class="compartir" id="compartir">
+      <summary>Compartir esta lista entre los dos</summary>
+      <div class="contenido-compartir">
+        <div id="acceso"></div>
+        <p class="sincro" id="sincro" hidden>La lista está sincronizada: lo que marque la otra persona lo ves aquí al instante.</p>
+      </div>
+    </details>
   </main>
 
-  <script src="assets/js/datos.js?v=20261108d"></script>
-  <script src="assets/js/site.js?v=20261108d"></script>
+  <script src="assets/js/datos.js?v=20261108e"></script>
+  <script src="assets/js/site.js?v=20261108e"></script>
   <script>
     const LLAVE = "nyl-suenos";
     const leer = () => { try { return JSON.parse(localStorage.getItem(LLAVE)) || {}; } catch { return {}; } };
@@ -115,12 +133,21 @@
         `Llevamos <strong>${hechos}</strong> de ${cajas.length} cumplidos.`;
     }
 
+    /* --- Compartida entre los dos (Firebase) --- */
+    let nube = null; // { ref, F } cuando la lista está sincronizada
+    function subir() {
+      if (!nube) return;
+      const g = leer();
+      nube.F.setDoc(nube.ref, { marcas: g.marcas || {}, extra: g.extra || [] }).catch(() => {});
+    }
+
     document.getElementById("suenos").addEventListener("change", e => {
       const g = leer();
       g.marcas = g.marcas || {};
       g.marcas[e.target.dataset.texto] = e.target.checked;
       guardar(g);
       contar();
+      subir();
     });
 
     document.getElementById("nuevo").addEventListener("submit", e => {
@@ -133,9 +160,48 @@
       guardar(g);
       campo.value = "";
       pintar();
+      subir();
     });
 
     pintar();
+
+    async function conectarNube() {
+      const Nube = await cargarNube();
+      Nube.acceso(document.getElementById("acceso"), {
+        titulo: "Compartir la lista",
+        texto: "Entra y esta lista será la misma para los dos, en cualquier teléfono.",
+        alListo: (yo, N) => {
+          const { db, F } = N;
+          const ref = F.doc(db, "compartido", "suenos");
+          let primera = true;
+          F.onSnapshot(ref, snap => {
+            const local = leer();
+            if (primera) {
+              primera = false;
+              const r = snap.exists() ? snap.data() : {};
+              // la primera vez se juntan lo del teléfono y lo de la nube
+              const extra = [...new Set([...(r.extra || []), ...(local.extra || [])])];
+              const marcas = { ...(local.marcas || {}), ...(r.marcas || {}) };
+              guardar({ ...local, extra, marcas });
+              nube = { ref, F };
+              if (!snap.exists() || extra.length !== (r.extra || []).length || Object.keys(marcas).length !== Object.keys(r.marcas || {}).length) subir();
+            } else if (snap.exists() && !snap.metadata.hasPendingWrites) {
+              const r = snap.data();
+              guardar({ ...local, extra: r.extra || [], marcas: r.marcas || {} });
+            }
+            pintar();
+            document.getElementById("sincro").hidden = false;
+            document.getElementById("nota-guardado").textContent = "Esta lista se guarda en la nube y la ven los dos.";
+          }, () => {});
+        },
+        alSalir: () => { if (nube) location.reload(); },
+      });
+    }
+    const detalle = document.getElementById("compartir");
+    let conectado = false;
+    const conectarUnaVez = () => { if (!conectado) { conectado = true; conectarNube(); } };
+    detalle.addEventListener("toggle", () => { if (detalle.open) conectarUnaVez(); });
+    try { if (localStorage.getItem("nyl-nube") === "1") { detalle.open = true; conectarUnaVez(); } } catch (e) {}
   </script>
 </body>
 </html>

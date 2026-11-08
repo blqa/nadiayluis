@@ -4,22 +4,40 @@
    Para agregar una sección al menú, agrégala en SECCIONES.
    ========================================================= */
 
+const SITE_SRC = document.currentScript ? document.currentScript.src : "";
+
+/* Los que llevan  mas: true  salen dentro de "Más".
+   Los que llevan  privado: true  piden entrar con correo y contraseña. */
 const SECCIONES = [
   { archivo: "index.html", nombre: "Inicio" },
   { archivo: "historia.html", nombre: "Historia" },
   { archivo: "cartas.html", nombre: "Cartas" },
   { archivo: "biblioteca.html", nombre: "Biblioteca" },
-  { archivo: "razones.html", nombre: "Razones" },
-  { archivo: "canciones.html", nombre: "Canciones" },
-  { archivo: "suenos.html", nombre: "Sueños" },
-  { archivo: "numeros.html", nombre: "Números" },
+  { archivo: "mapa.html", nombre: "Mapa" },
+  { archivo: "razones.html", nombre: "Razones", mas: true },
+  { archivo: "canciones.html", nombre: "Canciones", mas: true },
+  { archivo: "suenos.html", nombre: "Sueños", mas: true },
+  { archivo: "numeros.html", nombre: "Números", mas: true },
+  { archivo: "hoy.html", nombre: "Pregunta del día", mas: true, privado: true },
+  { archivo: "buzon.html", nombre: "Buzón", mas: true, privado: true },
 ];
+
+const CANDADO = '<svg class="candado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-label="Solo para los dos"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>';
 
 (function ponerMenu() {
   const actual = location.pathname.split("/").pop() || "index.html";
-  const enlaces = SECCIONES.map(s =>
-    `<li><a href="${s.archivo}"${s.archivo === actual ? ' aria-current="page"' : ""}>${s.nombre}</a></li>`
-  ).join("");
+  const enlace = x =>
+    `<li><a href="${x.archivo}"${x.archivo === actual ? ' aria-current="page"' : ""}>${x.nombre}${x.privado ? CANDADO : ""}</a></li>`;
+  const principales = SECCIONES.filter(x => !x.mas).map(enlace).join("");
+  const masItems = SECCIONES.filter(x => x.mas);
+  const masActivo = masItems.some(x => x.archivo === actual);
+  const enlaces = principales + `
+    <li class="mas">
+      <button class="mas-boton" type="button" aria-expanded="false" aria-haspopup="true"${masActivo ? ' aria-current="true"' : ""}>
+        Más <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+      </button>
+      <ul class="mas-lista">${masItems.map(enlace).join("")}</ul>
+    </li>`;
 
   const menu = document.createElement("nav");
   menu.className = "menu";
@@ -37,8 +55,32 @@ const SECCIONES = [
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg>
         </button>
       </div>
-    </div>`;
+    </div>
+    <div class="menu-progreso" aria-hidden="true"></div>`;
   document.body.prepend(menu);
+
+  /* "Más": se abre al tocar y se cierra al tocar fuera o con Escape */
+  const mas = menu.querySelector(".mas");
+  const masBoton = menu.querySelector(".mas-boton");
+  const cerrarMas = () => { mas.classList.remove("abierto"); masBoton.setAttribute("aria-expanded", "false"); };
+  masBoton.addEventListener("click", e => {
+    e.stopPropagation();
+    const abierto = mas.classList.toggle("abierto");
+    masBoton.setAttribute("aria-expanded", abierto);
+  });
+  document.addEventListener("click", e => { if (!mas.contains(e.target)) cerrarMas(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarMas(); });
+
+  /* Barra fina que avanza al hacer scroll */
+  const barra = menu.querySelector(".menu-progreso");
+  let pendiente = false;
+  function medirScroll() {
+    pendiente = false;
+    const alto = document.documentElement.scrollHeight - innerHeight;
+    barra.style.setProperty("--p", alto > 0 ? Math.min(1, scrollY / alto) : 0);
+  }
+  addEventListener("scroll", () => { if (!pendiente) { pendiente = true; requestAnimationFrame(medirScroll); } }, { passive: true });
+  medirScroll();
 
   const boton = menu.querySelector(".menu-boton");
   boton.addEventListener("click", () => {
@@ -75,6 +117,40 @@ const SECCIONES = [
     </div>`;
   document.body.append(pie);
 })();
+
+/* ---------- Cargar partículas y (cuando se necesita) la nube ---------- */
+function cargarScript(nombre) {
+  return new Promise((ok, mal) => {
+    const url = new URL(nombre, SITE_SRC);
+    url.search = new URL(SITE_SRC).search;
+    const el = document.createElement("script");
+    el.src = url.href; el.onload = ok; el.onerror = mal;
+    document.head.append(el);
+  });
+}
+function cargarNube() {
+  return window.Nube ? Promise.resolve(window.Nube) : cargarScript("nube.js").then(() => window.Nube);
+}
+cargarScript("particulas.js").catch(() => {});
+
+/* ---------- Aparecer suavemente al hacer scroll ----------
+   Pon  data-revela  en lo que quieras que aparezca así (y  style="--i:2"
+   para escalonarlo). Si agregas cosas con JS, llama revelar() después. */
+function revelar(raiz = document) {
+  const nodos = [...raiz.querySelectorAll("[data-revela]:not(.revela)")];
+  if (!nodos.length) return;
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const ojo = new IntersectionObserver(entradas => {
+    for (const e of entradas) if (e.isIntersecting) {
+      const el = e.target;
+      el.classList.add("visto"); ojo.unobserve(el);
+      // cuando termina de aparecer, se quita la clase para que el elemento vuelva a ser normal (hover, etc.)
+      setTimeout(() => el.classList.remove("revela", "visto"), 2200);
+    }
+  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  for (const n of nodos) { n.classList.add("revela"); ojo.observe(n); }
+}
+revelar();
 
 /* ---------- Fechas ---------- */
 const DIA = 1000 * 60 * 60 * 24;

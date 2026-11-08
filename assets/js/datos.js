@@ -47,6 +47,7 @@ window.DATOS = {
     {
       fecha: "27 de marzo de 2025",
       titulo: "Aquel día en Chapultepec",
+      lugar: [19.4204, -99.1819, "Bosque de Chapultepec"],
       texto: "Me salí del trabajo para acompañarte. Sangrías, churros, ardillas en el pasto, y casi no llegamos a la obra de teatro de las 8. Perdimos la noción del tiempo."
     },
     {
@@ -75,12 +76,14 @@ window.DATOS = {
     {
       fecha: "Agosto de 2025",
       titulo: "Aventura en Huasca",
+      lugar: [20.2036, -98.5767, "Huasca de Ocampo, Hidalgo"],
       foto: "https://i.imgur.com/6oUe2OE.png",
       texto: "Este fue, sin duda, el mejor mes de todos. Te llevé de sorpresa a Huasca de Ocampo. No tenías idea hasta que llegamos. Pasamos dos días sin dinero, nos mojamos muchísimo por la lluvia y pasamos mucho frío, pero logramos comer, hospedarnos y fuimos inmensamente felices. Nada importó porque dormimos juntos. Terminamos super pobres, pero no me arrepiento de haber vivido esa aventura contigo. Lo valió todo."
     },
     {
       fecha: "15 de agosto de 2025",
       titulo: "Cuemanco y videos de terror",
+      lugar: [19.2886, -99.1043, "Cuemanco, CDMX"],
       foto: "https://i.imgur.com/EuMIZ9i.png",
       texto: "Fuimos a Cuemanco y terminamos grabando videos de terror."
     },
@@ -111,6 +114,7 @@ window.DATOS = {
     {
       fecha: "29 de octubre de 2025",
       titulo: "Six Flags",
+      lugar: [19.297, -99.2078, "Six Flags México"],
       foto: "https://i.imgur.com/Ttrrquy.png",
       texto: "Un día entero de juegos juntos."
     },
@@ -134,12 +138,14 @@ window.DATOS = {
     {
       fecha: "Enero de 2026",
       titulo: "Caminata en Tlalpan",
+      lugar: [19.2917, -99.1667, "Tlalpan, CDMX"],
       foto: "https://i.imgur.com/cESeW0S.png",
       texto: "Es un día normal, no hicimos mucho en enero ya que nos enfocamos más en trabajar, pero es un recuerdo lindo de nuestro \"hijito\" y nosotros caminando por Tlalpan hacia nuestras casitas."
     },
     {
       fecha: "3 de febrero de 2026",
       titulo: "Paseo por el zoológico",
+      lugar: [19.4655, -99.0747, "Zoológico de Aragón"],
       foto: ["https://i.imgur.com/WTCor6e.jpeg", "https://i.imgur.com/yFkzf1O.png"],
       texto: "Decidimos ir al zoológico de Aragón porque yo tenía muchísimas ganas de visitarlo. Caminamos, vimos a los animalitos y pasamos un rato muy entretenido (incluso mi mamá nos acompañó un ratito). Todo fue muy especial y salieron unas fotos preciosas que siempre voy a atesorar."
     },
@@ -178,6 +184,7 @@ window.DATOS = {
     {
       fecha: "11 de mayo de 2026",
       titulo: "Yecapixtla, tú y yo",
+      lugar: [18.8827, -98.8667, "Yecapixtla, Morelos"],
       foto: "https://i.imgur.com/LNkxDXu.png",
       texto: "Una escapada solo de nosotros dos."
     },
@@ -191,12 +198,14 @@ window.DATOS = {
     {
       fecha: "3 de julio de 2026",
       titulo: "FIFA Fan Fest",
+      lugar: [19.4326, -99.1332, "Zócalo, CDMX"],
       foto: "https://i.imgur.com/Nrui0sB.png",
       texto: "El Mundial en nuestra ciudad, y nosotros ahí."
     },
     {
       fecha: "5 de julio de 2026",
       titulo: "Yecapixtla con mi familia",
+      lugar: [18.8827, -98.8667, "Yecapixtla, Morelos"],
       foto: "https://i.imgur.com/dQDkDKC.jpeg",
       texto: "Otra vez Yecapixtla, ahora con mi familia, y la tarde en el balneario."
     },
@@ -208,6 +217,7 @@ window.DATOS = {
     {
       fecha: "21 de septiembre de 2026",
       titulo: "El cumpleaños de tu abuelito",
+      lugar: [19.4087, -99.5298, "Xonacatlán, Estado de México"],
       foto: "https://i.imgur.com/dp8yote.png",
       texto: "En Xonacatlán, con toda tu familia."
     },
@@ -220,6 +230,7 @@ window.DATOS = {
     {
       fecha: "23 al 25 de octubre de 2026",
       titulo: "Cuetzalan",
+      lugar: [20.0215, -97.5256, "Cuetzalan, Puebla"],
       foto: "https://i.imgur.com/daEo2df.png",
       texto: "Un fin de semana en carretera con tu familia."
     }
@@ -384,6 +395,70 @@ window.DATOS = {
 
   // Nuestra playlist de Spotify (el código que va después de /playlist/)
   playlist: "2TRy6O7KcV1kNLAvXqiAVq",
+
+  // Pregunta del día: una por fecha, igual para los dos. Agrega las que quieras.
+  preguntas: [
+    "¿Qué fue lo primero que pensaste de mí cuando me conociste?",
+    "¿Cuál es tu recuerdo favorito de nosotros hasta hoy?",
+    "¿Qué canción te hace pensar en mí y por qué?",
+    "Si pudiéramos viajar mañana a donde sea, ¿a dónde iríamos?",
+    "¿Qué es lo que más te hace reír de mí?",
+    "¿Qué cosa pequeña que hago te hace sentir querida o querido?",
+    "¿Cuál fue el mejor día que hemos pasado juntos?",
+    "¿Qué comida compartiríamos todos los días sin cansarnos?",
+    "¿Qué te gustaría que hiciéramos juntos este mes?",
+    "¿Cuál es una manía mía que, en secreto, te encanta?",
+    "¿Qué te hizo sentir más seguridad conmigo?",
+    "¿Cómo imaginas nuestra casa dentro de cinco años?",
+    "¿Cuál es tu foto favorita de los dos?",
+    "¿Qué película podrías ver conmigo otra vez sin aburrirte?",
+    "¿Qué es lo más valiente que hemos hecho juntos?",
+    "¿Qué te gustaría aprender a hacer a mi lado?",
+    "¿Qué dirías que nos hace un buen equipo?",
+    "¿Cuál fue el mensaje mío que más te ha gustado recibir?",
+    "¿Qué lugar de la ciudad se siente nuestro?",
+    "¿Qué momento de este año volverías a vivir tal cual?",
+    "¿Qué te hace sentir en casa cuando estás conmigo?",
+    "Si nuestra historia fuera una película, ¿cómo se llamaría?",
+    "¿Qué es lo que más admiras de mí?",
+    "¿Qué cosa nueva te gustaría probar juntos?",
+    "¿Qué te dio más ternura de mí esta semana?",
+    "¿Cuál es tu plan perfecto para un domingo conmigo?",
+    "¿Qué te gustaría decirme más seguido?",
+    "¿Qué sueño tuyo quieres que yo cuide?",
+    "¿Qué fue lo que más te sorprendió de mí al conocerme mejor?",
+    "¿Qué abrazo mío recuerdas más?",
+    "¿Cuál es el apodo que más te gusta que te diga?",
+    "¿Qué regalo, de cualquier tamaño, te haría muy feliz?",
+    "¿Qué hemos aprendido juntos que antes no sabíamos?",
+    "¿En qué momento sentiste que esto iba en serio?",
+    "¿Qué cosa tonta hacemos que nadie más entendería?",
+    "¿Qué te gustaría que nunca cambie entre nosotros?",
+    "¿Cómo te gustaría celebrar nuestro próximo aniversario?",
+    "¿Qué te hace sentir orgullo de nosotros?",
+    "Si pudieras volver a un día con mi compañía, ¿cuál sería?",
+    "¿Cuál es tu rincón favorito para platicar conmigo?",
+    "¿Qué parte de tu día te gustaría compartir más conmigo?",
+    "¿Qué te hizo sonreír hoy, aunque no tenga que ver conmigo?",
+    "¿Qué cosa te gustaría que hiciera distinto para quererte mejor?",
+    "¿Qué te hace sentir más cerca de mí cuando estamos lejos?",
+    "¿Qué sabor, olor o sonido te recuerda a nosotros?",
+    "¿Qué te dirías a ti misma o a ti mismo el día que me conociste?",
+    "¿Qué tradición nuestra te gustaría inventar?",
+    "¿Qué es lo más bonito que alguien ha dicho de nosotros?",
+    "¿Qué te hace falta hoy para sentirte tranquila o tranquilo, y cómo te puedo ayudar?",
+    "¿Qué agradeces de mí hoy?",
+  ],
+
+  // Lo que viene (portada). Agrega los que quieras: fecha en formato AAAA-MM-DD.
+  // Los que ya pasaron se esconden solos.
+  proximos: [
+    { fecha: "2026-12-04", titulo: "Se abre la cápsula del tiempo", nota: "Está en la Biblioteca, esperando." },
+    { fecha: "2026-12-24", titulo: "Nochebuena", nota: "La primera Navidad de este capítulo." },
+    { fecha: "2027-01-01", titulo: "Año nuevo", nota: "Nos toca escribir 2027 juntos." },
+    { fecha: "2027-02-14", titulo: "San Valentín", nota: "Ya tengo una idea. No te digo." },
+    { fecha: "2027-10-15", titulo: "Tu cumpleaños", nota: "Prepárate." },
+  ],
 
   // Nuestras canciones: por qué cada una importa.
   // Ejemplo: { titulo: "Nombre", artista: "Artista", porque: "La escuchamos en..." },
