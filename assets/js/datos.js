@@ -21,6 +21,11 @@ window.DATOS = {
   // pausa: true (lo dibuja como una pausa en el hilo).
   historia: [
     {
+      fecha: "15 de febrero de 2025",
+      titulo: "¡Holaa! Soy Nadia :)",
+      texto: "Me escribiste por primera vez, después de que te di el papelito. Yo ya pensaba que no me ibas a escribir."
+    },
+    {
       fecha: "27 de marzo de 2025",
       titulo: "Aquel día en Chapultepec",
       texto: "Me salí del trabajo para acompañarte. Sangrías, churros, ardillas en el pasto, y casi no llegamos a la obra de teatro de las 8. Perdimos la noción del tiempo."
@@ -28,12 +33,12 @@ window.DATOS = {
     {
       fecha: "7 de junio de 2025",
       titulo: "El primer te amo",
-      texto: "Te lo dije yo primero. Ese mes nos lo dijimos 79 veces."
+      texto: "Te lo dije yo primero, por mensaje. Dos días después me lo escribiste tú, con un besito."
     },
     {
       fecha: "11 de junio de 2025, 22:22",
       titulo: "Novios",
-      texto: "El día que empezó todo, oficialmente.",
+      texto: "El día que empezó todo, oficialmente. A la medianoche me escribiste: feliz primera hora de novios.",
       especial: true
     },
     {
@@ -62,8 +67,13 @@ window.DATOS = {
     },
     {
       fecha: "29 de septiembre de 2025",
-      titulo: "427 mensajes en un día",
-      texto: "Nuestro día récord. Ese año llegamos a 319 días seguidos hablando."
+      titulo: "428 mensajes en un día",
+      texto: "Nuestro récord de 2025."
+    },
+    {
+      fecha: "15 de octubre de 2025",
+      titulo: "Tu cumpleaños",
+      texto: "El primero que pasamos juntos. Te escribí justo a las 12:00."
     },
     {
       fecha: "Octubre de 2025",
@@ -101,6 +111,11 @@ window.DATOS = {
       texto: "Decidimos ir al zoológico de Aragón porque yo tenía muchísimas ganas de visitarlo. Caminamos, vimos a los animalitos y pasamos un rato muy entretenido (incluso mi mamá nos acompañó un ratito). Todo fue muy especial y salieron unas fotos preciosas que siempre voy a atesorar."
     },
     {
+      fecha: "9 de febrero de 2026",
+      titulo: "440 mensajes: nuevo récord",
+      texto: "Viendo una serie juntos a distancia, contando 3, 2, 1 para darle play al mismo tiempo."
+    },
+    {
       fecha: "18 de febrero de 2026",
       titulo: "Un poema con tu nombre",
       texto: "Cada verso empieza con las letras de NADIA. Está en la sección de cartas."
@@ -125,8 +140,18 @@ window.DATOS = {
     {
       fecha: "16 de abril de 2026",
       titulo: "Te amo, otra vez",
-      texto: "Empieza el capítulo dos. Y seguimos.",
+      texto: "A las 9 de la mañana: “Oye, te dije te amo.. 🥹”. Y tú: “Yo también dije te amo. :) ♡”. Empieza el capítulo dos.",
       especial: true
+    },
+    {
+      fecha: "8 de agosto de 2026",
+      titulo: "Nadiapp",
+      texto: "Te hice tu propia app: Nadiapp."
+    },
+    {
+      fecha: "20 de septiembre de 2026",
+      titulo: "Viaje con tu familia",
+      texto: "Nos fuimos en carretera con tu familia."
     }
   ],
 
