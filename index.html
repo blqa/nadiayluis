@@ -191,7 +191,7 @@
         </div>
         <div class="aniversario">
           <p>Nuestro aniversario</p>
-          <strong id="aniv-fecha">11 de junio</strong>
+          <strong id="aniv-fecha">20 de junio</strong>
           <p id="aniv-faltan"></p>
         </div>
       </div>
@@ -243,19 +243,19 @@
       titulo.textContent = `para cumplir ${m.meses} meses.`;
     }
     document.getElementById("mes-detalle").textContent =
-      m.faltan === 0 ? "Feliz mesiversario, mi amor." : `El ${nombreFecha}, a las 22:22.`;
+      m.faltan === 0 ? "Feliz mesiversario, mi amor." : `El ${nombreFecha}, contando desde aquel mirador.`;
 
     // Aniversario: próximo 11 de junio
-    const inicio = fecha(DATOS.fechas.inicio);
+    const inicio = fecha(DATOS.fechas.regreso);
     const hoy = new Date(); hoy.setHours(0,0,0,0);
     let aniv = new Date(hoy.getFullYear(), inicio.getMonth(), inicio.getDate());
     if (aniv < hoy) aniv = new Date(hoy.getFullYear() + 1, inicio.getMonth(), inicio.getDate());
     const anos = aniv.getFullYear() - inicio.getFullYear();
     const dAniv = Math.round((aniv - hoy) / DIA);
-    document.getElementById("aniv-fecha").textContent = `11 de junio de ${aniv.getFullYear()}`;
+    document.getElementById("aniv-fecha").textContent = `${inicio.getDate()} de ${MESES[inicio.getMonth()]} de ${aniv.getFullYear()}`;
     document.getElementById("aniv-faltan").textContent =
       dAniv === 0 ? `Hoy cumplimos ${anos === 1 ? "un año" : anos + " años"}.` :
-      `Faltan ${formato(dAniv)} días para ${anos === 1 ? "nuestro primer año" : "cumplir " + anos + " años"}.`;
+      `Faltan ${formato(dAniv)} días para ${anos === 1 ? "cumplir un año desde el mirador" : "cumplir " + anos + " años desde el mirador"}.`;
   </script>
 </body>
 </html>

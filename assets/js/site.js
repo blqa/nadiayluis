@@ -64,9 +64,9 @@ function tiempoJuntos(ahora = new Date()) {
   return { uno, dos, total: uno + dos };
 }
 
-/* El próximo día 11 (mesiversario) y cuántos meses se cumplen */
+/* El próximo mesiversario (cuenta desde que volvimos a ser novios) */
 function proximoMesiversario(ahora = new Date()) {
-  const inicio = fecha(window.DATOS.fechas.inicio);
+  const inicio = fecha(window.DATOS.fechas.regreso);
   const dia = inicio.getDate();
   let siguiente = new Date(ahora.getFullYear(), ahora.getMonth(), dia);
   if (siguiente <= new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()) && ahora.getDate() !== dia) {

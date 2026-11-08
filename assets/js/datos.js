@@ -13,7 +13,7 @@ window.DATOS = {
   fechas: {
     inicio: "2025-06-11T22:22:00",   // el día que fuimos novios
     pausa: "2026-03-30T00:00:00",    // cuando nos separamos
-    regreso: "2026-04-16T00:00:00",  // el te amo que empezó el capítulo dos
+    regreso: "2026-06-20T00:00:00",  // el día que volvimos a ser novios (capítulo dos)
   },
 
   // Línea del tiempo (página Historia). Van en orden, del más viejo al más nuevo.
@@ -173,8 +173,7 @@ window.DATOS = {
     {
       fecha: "16 de abril de 2026",
       titulo: "Te amo, otra vez",
-      texto: "A las 9 de la mañana: “Oye, te dije te amo.. 🥹”. Y tú: “Yo también dije te amo. :) ♡”. Empieza el capítulo dos.",
-      especial: true
+      texto: "A las 9 de la mañana: “Oye, te dije te amo.. 🥹”. Y tú: “Yo también dije te amo. :) ♡”."
     },
     {
       fecha: "11 de mayo de 2026",
@@ -186,7 +185,7 @@ window.DATOS = {
       fecha: "20 de junio de 2026",
       titulo: "¿Quieres ser mi novia otra vez?",
       foto: "https://i.imgur.com/SzFHf6A.png",
-      texto: "Te llevé a un mirador para preguntártelo.",
+      texto: "Te llevé a un mirador para preguntártelo. Dijiste que sí, y empezó el capítulo dos.",
       especial: true
     },
     {
