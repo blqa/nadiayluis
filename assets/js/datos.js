@@ -150,8 +150,13 @@ window.DATOS = {
     },
     {
       fecha: "20 de septiembre de 2026",
-      titulo: "Viaje con tu familia",
+      titulo: "Cuetzalan",
       texto: "Nos fuimos en carretera con tu familia."
+    },
+    {
+      fecha: "18 de octubre de 2026",
+      titulo: "Fiesta de disfraces en tu cumpleaños",
+      texto: "El domingo después de tu cumpleaños, en tu casa, todos disfrazados."
     }
   ],
 
