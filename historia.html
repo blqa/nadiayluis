@@ -65,6 +65,9 @@
     .momento:nth-child(even) figure { --giro: 1.4deg; }
     .momento figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--papel-2); }
     .momento figure figcaption { font-family: var(--serif); font-style: italic; text-align: center; padding: 0.6rem 0 0.8rem; color: var(--tinta-suave); font-size: .95rem; }
+    .fotos { display: flex; flex-wrap: wrap; gap: 1rem 1.25rem; }
+    .fotos figure { flex: 1 1 13rem; max-width: 20rem; }
+    .fotos figure:nth-child(2) { --giro: 2deg; margin-top: 1.75rem; }
 
     /* La pausa: el hilo se corta */
     .momento.pausa { padding-bottom: 4.5rem; }
@@ -116,9 +119,11 @@
   <script>
     document.getElementById("hilo").innerHTML = DATOS.historia.map(m => {
       const clases = ["momento", m.especial ? "especial" : "", m.pausa ? "pausa" : ""].join(" ").trim();
-      const foto = m.foto
-        ? `<figure><img src="${limpio(m.foto)}" alt="${limpio(m.titulo)}" loading="lazy"><figcaption>${limpio(m.titulo)}</figcaption></figure>`
-        : "";
+      const fotos = m.foto ? [].concat(m.foto) : [];
+      const figura = url => `<figure><img src="${limpio(url)}" alt="${limpio(m.titulo)}" loading="lazy"><figcaption>${limpio(m.titulo)}</figcaption></figure>`;
+      const foto = fotos.length > 1
+        ? `<div class="fotos">${fotos.map(figura).join("")}</div>`
+        : fotos.map(figura).join("");
       return `<li class="${clases}">
         <time>${limpio(m.fecha)}</time>
         <h2>${limpio(m.titulo)}</h2>

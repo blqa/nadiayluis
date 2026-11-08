@@ -17,13 +17,32 @@ window.DATOS = {
   },
 
   // Línea del tiempo (página Historia). Van en orden, del más viejo al más nuevo.
-  // Opcional: foto (enlace a una imagen), especial: true (lo resalta),
+  // Opcional: foto (enlace a una imagen, o varias así: ["enlace1", "enlace2"]),
+  // especial: true (lo resalta),
   // pausa: true (lo dibuja como una pausa en el hilo).
   historia: [
     {
       fecha: "15 de febrero de 2025",
       titulo: "¡Holaa! Soy Nadia :)",
       texto: "Me escribiste por primera vez, después de que te di el papelito. Yo ya pensaba que no me ibas a escribir."
+    },
+    {
+      fecha: "23 de febrero de 2025",
+      titulo: "Café Cielito Lindo",
+      foto: "https://i.imgur.com/5fkGuyW.png",
+      texto: "De nuestras primeras salidas: chocolate blanco en el Cielito del centro."
+    },
+    {
+      fecha: "22 de marzo de 2025",
+      titulo: "Dibujando en el parque, y nuestro primer beso",
+      foto: "https://i.imgur.com/UMVaif8.png",
+      texto: "Esa noche te escribí: “creo que es un momento que se nos quedará grabado”. Y sí.",
+      especial: true
+    },
+    {
+      fecha: "23 de marzo de 2025",
+      titulo: "Nuestra playlist",
+      texto: "Creaste “NL🧿” para que la hiciéramos en equipo. Es la misma que está en Canciones."
     },
     {
       fecha: "27 de marzo de 2025",
@@ -60,6 +79,12 @@ window.DATOS = {
       texto: "Este fue, sin duda, el mejor mes de todos. Te llevé de sorpresa a Huasca de Ocampo. No tenías idea hasta que llegamos. Pasamos dos días sin dinero, nos mojamos muchísimo por la lluvia y pasamos mucho frío, pero logramos comer, hospedarnos y fuimos inmensamente felices. Nada importó porque dormimos juntos. Terminamos super pobres, pero no me arrepiento de haber vivido esa aventura contigo. Lo valió todo."
     },
     {
+      fecha: "15 de agosto de 2025",
+      titulo: "Cuemanco y videos de terror",
+      foto: "https://i.imgur.com/EuMIZ9i.png",
+      texto: "Fuimos a Cuemanco y terminamos grabando videos de terror."
+    },
+    {
       fecha: "Septiembre de 2025",
       titulo: "Sushi sorpresa",
       foto: "https://i.imgur.com/8KdnXcO.png",
@@ -67,12 +92,14 @@ window.DATOS = {
     },
     {
       fecha: "29 de septiembre de 2025",
-      titulo: "428 mensajes en un día",
-      texto: "Nuestro récord de 2025."
+      titulo: "Tu esguince",
+      foto: "https://i.imgur.com/USiaVfG.png",
+      texto: "Te torciste el tobillo y te llevé al seguro. Ese día rompimos récord: 428 mensajes."
     },
     {
       fecha: "15 de octubre de 2025",
       titulo: "Tu cumpleaños",
+      foto: "https://i.imgur.com/U8wY9st.png",
       texto: "El primero que pasamos juntos. Te escribí justo a las 12:00."
     },
     {
@@ -80,6 +107,12 @@ window.DATOS = {
       titulo: "Carrera de disfraces",
       foto: "https://i.imgur.com/NADoali.png",
       texto: "Octubre fue un mes increíble (¡y el cumpleaños de la cumpleañera!), pero el recuerdo de la carrera se lleva el premio. El simple hecho de vestirnos con nuestros disfraces y cruzar la meta juntos fue una prueba de lo mucho que podemos divertirnos sin importar el plan. Un recuerdo de esfuerzo y risas que solo tú y yo entendemos."
+    },
+    {
+      fecha: "29 de octubre de 2025",
+      titulo: "Six Flags",
+      foto: "https://i.imgur.com/Ttrrquy.png",
+      texto: "Un día entero de juegos juntos."
     },
     {
       fecha: "Noviembre de 2025",
@@ -105,9 +138,9 @@ window.DATOS = {
       texto: "Es un día normal, no hicimos mucho en enero ya que nos enfocamos más en trabajar, pero es un recuerdo lindo de nuestro \"hijito\" y nosotros caminando por Tlalpan hacia nuestras casitas."
     },
     {
-      fecha: "Febrero de 2026",
+      fecha: "3 de febrero de 2026",
       titulo: "Paseo por el zoológico",
-      foto: "https://i.imgur.com/WTCor6e.jpeg",
+      foto: ["https://i.imgur.com/WTCor6e.jpeg", "https://i.imgur.com/yFkzf1O.png"],
       texto: "Decidimos ir al zoológico de Aragón porque yo tenía muchísimas ganas de visitarlo. Caminamos, vimos a los animalitos y pasamos un rato muy entretenido (incluso mi mamá nos acompañó un ratito). Todo fue muy especial y salieron unas fotos preciosas que siempre voy a atesorar."
     },
     {
@@ -144,18 +177,50 @@ window.DATOS = {
       especial: true
     },
     {
+      fecha: "11 de mayo de 2026",
+      titulo: "Yecapixtla, tú y yo",
+      foto: "https://i.imgur.com/LNkxDXu.png",
+      texto: "Una escapada solo de nosotros dos."
+    },
+    {
+      fecha: "20 de junio de 2026",
+      titulo: "¿Quieres ser mi novia otra vez?",
+      foto: "https://i.imgur.com/SzFHf6A.png",
+      texto: "Te llevé a un mirador para preguntártelo.",
+      especial: true
+    },
+    {
+      fecha: "3 de julio de 2026",
+      titulo: "FIFA Fan Fest",
+      foto: "https://i.imgur.com/Nrui0sB.png",
+      texto: "El Mundial en nuestra ciudad, y nosotros ahí."
+    },
+    {
+      fecha: "5 de julio de 2026",
+      titulo: "Yecapixtla con mi familia",
+      foto: "https://i.imgur.com/dQDkDKC.jpeg",
+      texto: "Otra vez Yecapixtla, ahora con mi familia, y la tarde en el balneario."
+    },
+    {
       fecha: "8 de agosto de 2026",
       titulo: "Nadiapp",
       texto: "Te hice tu propia app: Nadiapp."
     },
     {
-      fecha: "20 de septiembre de 2026",
+      fecha: "Septiembre de 2026",
       titulo: "Cuetzalan",
       texto: "Nos fuimos en carretera con tu familia."
     },
     {
+      fecha: "21 de septiembre de 2026",
+      titulo: "El cumpleaños de tu abuelito",
+      foto: "https://i.imgur.com/dp8yote.png",
+      texto: "En Xonacatlán, con toda tu familia."
+    },
+    {
       fecha: "18 de octubre de 2026",
       titulo: "Fiesta de disfraces en tu cumpleaños",
+      foto: "https://i.imgur.com/kP7N8Un.png",
       texto: "El domingo después de tu cumpleaños, en tu casa, todos disfrazados."
     }
   ],
