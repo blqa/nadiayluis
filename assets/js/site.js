@@ -56,24 +56,40 @@ const formato = n => n.toLocaleString("es-MX");
 
 const MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
 
-/* Cuenta los días juntos: capítulo uno + capítulo dos (sin la pausa) */
+/* Los días de la pausa (entre que nos separamos y volvimos a ser novios) */
+function diasPausa() {
+  const f = window.DATOS.fechas;
+  return Math.round((fecha(f.regreso) - fecha(f.pausa)) / DIA);
+}
+
+/* Nuestro inicio "recalculado": el 11 de junio de 2025 recorrido los días
+   de la pausa. Desde aquí se cuentan los meses y el aniversario. */
+function inicioSinPausa() {
+  const i = fecha(window.DATOS.fechas.inicio);
+  return new Date(i.getFullYear(), i.getMonth(), i.getDate() + diasPausa(), i.getHours(), i.getMinutes());
+}
+
+/* Días juntos: capítulo uno + capítulo dos (la pausa no cuenta) */
 function tiempoJuntos(ahora = new Date()) {
   const f = window.DATOS.fechas;
   const uno = diasEntre(fecha(f.inicio), fecha(f.pausa));
   const dos = Math.max(0, diasEntre(fecha(f.regreso), ahora));
-  return { uno, dos, total: uno + dos };
+  return { uno, dos, total: uno + dos, pausa: diasPausa() };
 }
 
-/* El próximo mesiversario (cuenta desde que volvimos a ser novios) */
+/* Un día del mes que no se pase (ej. 31 en febrero → 28) */
+function diaDelMes(ano, mes, dia) {
+  return new Date(ano, mes, Math.min(dia, new Date(ano, mes + 1, 0).getDate()));
+}
+
+/* El próximo mesiversario, contando desde el inicio sin la pausa */
 function proximoMesiversario(ahora = new Date()) {
-  const inicio = fecha(window.DATOS.fechas.regreso);
-  const dia = inicio.getDate();
-  let siguiente = new Date(ahora.getFullYear(), ahora.getMonth(), dia);
-  if (siguiente <= new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate()) && ahora.getDate() !== dia) {
-    siguiente = new Date(ahora.getFullYear(), ahora.getMonth() + 1, dia);
-  }
+  const inicio = inicioSinPausa();
+  const hoy = new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate());
+  let siguiente = diaDelMes(hoy.getFullYear(), hoy.getMonth(), inicio.getDate());
+  if (siguiente < hoy) siguiente = diaDelMes(hoy.getFullYear(), hoy.getMonth() + 1, inicio.getDate());
   const meses = (siguiente.getFullYear() - inicio.getFullYear()) * 12 + (siguiente.getMonth() - inicio.getMonth());
-  const faltan = Math.ceil((siguiente - new Date(ahora.getFullYear(), ahora.getMonth(), ahora.getDate())) / DIA);
+  const faltan = Math.round((siguiente - hoy) / DIA);
   return { fecha: siguiente, meses, faltan };
 }
 
