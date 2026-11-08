@@ -221,6 +221,7 @@ window.DATOS = {
     {
       fecha: "23 al 25 de octubre de 2026",
       titulo: "Cuetzalan",
+      foto: "https://i.imgur.com/daEo2df.png",
       texto: "Un fin de semana en carretera con tu familia."
     }
   ],
