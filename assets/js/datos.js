@@ -207,11 +207,6 @@ window.DATOS = {
       texto: "Te hice tu propia app: Nadiapp."
     },
     {
-      fecha: "Septiembre de 2026",
-      titulo: "Cuetzalan",
-      texto: "Nos fuimos en carretera con tu familia."
-    },
-    {
       fecha: "21 de septiembre de 2026",
       titulo: "El cumpleaños de tu abuelito",
       foto: "https://i.imgur.com/dp8yote.png",
@@ -222,6 +217,11 @@ window.DATOS = {
       titulo: "Fiesta de disfraces en tu cumpleaños",
       foto: "https://i.imgur.com/kP7N8Un.png",
       texto: "El domingo después de tu cumpleaños, en tu casa, todos disfrazados."
+    },
+    {
+      fecha: "23 al 25 de octubre de 2026",
+      titulo: "Cuetzalan",
+      texto: "Un fin de semana en carretera con tu familia."
     }
   ],
 
