@@ -2,12 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>(function(){try{var m=localStorage.getItem("nyl-tema");if(m)document.documentElement.dataset.theme=m}catch(e){}})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cartas · Nadia y Luis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site.css?v=20261108c">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108d">
   <style>
     .sobres {
       display: grid;
@@ -34,17 +35,17 @@
 
     .sobre-fondo {
       inset: 0;
-      background: #E9D9E1;
+      background: var(--sobre-fondo);
       border-radius: 6px;
       box-shadow: 0 1px 2px #2b18301f, 0 12px 28px -14px #2b183059;
     }
     .sobre-carta {
       left: 7%; right: 7%; top: 8%; bottom: 8%;
-      background: #FFFDFB;
+      background: var(--hoja);
       border-radius: 3px;
       z-index: 2;
       transition: transform .5s cubic-bezier(.3,.7,.2,1) .25s;
-      background-image: repeating-linear-gradient(to bottom, transparent 0 13px, #e6d3dd 13px 14px);
+      background-image: repeating-linear-gradient(to bottom, transparent 0 13px, var(--polvo) 13px 14px);
       background-position: 0 18px;
     }
     .sobre-frente {
@@ -52,13 +53,13 @@
       z-index: 3;
       border-radius: 6px;
       clip-path: polygon(0 18%, 50% 62%, 100% 18%, 100% 100%, 0 100%);
-      background-color: #F1E5EB;
+      background-color: var(--sobre-frente);
     }
     .sobre-solapa {
       left: 0; right: 0; top: 0;
       height: 62%;
       z-index: 4;
-      background: #E3CFD9;
+      background: var(--sobre-solapa);
       clip-path: polygon(0 0, 100% 0, 50% 100%);
       transform-origin: top center;
       transition: transform .45s cubic-bezier(.4,0,.2,1), z-index 0s .22s;
@@ -111,7 +112,7 @@
     dialog.carta[open] .hoja { animation: sacar .45s cubic-bezier(.2,.8,.2,1); }
     @keyframes sacar { from { transform: translateY(40px) rotate(-2deg); opacity: 0; } to { transform: none; opacity: 1; } }
     .hoja {
-      background: #FFFDFB;
+      background: var(--hoja);
       border-radius: 4px;
       padding: 2.75rem 2rem 2rem;
       max-height: calc(100svh - 3rem);
@@ -152,7 +153,7 @@
     .poemas > h2 { font-size: clamp(2.2rem, 6vw, 3.5rem); font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144; }
     .poemas > p { color: var(--tinta-suave); margin-top: .75rem; }
     .poema {
-      background: #FFFDFB;
+      background: var(--hoja);
       padding: 2.5rem 2rem;
       margin-top: 2.5rem;
       max-width: 40rem;
@@ -235,8 +236,8 @@
     </div>
   </dialog>
 
-  <script src="assets/js/datos.js?v=20261108c"></script>
-  <script src="assets/js/site.js?v=20261108c"></script>
+  <script src="assets/js/datos.js?v=20261108d"></script>
+  <script src="assets/js/site.js?v=20261108d"></script>
   <script>
     const contenedor = document.getElementById("sobres");
     contenedor.innerHTML = DATOS.sobres.map((s, i) => `

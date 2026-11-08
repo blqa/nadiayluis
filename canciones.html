@@ -2,12 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>(function(){try{var m=localStorage.getItem("nyl-tema");if(m)document.documentElement.dataset.theme=m}catch(e){}})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Canciones · Nadia y Luis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site.css?v=20261108c">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108d">
   <style>
     .reproductor {
       max-width: 44rem;
@@ -52,8 +53,8 @@
     <ol class="lista" id="lista" hidden></ol>
   </main>
 
-  <script src="assets/js/datos.js?v=20261108c"></script>
-  <script src="assets/js/site.js?v=20261108c"></script>
+  <script src="assets/js/datos.js?v=20261108d"></script>
+  <script src="assets/js/site.js?v=20261108d"></script>
   <script>
     document.getElementById("reproductor").innerHTML =
       `<iframe title="Nuestra playlist en Spotify" src="https://open.spotify.com/embed/playlist/${encodeURIComponent(DATOS.playlist)}?theme=0" height="452" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;

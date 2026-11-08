@@ -2,13 +2,14 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>(function(){try{var m=localStorage.getItem("nyl-tema");if(m)document.documentElement.dataset.theme=m}catch(e){}})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nadia y Luis</title>
   <meta name="description" content="Nuestra historia, nuestras cartas y lo que soñamos.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site.css?v=20261108c">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108d">
   <style>
     .portada {
       min-height: 100svh;
@@ -18,7 +19,17 @@
       position: relative;
       overflow: hidden;
     }
+    /* Un resplandor rosa pastel detrás del título */
+    .portada::before {
+      content: "";
+      position: absolute;
+      left: -10%; top: 8%;
+      width: 70vmin; height: 70vmin;
+      background: radial-gradient(closest-side, color-mix(in srgb, var(--pastel) var(--brillo), transparent), transparent);
+      pointer-events: none;
+    }
     .portada .contenedor {
+      position: relative;
       display: grid;
       grid-template-columns: 1fr auto;
       align-items: center;
@@ -219,8 +230,8 @@
     </section>
   </main>
 
-  <script src="assets/js/datos.js?v=20261108c"></script>
-  <script src="assets/js/site.js?v=20261108c"></script>
+  <script src="assets/js/datos.js?v=20261108d"></script>
+  <script src="assets/js/site.js?v=20261108d"></script>
   <script>
     const t = tiempoJuntos();
     document.getElementById("frase").innerHTML =

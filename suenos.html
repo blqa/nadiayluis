@@ -2,12 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>(function(){try{var m=localStorage.getItem("nyl-tema");if(m)document.documentElement.dataset.theme=m}catch(e){}})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lo que soñamos · Nadia y Luis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site.css?v=20261108c">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108d">
   <style>
     .progreso { font-family: var(--serif); font-size: 1.25rem; margin: 0 0 2rem; }
     .progreso strong { color: var(--cereza); font-weight: 500; }
@@ -58,7 +59,7 @@
       padding: .75rem 1rem;
       border: 1.5px solid var(--polvo);
       border-radius: 999px;
-      background: #FFFDFB;
+      background: var(--hoja);
       color: var(--tinta);
     }
     form.nuevo input:focus { border-color: var(--cereza); outline: none; }
@@ -83,8 +84,8 @@
     <p class="nota">Lo que palomees o agregues aquí se guarda en este teléfono.</p>
   </main>
 
-  <script src="assets/js/datos.js?v=20261108c"></script>
-  <script src="assets/js/site.js?v=20261108c"></script>
+  <script src="assets/js/datos.js?v=20261108d"></script>
+  <script src="assets/js/site.js?v=20261108d"></script>
   <script>
     const LLAVE = "nyl-suenos";
     const leer = () => { try { return JSON.parse(localStorage.getItem(LLAVE)) || {}; } catch { return {}; } };

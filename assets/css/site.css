@@ -13,6 +13,13 @@
   --cafe: #7A4B32;       /* tus ojitos cafés */
   --polvo: #E6D3DD;      /* líneas y bordes suaves */
   --noche: #1E1A3A;      /* el cielo de las 22:22 */
+  --pastel: #F7CAD0;     /* rosa pastel */
+  --hoja: #FFFDFB;       /* hojas, cartas y tarjetas */
+  --sobre-fondo: #E9D9E1;
+  --sobre-frente: #F1E5EB;
+  --sobre-solapa: #E3CFD9;
+  --brillo: 55%;         /* qué tan fuerte es el resplandor rosa del inicio */
+  color-scheme: light;
   --estrella: #F4E6C8;   /* texto sobre la noche */
 
   --serif: "Fraunces", Georgia, serif;
@@ -20,6 +27,45 @@
 
   --ancho-texto: 38rem;
   --ancho: 68rem;
+}
+
+/* ---------- Modo oscuro ----------
+   Sigue al teléfono, o se elige con el botón de la luna en el menú. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --papel: #170F1C;
+    --papel-2: #21172A;
+    --tinta: #F6EAF2;
+    --tinta-suave: #B9A5BE;
+    --cereza: #FF6FA3;     /* rosa fuerte */
+    --cafe: #D9A58A;
+    --polvo: #3B2A46;
+    --noche: #0E0B22;
+    --pastel: #F9CFE0;     /* rosa pastel */
+    --hoja: #241A2D;
+    --sobre-fondo: #3A2A44;
+    --sobre-frente: #47344F;
+    --sobre-solapa: #3F2E49;
+    --brillo: 22%;
+  color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --papel: #170F1C;
+  --papel-2: #21172A;
+  --tinta: #F6EAF2;
+  --tinta-suave: #B9A5BE;
+  --cereza: #FF6FA3;     /* rosa fuerte */
+  --cafe: #D9A58A;
+  --polvo: #3B2A46;
+  --noche: #0E0B22;
+  --pastel: #F9CFE0;     /* rosa pastel */
+  --hoja: #241A2D;
+  --sobre-fondo: #3A2A44;
+  --sobre-frente: #47344F;
+  --sobre-solapa: #3F2E49;
+  --brillo: 22%;
+  color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -121,6 +167,22 @@ p { margin: 0 0 1em; }
   color: var(--tinta);
   border-bottom-color: var(--cereza);
 }
+.menu-der { display: flex; align-items: center; gap: 1.25rem; }
+.tema {
+  display: grid; place-items: center;
+  width: 2.25rem; height: 2.25rem;
+  border-radius: 50%;
+  border: 1.5px solid var(--polvo);
+  background: transparent;
+  color: var(--tinta);
+  cursor: pointer;
+  padding: 0;
+}
+.tema:hover { border-color: var(--cereza); color: var(--cereza); }
+.tema svg { width: 18px; height: 18px; }
+.tema .sol { display: none; }
+:root[data-modo="oscuro"] .tema .sol { display: block; }
+:root[data-modo="oscuro"] .tema .luna { display: none; }
 .menu-boton {
   display: none;
   background: none;

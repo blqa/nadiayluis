@@ -2,12 +2,13 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <script>(function(){try{var m=localStorage.getItem("nyl-tema");if(m)document.documentElement.dataset.theme=m}catch(e){}})()</script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nuestros números · Nadia y Luis</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site.css?v=20261108c">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108d">
   <style>
     section.bloque { padding-top: 5rem; }
     section.bloque > h2 { font-size: clamp(1.9rem, 5vw, 2.75rem); font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144; }
@@ -25,7 +26,7 @@
     /* Barras por mes */
     .barras { display: flex; align-items: flex-end; gap: .35rem; height: 13rem; margin-top: 2.5rem; max-width: 44rem; }
     .barras div { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; height: 100%; gap: .4rem; }
-    .barras i { display: block; width: 100%; background: linear-gradient(to top, #E6D3DD, var(--cereza)); border-radius: 3px 3px 0 0; min-height: 2px; }
+    .barras i { display: block; width: 100%; background: linear-gradient(to top, var(--polvo), var(--cereza)); border-radius: 3px 3px 0 0; min-height: 2px; }
     .barras small { font-size: .72rem; color: var(--tinta-suave); }
     .barras div:hover i { filter: brightness(.9); }
     .nota-barras { color: var(--tinta-suave); font-size: .9rem; margin-top: .75rem; }
@@ -107,8 +108,8 @@
     </section>
   </main>
 
-  <script src="assets/js/datos.js?v=20261108c"></script>
-  <script src="assets/js/site.js?v=20261108c"></script>
+  <script src="assets/js/datos.js?v=20261108d"></script>
+  <script src="assets/js/site.js?v=20261108d"></script>
   <script>
     const li = (n, t) => `<li><b>${limpio(String(n))}</b><span>${limpio(t)}</span></li>`;
     const ponerDatos = (id, arr) => document.getElementById(id).innerHTML = arr.map(([n, t]) => li(n, t)).join("");
