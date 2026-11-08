@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nuestra historia · Nadia y Luis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <style>
+    .hilo {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      max-width: 44rem;
+    }
+    /* El hilo rojo */
+    .hilo::before {
+      content: "";
+      position: absolute;
+      left: 7px; top: 0.6rem; bottom: 0;
+      width: 2px;
+      background: var(--cereza);
+      opacity: .35;
+    }
+    .momento {
+      position: relative;
+      padding: 0 0 3.5rem 2.75rem;
+    }
+    .momento::before {
+      content: "";
+      position: absolute;
+      left: 2px; top: 0.45rem;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--papel);
+      border: 2px solid var(--cereza);
+    }
+    .momento.especial::before { background: var(--cereza); box-shadow: 0 0 0 5px color-mix(in srgb, var(--cereza) 18%, transparent); }
+    .momento time {
+      display: block;
+      font-family: var(--serif);
+      font-style: italic;
+      color: var(--cereza);
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+    }
+    .momento h2 {
+      font-size: clamp(1.6rem, 4.5vw, 2.25rem);
+      line-height: 1.1;
+      font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 72;
+    }
+    .momento.especial h2 { font-size: clamp(2.2rem, 7vw, 3.5rem); }
+    .momento p { margin-top: 0.75rem; max-width: var(--ancho-texto); }
+    .momento figure {
+      margin: 1.25rem 0 0;
+      background: #fff;
+      padding: 0.65rem 0.65rem 0;
+      box-shadow: 0 1px 2px #2b183014, 0 8px 24px -12px #2b183040;
+      max-width: 26rem;
+      transform: rotate(var(--giro, -1.2deg));
+    }
+    .momento:nth-child(even) figure { --giro: 1.4deg; }
+    .momento figure img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--papel-2); }
+    .momento figure figcaption { font-family: var(--serif); font-style: italic; text-align: center; padding: 0.6rem 0 0.8rem; color: var(--tinta-suave); font-size: .95rem; }
+
+    /* La pausa: el hilo se corta */
+    .momento.pausa { padding-bottom: 4.5rem; }
+    .momento.pausa::before { background: var(--papel); border-style: dashed; border-color: var(--tinta-suave); }
+    .momento.pausa::after {
+      content: "";
+      position: absolute;
+      left: 6px; top: 1.6rem; bottom: 0;
+      width: 4px;
+      background: repeating-linear-gradient(to bottom, var(--papel) 0 6px, transparent 6px 14px);
+    }
+    .momento.pausa time, .momento.pausa h2 { color: var(--tinta-suave); }
+
+    .hoy {
+      position: relative;
+      padding: 0 0 0 2.75rem;
+      max-width: 44rem;
+    }
+    .hoy::before {
+      content: "";
+      position: absolute;
+      left: 0; top: .3rem;
+      width: 16px; height: 16px;
+      border-radius: 50%;
+      background: var(--cereza);
+      animation: latido 1.6s ease-in-out infinite;
+    }
+    @keyframes latido { 0%,100% { transform: scale(1); } 15% { transform: scale(1.25); } 30% { transform: scale(1); } 45% { transform: scale(1.18); } }
+    .hoy h2 { font-size: clamp(2.2rem, 7vw, 3.5rem); font-style: italic; }
+    .hoy p { color: var(--tinta-suave); margin-top: .75rem; }
+  </style>
+</head>
+<body>
+  <main class="contenedor">
+    <header class="encabezado-pagina">
+      <h1>Nuestra historia</h1>
+      <p>Un hilo rojo desde Chapultepec hasta hoy. Con una pausa en medio, porque también es parte.</p>
+    </header>
+
+    <ol class="hilo" id="hilo"></ol>
+    <div class="hoy">
+      <h2>Hoy</h2>
+      <p id="hoy-texto"></p>
+    </div>
+  </main>
+
+  <script src="assets/js/datos.js"></script>
+  <script src="assets/js/site.js"></script>
+  <script>
+    document.getElementById("hilo").innerHTML = DATOS.historia.map(m => {
+      const clases = ["momento", m.especial ? "especial" : "", m.pausa ? "pausa" : ""].join(" ").trim();
+      const foto = m.foto
+        ? `<figure><img src="${limpio(m.foto)}" alt="${limpio(m.titulo)}" loading="lazy"><figcaption>${limpio(m.titulo)}</figcaption></figure>`
+        : "";
+      return `<li class="${clases}">
+        <time>${limpio(m.fecha)}</time>
+        <h2>${limpio(m.titulo)}</h2>
+        ${m.texto ? `<p>${limpio(m.texto)}</p>` : ""}
+        ${foto}
+      </li>`;
+    }).join("");
+
+    const t = tiempoJuntos();
+    document.getElementById("hoy-texto").textContent =
+      `${formato(t.dos)} días del capítulo dos. Lo que sigue lo escribimos juntos.`;
+  </script>
+</body>
+</html>

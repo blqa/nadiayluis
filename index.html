@@ -1,263 +1,261 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nadia & Luis | Archivo</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
-    
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { serif: ['"Playfair Display"', 'serif'], sans: ['"Inter"', 'sans-serif'] },
-                    colors: { romantic: { dark: '#2D1B2E', pink: '#F7CAD0' } },
-                    animation: { 'float': 'float 6s ease-in-out infinite', 'bounce-slow': 'bounce 3s infinite', 'fade-in': 'fadeIn 1s ease-out' },
-                    keyframes: { 
-                        float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
-                        fadeIn: { '0%': { opacity: '0', transform: 'translateY(20px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body { background-color: #FAFAFA; color: #2D1B2E; overflow-x: hidden; -webkit-tap-highlight-color: transparent; }
-        .noise-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1; opacity: 0.04; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
-        .glass-nav { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.3); }
-        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.6); transition: all 0.3s ease; }
-        .glass-card:hover { transform: translateY(-5px); background: rgba(255, 255, 255, 0.95); box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1); }
-        .nav-link.active { color: #E11D48; font-weight: 600; }
-        html { scroll-behavior: smooth; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nadia y Luis</title>
+  <meta name="description" content="Nuestra historia, nuestras cartas y lo que soñamos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css">
+  <style>
+    .portada {
+      min-height: 100svh;
+      display: grid;
+      align-content: center;
+      padding: 6rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .portada .contenedor {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 2rem;
+    }
+    .portada h1 {
+      font-size: clamp(4rem, 15vw, 11rem);
+      letter-spacing: -0.035em;
+      line-height: 0.88;
+      font-weight: 300;
+      font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+    }
+    .portada h1 .y {
+      display: block;
+      font-style: italic;
+      font-size: 0.42em;
+      color: var(--cereza);
+      margin: 0.15em 0 0.05em 0.1em;
+      letter-spacing: 0;
+    }
+    .portada .frase {
+      margin-top: 2.25rem;
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+      line-height: 1.45;
+      max-width: 30rem;
+      font-variation-settings: "SOFT" 100, "opsz" 24;
+    }
+    .portada .frase strong { font-weight: 500; color: var(--cereza); }
+    .portada .capitulos {
+      margin-top: 1rem;
+      color: var(--tinta-suave);
+      font-size: 0.98rem;
+    }
+
+    /* El matasellos */
+    .matasellos {
+      width: clamp(13rem, 30vw, 21rem);
+      color: var(--cereza);
+      transform: rotate(-9deg);
+    }
+    .matasellos .anillo {
+      transform-origin: 150px 150px;
+      animation: girar 60s linear infinite;
+    }
+    @keyframes girar { to { transform: rotate(360deg); } }
+
+    /* La noche de las 22:22 */
+    .noche {
+      background: var(--noche);
+      color: var(--estrella);
+      padding: 5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .noche::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 12% 30%, #fff8 50%, transparent 51%),
+        radial-gradient(1px 1px at 28% 72%, #fff6 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 46% 18%, #fff9 50%, transparent 51%),
+        radial-gradient(1px 1px at 63% 58%, #fff5 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 81% 26%, #fff8 50%, transparent 51%),
+        radial-gradient(1px 1px at 90% 80%, #fff6 50%, transparent 51%),
+        radial-gradient(1px 1px at 6% 86%, #fff5 50%, transparent 51%),
+        radial-gradient(1px 1px at 72% 90%, #fff7 50%, transparent 51%);
+      pointer-events: none;
+    }
+    .noche .contenedor { position: relative; display: grid; gap: 3rem; grid-template-columns: 1.3fr 1fr; align-items: end; }
+    .noche .faltan {
+      font-family: var(--serif);
+      font-size: clamp(5rem, 16vw, 10rem);
+      line-height: 0.85;
+      font-weight: 300;
+      font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+    }
+    .noche .faltan small { font-size: 0.3em; font-style: italic; margin-left: 0.15em; }
+    .noche h2 { font-size: clamp(1.6rem, 4vw, 2.25rem); margin-top: 1rem; line-height: 1.2; }
+    .noche p { color: color-mix(in srgb, var(--estrella) 72%, transparent); margin: 0.5rem 0 0; max-width: 26rem; }
+    .noche .aniversario {
+      border-left: 1px solid color-mix(in srgb, var(--estrella) 30%, transparent);
+      padding-left: 1.5rem;
+    }
+    .noche .aniversario strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; color: var(--estrella); }
+
+    /* Índice de secciones */
+    .indice { padding-top: 6rem; }
+    .indice h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 2rem; }
+    .indice ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--polvo); }
+    .indice li a {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.25rem 2rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--polvo);
+      text-decoration: none;
+    }
+    .indice li a strong {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      line-height: 1.1;
+      transition: color .2s;
+    }
+    .indice li a span { color: var(--tinta-suave); grid-column: 1; }
+    .indice li a svg { grid-row: 1 / 3; grid-column: 2; align-self: center; width: 28px; color: var(--cereza); transition: transform .25s; }
+    .indice li a:hover strong { color: var(--cereza); }
+    .indice li a:hover svg { transform: translateX(4px); }
+
+    .archivo { padding-top: 5rem; }
+    .archivo h2 { font-size: 1.6rem; }
+    .archivo p { color: var(--tinta-suave); margin-top: .5rem; }
+    .archivo ul { list-style: none; padding: 0; margin: 1.25rem 0 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .archivo a {
+      display: inline-block;
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--polvo);
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      background: var(--papel-2);
+    }
+    .archivo a:hover { border-color: var(--cereza); color: var(--cereza); }
+
+    @media (max-width: 760px) {
+      .portada { align-content: start; min-height: auto; padding: 6.5rem 0 4.5rem; }
+      .portada .contenedor { grid-template-columns: 1fr; gap: 0; }
+      .matasellos { position: absolute; right: -2.5rem; top: 5.5rem; width: 10.5rem; opacity: .9; }
+      .portada h1 { margin-top: 5.5rem; }
+      .noche .contenedor { grid-template-columns: 1fr; gap: 2rem; }
+      .noche .aniversario { border-left: 0; border-top: 1px solid color-mix(in srgb, var(--estrella) 30%, transparent); padding: 1.5rem 0 0; }
+    }
+  </style>
 </head>
-<body class="flex flex-col min-h-screen">
-    <div class="noise-bg"></div>
-    <canvas id="particleCanvas" class="fixed top-0 left-0 w-full h-full -z-10 opacity-50"></canvas>
+<body>
 
-    <nav class="fixed top-0 left-0 w-full z-50 glass-nav">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16 md:h-20">
-                <a href="index.html" class="flex-shrink-0 cursor-pointer z-50">
-                    <span class="font-serif text-xl md:text-3xl text-gray-900 tracking-tight">N <span class="text-rose-400 font-light">&</span> L</span>
-                </a>
-                
-                <div class="hidden md:flex space-x-8 items-center">
-                    <a href="index.html" class="nav-link active text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Inicio</a>
-                    <a href="recuerdos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Recuerdos</a>
-                    <a href="cuentos.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Cuentos</a>
-                    <a href="detalles.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Detalles</a>
-                    <a href="razones.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">Lo que amé</a>
-                    <a href="tiempo.html" class="nav-link text-sm uppercase tracking-widest text-gray-500 hover:text-rose-500 transition-colors">El Tiempo</a>
-                </div>
-
-                <button id="mobile-menu-btn" class="md:hidden text-gray-600 p-2 hover:bg-gray-100/50 rounded-lg transition-colors z-50">
-                    <i data-lucide="menu" class="w-6 h-6"></i>
-                </button>
-            </div>
+  <main>
+    <section class="portada">
+      <div class="contenedor">
+        <div>
+          <h1>Nadia <span class="y">y</span>Luis</h1>
+          <p class="frase" id="frase">Llevamos <strong>…</strong> días escribiendo esta historia.</p>
+          <p class="capitulos" id="capitulos"></p>
         </div>
 
-        <div id="mobile-menu" class="hidden md:hidden bg-white/95 backdrop-blur-xl absolute w-full left-0 border-b border-gray-100 shadow-xl transition-all duration-300">
-            <div class="flex flex-col items-center py-6 space-y-4">
-                <a href="index.html" class="w-full text-center py-3 text-sm font-bold text-rose-500 bg-rose-50/50">Inicio</a>
-                <a href="recuerdos.html" class="w-full text-center py-2 text-sm text-gray-600 hover:text-rose-500">Recuerdos</a>
-                <a href="cuentos.html" class="w-full text-center py-2 text-sm text-gray-600 hover:text-rose-500">Cuentos</a>
-                <a href="detalles.html" class="w-full text-center py-2 text-sm text-gray-600 hover:text-rose-500">Detalles</a>
-                <a href="razones.html" class="w-full text-center py-2 text-sm text-gray-600 hover:text-rose-500">Lo que amé</a>
-                <a href="tiempo.html" class="w-full text-center py-2 text-sm text-gray-600 hover:text-rose-500">El Tiempo</a>
-            </div>
+        <svg class="matasellos" viewBox="0 0 300 300" role="img" aria-label="Matasellos: Ciudad de México, 11 de junio de 2025, 22:22">
+          <defs>
+            <path id="circulo" d="M150,150 m-112,0 a112,112 0 1,1 224,0 a112,112 0 1,1 -224,0"/>
+          </defs>
+          <circle cx="150" cy="150" r="138" fill="none" stroke="currentColor" stroke-width="2.5"/>
+          <circle cx="150" cy="150" r="88" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <g class="anillo">
+            <text font-family="Figtree, sans-serif" font-size="17" letter-spacing="5" fill="currentColor">
+              <textPath href="#circulo">CIUDAD DE MÉXICO ✶ 11 JUN 2025 ✶ NADIA Y LUIS ✶</textPath>
+            </text>
+          </g>
+          <text x="150" y="146" text-anchor="middle" font-family="Fraunces, serif" font-size="54" font-weight="400" fill="currentColor">22:22</text>
+          <text x="150" y="180" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="19" fill="currentColor">desde entonces</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="noche" aria-labelledby="titulo-noche">
+      <div class="contenedor">
+        <div>
+          <div class="faltan" id="faltan">…</div>
+          <h2 id="titulo-noche">…</h2>
+          <p id="mes-detalle"></p>
         </div>
-    </nav>
+        <div class="aniversario">
+          <p>Nuestro aniversario</p>
+          <strong id="aniv-fecha">11 de junio</strong>
+          <p id="aniv-faltan"></p>
+        </div>
+      </div>
+    </section>
 
-    <main class="flex-grow flex flex-col pt-16 md:pt-20 relative">
-        
-        <section class="min-h-[90vh] md:min-h-screen flex flex-col items-center justify-center relative px-4 overflow-hidden">
-            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[600px] md:h-[600px] bg-rose-200/20 rounded-full blur-[60px] md:blur-[100px] -z-10 animate-pulse"></div>
-            
-            <div class="text-center max-w-4xl space-y-6 md:space-y-8 animate-fade-in z-10 w-full">
-                
-                <a href="https://nadiayluis.art/rewind2025.html" class="inline-flex items-center gap-2 py-2 px-5 md:px-6 rounded-full border border-gray-800/10 bg-white/50 backdrop-blur-sm text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase text-gray-800 shadow-sm hover:scale-105 hover:bg-white transition-all">
-                    <span>✨</span> Ver REWIND 2025
-                </a>
-                
-                <h1 class="font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl text-gray-900 leading-none tracking-tight">
-                    Nadia <br class="md:hidden" /> <span class="text-rose-400 italic font-light">&</span> Luis
-                </h1>
-                
-                <p class="text-base md:text-2xl text-gray-500 font-light max-w-xs md:max-w-2xl mx-auto italic leading-relaxed px-2">
-                    "El arte no estuvo en los museos, estuvo en cada momento que pasamos juntos."
-                </p>
-    
-                <div class="pt-6 md:pt-8 w-full max-w-lg mx-auto">
-                    <div class="glass-card flex flex-col items-center px-6 py-6 md:px-8 md:py-8 rounded-2xl w-full">
-                        <span class="text-[10px] md:text-xs uppercase tracking-widest text-gray-400 mb-1">El tiempo que compartimos</span>
-                        <span id="hero-timer" class="font-serif text-xl md:text-3xl text-gray-800 font-bold whitespace-nowrap mb-4">Calculando...</span>
-                        
-                        <div class="w-full h-px bg-gray-200/50 my-2"></div>
-                        
-                        <p class="text-sm md:text-base text-gray-600 italic mt-3 font-medium leading-relaxed">
-                            Me llevo la gratitud de un tiempo que fue demasiado para mi suerte. No tienes idea de cuánto amé cada día a tu lado; fue mi intento más honesto de ser mejor, aunque al final mis actos no lograran estar a la altura de mis sentimientos.
-                        </p>
-                    </div>
-                </div>
-            </div>
+    <section class="indice contenedor" aria-labelledby="titulo-indice">
+      <h2 id="titulo-indice">Lo que hay aquí</h2>
+      <ul>
+        <li><a href="historia.html"><strong>Nuestra historia</strong><span>Desde Chapultepec hasta hoy, con fotos.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li><a href="cartas.html"><strong>Cartas para abrir cuando…</strong><span>Sobres para cuando los necesites, y los poemas.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li><a href="canciones.html"><strong>Nuestras canciones</strong><span>La música que nos acompaña.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li><a href="suenos.html"><strong>Lo que soñamos</strong><span>Todo lo que nos falta por hacer juntos.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+      </ul>
+    </section>
 
-            <div class="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 animate-bounce-slow text-gray-300">
-                <i data-lucide="arrow-down" class="w-6 h-6 md:w-8 md:h-8"></i>
-            </div>
-        </section>
+    <section class="archivo contenedor" aria-labelledby="titulo-archivo">
+      <h2 id="titulo-archivo">El archivo</h2>
+      <p>Las páginas de antes, tal como eran.</p>
+      <ul>
+        <li><a href="recuerdos.html">Recuerdos</a></li>
+        <li><a href="cuentos.html">Cuentos</a></li>
+        <li><a href="razones.html">Lo que amo de ti</a></li>
+        <li><a href="detalles.html">Detalles</a></li>
+        <li><a href="tiempo.html">El tiempo</a></li>
+        <li><a href="rewind2025.html">Rewind 2025</a></li>
+        <li><a href="libros.html">Libros</a></li>
+      </ul>
+    </section>
+  </main>
 
-        <section class="py-16 md:py-24 px-4 bg-white/30 relative">
-            <div class="max-w-7xl mx-auto">
-                <div class="text-center mb-10 md:mb-16">
-                    <h2 class="font-serif text-3xl md:text-4xl text-gray-900 mb-3 md:mb-4">Lo que fue nuestro mundo</h2>
-                    <p class="text-sm md:text-base text-gray-500 font-light px-4">Cada rincón de esta página fue hecho para ti.</p>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-                    <a href="recuerdos.html" class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl flex flex-col items-center text-center group cursor-pointer h-full">
-                        <div class="w-12 h-12 md:w-14 md:h-14 bg-rose-50 rounded-full flex items-center justify-center mb-4 md:mb-6 group-hover:bg-rose-500 transition-colors duration-500">
-                            <i data-lucide="camera" class="w-5 h-5 md:w-6 md:h-6 text-rose-400 group-hover:text-white transition-colors"></i>
-                        </div>
-                        <h3 class="font-serif text-lg md:text-xl text-gray-900 mb-2">Recuerdos</h3>
-                        <p class="text-gray-500 text-xs md:text-sm font-light">Nuestros mejores momentos congelados en el tiempo.</p>
-                    </a>
+  <script src="assets/js/datos.js"></script>
+  <script src="assets/js/site.js"></script>
+  <script>
+    const t = tiempoJuntos();
+    document.getElementById("frase").innerHTML =
+      `Llevamos <strong>${formato(t.total)}</strong> días escribiendo esta historia.`;
+    document.getElementById("capitulos").textContent =
+      `Capítulo uno: ${formato(t.uno)} días. Capítulo dos: ${formato(t.dos)} días, y contando.`;
 
-                    <a href="cuentos.html" class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl flex flex-col items-center text-center group cursor-pointer h-full">
-                        <div class="w-12 h-12 md:w-14 md:h-14 bg-purple-50 rounded-full flex items-center justify-center mb-4 md:mb-6 group-hover:bg-purple-500 transition-colors duration-500">
-                            <i data-lucide="book-open" class="w-5 h-5 md:w-6 md:h-6 text-purple-400 group-hover:text-white transition-colors"></i>
-                        </div>
-                        <h3 class="font-serif text-lg md:text-xl text-gray-900 mb-2">Historias</h3>
-                        <p class="text-gray-500 text-xs md:text-sm font-light">Cuentos y relatos que construyeron nuestra historia.</p>
-                    </a>
+    const m = proximoMesiversario();
+    const faltan = document.getElementById("faltan");
+    const titulo = document.getElementById("titulo-noche");
+    const nombreFecha = `${m.fecha.getDate()} de ${MESES[m.fecha.getMonth()]}`;
+    if (m.faltan === 0) {
+      faltan.innerHTML = `Hoy`;
+      titulo.textContent = `Hoy cumplimos ${m.meses} meses.`;
+    } else {
+      faltan.innerHTML = `${m.faltan}<small>${m.faltan === 1 ? "día" : "días"}</small>`;
+      titulo.textContent = `para cumplir ${m.meses} meses.`;
+    }
+    document.getElementById("mes-detalle").textContent =
+      m.faltan === 0 ? "Feliz mesiversario, mi amor." : `El ${nombreFecha}, a las 22:22.`;
 
-                    <a href="razones.html" class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl flex flex-col items-center text-center group cursor-pointer h-full">
-                        <div class="w-12 h-12 md:w-14 md:h-14 bg-pink-50 rounded-full flex items-center justify-center mb-4 md:mb-6 group-hover:bg-pink-500 transition-colors duration-500">
-                            <i data-lucide="heart" class="w-5 h-5 md:w-6 md:h-6 text-pink-400 group-hover:text-white transition-colors"></i>
-                        </div>
-                        <h3 class="font-serif text-lg md:text-xl text-gray-900 mb-2">Lo que amé de ti</h3>
-                        <p class="text-gray-500 text-xs md:text-sm font-light">Pequeñas y grandes razones que siempre te harán única.</p>
-                    </a>
-
-                    <a href="detalles.html" class="glass-card p-6 md:p-8 rounded-2xl md:rounded-3xl flex flex-col items-center text-center group cursor-pointer h-full">
-                        <div class="w-12 h-12 md:w-14 md:h-14 bg-indigo-50 rounded-full flex items-center justify-center mb-4 md:mb-6 group-hover:bg-indigo-500 transition-colors duration-500">
-                            <i data-lucide="gift" class="w-5 h-5 md:w-6 md:h-6 text-indigo-400 group-hover:text-white transition-colors"></i>
-                        </div>
-                        <h3 class="font-serif text-lg md:text-xl text-gray-900 mb-2">Detalles</h3>
-                        <p class="text-gray-500 text-xs md:text-sm font-light">Cartas "Abrir Cuando", música y poesía compartida.</p>
-                    </a>
-                </div>
-            </div>
-        </section>
-
-        <section class="py-20 md:py-32 px-4 text-center relative overflow-hidden">
-            <div class="absolute inset-0 flex items-center justify-center opacity-[0.03] pointer-events-none select-none">
-                <span class="text-[20vw] font-serif font-bold text-gray-900">MEMORIA</span>
-            </div>
-            <div class="max-w-3xl mx-auto relative z-10 px-2">
-                <i data-lucide="quote" class="w-8 h-8 md:w-10 md:h-10 text-rose-300 mx-auto mb-4 md:mb-6 opacity-50"></i>
-                <h3 id="daily-quote" class="font-serif text-2xl md:text-5xl text-gray-800 leading-tight mb-6 md:mb-8">
-                    "Te amé no solo por lo que eras, sino por lo que fui cuando estuve contigo."
-                </h3>
-                <div class="w-16 md:w-24 h-px bg-gradient-to-r from-transparent via-rose-300 to-transparent mx-auto"></div>
-                <p id="daily-quote-author" class="mt-4 md:mt-6 text-gray-400 uppercase tracking-widest text-[10px] md:text-xs">- Luis (Adaptación)</p>
-            </div>
-        </section>
-
-    </main>
-
-    <footer class="py-6 md:py-8 text-center text-gray-400 text-[10px] md:text-xs uppercase tracking-widest border-t border-gray-100 bg-white/50 backdrop-blur-sm px-4">
-        <p class="mb-2">Hecho con amor • <a href="secreto.html" class="hover:text-rose-300 transition-colors cursor-default">2025 - 2026</a></p>
-        <p class="opacity-50">Para Nadia, gracias por todo.</p>
-    </footer>
-
-    <script>
-        // Shared Logic: Mobile Menu & Icons
-        const menuBtn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
-        
-        menuBtn.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-        });
-
-        // Close menu when clicking a link
-        menu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                menu.classList.add('hidden');
-            });
-        });
-
-        lucide.createIcons();
-
-        // Particles
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        const particleCount = window.innerWidth < 768 ? 30 : 60;
-        let particles = Array.from({length: particleCount}, () => ({
-            x: Math.random() * canvas.width, 
-            y: Math.random() * canvas.height,
-            r: Math.random() * 3 + 1, 
-            d: Math.random() * Math.PI * 2, 
-            s: Math.random() * 0.5 + 0.1,
-            c: ['#F7CAD0', '#C59FC9', '#E5E7EB'][Math.floor(Math.random()*3)]
-        }));
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => {
-                p.y -= p.s; 
-                p.x += Math.sin(p.d) * 0.2;
-                
-                if(p.y < -10) {
-                    p.y = canvas.height + 10;
-                    p.x = Math.random() * canvas.width;
-                }
-                
-                ctx.fillStyle = p.c; 
-                ctx.beginPath(); 
-                ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); 
-                ctx.fill();
-            });
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
-        // --- Timer Estático ---
-        // Fechas fijas para que ya no avance
-        const START_DATE = new Date('2025-06-11T22:22:00').getTime();
-        const END_DATE = new Date('2026-03-31T23:59:59').getTime(); // Fecha del fin
-        
-        function renderStaticTimer() {
-            const diff = END_DATE - START_DATE;
-            
-            // Cálculos matemáticos
-            const days = diff / (1000 * 60 * 60 * 24);
-            const years = Math.floor(days / 365.25);
-            const months = Math.floor((days % 365.25) / 30.44);
-            const remainingDays = Math.floor(days - (years * 365.25) - (months * 30.44));
-            
-            let timerText = "";
-            if (years > 0) timerText += `${years} Años, `;
-            timerText += `${months} Meses, ${remainingDays} Días`;
-            
-            document.getElementById('hero-timer').innerText = timerText;
-        }
-        renderStaticTimer(); 
-
-        // Las frases diarias ahora son frases sobre el recuerdo (opcional dejarlas corriendo, 
-        // pero modifiqué la principal arriba en el HTML). Mantuve tu script original 
-        // por si luego quieres poner frases más melancólicas en la base de datos.
-        
-    </script>
+    // Aniversario: próximo 11 de junio
+    const inicio = fecha(DATOS.fechas.inicio);
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    let aniv = new Date(hoy.getFullYear(), inicio.getMonth(), inicio.getDate());
+    if (aniv < hoy) aniv = new Date(hoy.getFullYear() + 1, inicio.getMonth(), inicio.getDate());
+    const anos = aniv.getFullYear() - inicio.getFullYear();
+    const dAniv = Math.round((aniv - hoy) / DIA);
+    document.getElementById("aniv-fecha").textContent = `11 de junio de ${aniv.getFullYear()}`;
+    document.getElementById("aniv-faltan").textContent =
+      dAniv === 0 ? `Hoy cumplimos ${anos === 1 ? "un año" : anos + " años"}.` :
+      `Faltan ${formato(dAniv)} días para ${anos === 1 ? "nuestro primer año" : "cumplir " + anos + " años"}.`;
+  </script>
 </body>
 </html>
