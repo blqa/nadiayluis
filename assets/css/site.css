@@ -104,14 +104,14 @@ p { margin: 0 0 1em; }
 .menu-logo span { color: var(--cereza); font-style: italic; }
 .menu-enlaces {
   display: flex;
-  gap: 1.75rem;
+  gap: 1.25rem;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 .menu-enlaces a {
   text-decoration: none;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
   color: var(--tinta-suave);
   padding: 0.25rem 0;
   border-bottom: 1.5px solid transparent;
@@ -166,6 +166,9 @@ p { margin: 0 0 1em; }
 .pie .contenedor { display: flex; flex-wrap: wrap; gap: 0.5rem 2rem; justify-content: space-between; }
 .pie em { font-family: var(--serif); color: var(--tinta); }
 .pie a { text-decoration: none; }
+.pie .firma-gp { flex-basis: 100%; font-size: .8rem; opacity: .6; }
+.pie .firma-gp a { text-decoration: underline; text-underline-offset: 2px; }
+.pie .firma-gp a:hover { color: var(--cereza); }
 
 /* ---------- Botones ---------- */
 .boton {

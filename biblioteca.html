@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Biblioteca · Nadia y Luis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108c">
+  <style>
+    .aviso { max-width: 36rem; font-family: var(--serif); font-style: italic; font-size: 1.1rem; line-height: 1.65; color: var(--tinta-suave); border-left: 2px solid var(--cereza); padding-left: 1.25rem; margin: 0 0 3.5rem; }
+
+    .estante-titulo { font-size: clamp(1.8rem, 5vw, 2.5rem); margin: 0 0 1.5rem; }
+    .estante { display: grid; grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr)); gap: 2rem 1.25rem; margin-bottom: 5rem; }
+    .libro {
+      font: inherit; text-align: left; border: 0; cursor: pointer; padding: 0; background: none; color: inherit;
+    }
+    .portada-libro {
+      aspect-ratio: 2 / 3;
+      border-radius: 3px 8px 8px 3px;
+      padding: 1.1rem 1rem 1rem 1.35rem;
+      display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: inset 7px 0 8px -5px #0005, 0 1px 2px #0003, 0 14px 24px -14px #2b183080;
+      transition: transform .25s ease;
+    }
+    .libro:hover .portada-libro, .libro:focus-visible .portada-libro { transform: translateY(-5px) rotate(-1deg); }
+    .portada-libro h3 { font-size: 1.2rem; line-height: 1.15; font-weight: 400; font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 48; }
+    .portada-libro small { font-size: .78rem; opacity: .8; line-height: 1.3; }
+    .libro .candado { font-size: .8rem; margin-top: .6rem; color: var(--tinta-suave); }
+
+    /* Cuentos */
+    .cuentos { list-style: none; margin: 0 0 5rem; padding: 0; max-width: 44rem; border-top: 1px solid var(--polvo); }
+    .cuentos button { width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--polvo); padding: 1.25rem 0; font: inherit; color: inherit; cursor: pointer; }
+    .cuentos strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.7rem; line-height: 1.15; transition: color .2s; }
+    .cuentos span { color: var(--tinta-suave); }
+    .cuentos button:hover strong { color: var(--cereza); }
+
+    /* Lector */
+    dialog.lector { border: 0; padding: 0; width: min(42rem, 100vw); max-width: 100vw; height: 100svh; max-height: 100svh; margin: 0 auto; background: var(--fondo, #FFFDFB); color: var(--letra, var(--tinta)); }
+    dialog.lector::backdrop { background: #2b1830cc; }
+    .lector-marco { display: flex; flex-direction: column; height: 100%; }
+    .lector header { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .9rem 1.25rem; border-bottom: 1px solid color-mix(in srgb, currentColor 15%, transparent); }
+    .lector header h2 { font-size: 1.05rem; font-family: var(--sans); font-weight: 500; line-height: 1.3; }
+    .lector footer[hidden] { display: none; }
+    .lector .cerrar { flex: none; width: 2.5rem; height: 2.5rem; border-radius: 50%; border: 0; font-size: 1.4rem; line-height: 1; cursor: pointer; background: color-mix(in srgb, currentColor 12%, transparent); color: inherit; }
+    .lector .cerrar:hover { background: color-mix(in srgb, currentColor 22%, transparent); }
+    .lector-texto { flex: 1; overflow-y: auto; padding: 2.5rem 1.5rem; }
+    .lector-texto > div { max-width: 34rem; margin: 0 auto; font-family: var(--serif); font-size: 1.2rem; line-height: 1.75; font-variation-settings: "SOFT" 100, "opsz" 18; }
+    .lector-texto strong { display: block; font-size: 1.7rem; line-height: 1.2; font-weight: 400; margin-bottom: 1.5rem; font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 72; }
+    .lector-texto p { margin: 0 0 1.1em; }
+    .lector footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .9rem 1.25rem; border-top: 1px solid color-mix(in srgb, currentColor 15%, transparent); }
+    .lector footer .boton { background: transparent; color: inherit; border-color: color-mix(in srgb, currentColor 40%, transparent); }
+    .lector footer .boton:hover:not(:disabled) { background: color-mix(in srgb, currentColor 12%, transparent); }
+    .lector footer .boton:disabled { opacity: .35; cursor: default; }
+    .lector .contador { font-size: .9rem; opacity: .75; }
+    .opciones { display: grid; gap: .75rem; margin-top: 2rem; }
+    .opciones button { font: inherit; text-align: left; padding: .9rem 1.1rem; border-radius: 12px; border: 1.5px solid color-mix(in srgb, currentColor 30%, transparent); background: transparent; color: inherit; cursor: pointer; }
+    .opciones button:hover { border-color: currentColor; background: color-mix(in srgb, currentColor 8%, transparent); }
+    .capsula { text-align: center; padding-top: 3rem; }
+    .capsula .tiempo { display: flex; gap: .75rem; justify-content: center; margin-top: 2rem; }
+    .capsula .tiempo div { min-width: 4.5rem; padding: .8rem .5rem; border: 1px solid color-mix(in srgb, currentColor 25%, transparent); border-radius: 12px; }
+    .capsula .tiempo b { display: block; font-family: var(--serif); font-size: 2rem; font-weight: 400; line-height: 1; }
+    .capsula .tiempo span { font-size: .78rem; opacity: .7; }
+  </style>
+</head>
+<body>
+  <main class="contenedor">
+    <header class="encabezado-pagina">
+      <h1>Biblioteca</h1>
+      <p>Los cuentos que te escribí y los libros donde guardé lo que sentía.</p>
+    </header>
+
+    <p class="aviso">Estos libros son una cápsula del tiempo de mis emociones más intensas. Los escribí cuando la confusión y el sentimiento hablaban más fuerte que la razón. Te pido una disculpa si te topas con algo feo o que pueda lastimar; todo fue escrito desde la vulnerabilidad y el amor, no desde la maldad.</p>
+
+    <h2 class="estante-titulo">Cuentos</h2>
+    <ul class="cuentos" id="cuentos"></ul>
+
+    <h2 class="estante-titulo">Libros</h2>
+    <div class="estante" id="estante"></div>
+  </main>
+
+  <dialog class="lector" id="lector" aria-labelledby="lector-titulo">
+    <div class="lector-marco">
+      <header>
+        <h2 id="lector-titulo"></h2>
+        <button class="cerrar" id="cerrar-lector" aria-label="Cerrar">×</button>
+      </header>
+      <div class="lector-texto" id="lector-texto"><div id="lector-contenido"></div></div>
+      <footer id="lector-pie">
+        <button class="boton" id="anterior" type="button">Anterior</button>
+        <span class="contador" id="contador"></span>
+        <button class="boton" id="siguiente" type="button">Siguiente</button>
+      </footer>
+    </div>
+  </dialog>
+
+  <script src="assets/js/datos.js?v=20261108c"></script>
+  <script src="assets/js/libros.js?v=20261108c"></script>
+  <script src="assets/js/site.js?v=20261108c"></script>
+  <script>
+    const { libros, cuentos } = window.LIBROS;
+    const dlg = document.getElementById("lector");
+    const contenido = document.getElementById("lector-contenido");
+    const pie = document.getElementById("lector-pie");
+    const btnAnt = document.getElementById("anterior"), btnSig = document.getElementById("siguiente"), cont = document.getElementById("contador");
+    let paginas = [], pag = 0, reloj = null;
+
+    const bloqueado = l => l.type === "timeCapsule" && new Date() < new Date(l.unlockDate);
+
+    /* Cuentos: texto con párrafos separados por saltos de línea */
+    const parrafos = t => {
+      let partes = t.replace(/^"|"$/g, "").split(/\n+/).filter(Boolean);
+      // Si todo viene en un solo bloque largo, lo parto cada 3 oraciones para que se lea cómodo
+      if (partes.length === 1 && partes[0].length > 500) {
+        const oraciones = partes[0].match(/[^.!?…]+[.!?…]+["”]?\s*/g) || [partes[0]];
+        partes = [];
+        for (let i = 0; i < oraciones.length; i += 3) partes.push(oraciones.slice(i, i + 3).join("").trim());
+      }
+      return partes.map(p => `<p>${limpio(p)}</p>`).join("");
+    };
+
+    document.getElementById("cuentos").innerHTML = cuentos.map((c, i) =>
+      `<li><button data-i="${i}"><strong>${limpio(c.title)}</strong><span>${limpio(c.summary)}</span></button></li>`).join("");
+
+    document.getElementById("estante").innerHTML = libros.map((l, i) => {
+      const cerrado = bloqueado(l);
+      const titulo = cerrado ? "¿?¿?¿?" : l.title;
+      return `<button class="libro" data-i="${i}" aria-label="${limpio(titulo)}">
+        <div class="portada-libro" style="background:${l.color};color:${l.textColor}">
+          <h3>${limpio(titulo)}</h3><small>${limpio(l.coverDate)}</small>
+        </div>
+        ${cerrado ? `<div class="candado">Se abre el ${new Date(l.unlockDate).toLocaleDateString("es-MX", { day: "numeric", month: "long" })}</div>` : ""}
+      </button>`;
+    }).join("");
+
+    function estilo(fondo, letra) {
+      dlg.style.setProperty("--fondo", fondo);
+      dlg.style.setProperty("--letra", letra);
+    }
+
+    function pintarPagina() {
+      contenido.innerHTML = paginas[pag];
+      document.getElementById("lector-texto").scrollTop = 0;
+      cont.textContent = `${pag + 1} de ${paginas.length}`;
+      btnAnt.disabled = pag === 0;
+      btnSig.disabled = pag === paginas.length - 1;
+    }
+
+    function leer(titulo, pags) {
+      clearInterval(reloj);
+      document.getElementById("lector-titulo").textContent = titulo;
+      pie.hidden = false; paginas = pags; pag = 0; pintarPagina();
+      if (!dlg.open) dlg.showModal();
+    }
+
+    function capsula(l) {
+      document.getElementById("lector-titulo").textContent = "Cápsula del tiempo";
+      pie.hidden = true;
+      const fecha = new Date(l.unlockDate);
+      contenido.innerHTML = `<div class="capsula">
+        <strong>Todavía se está escribiendo</strong>
+        <p>Vuelve el ${fecha.toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })} y lo que guardé aquí para ti se abre solo.</p>
+        <div class="tiempo"><div><b id="cd-d">0</b><span>días</span></div><div><b id="cd-h">0</b><span>horas</span></div><div><b id="cd-m">0</b><span>min</span></div></div>
+      </div>`;
+      const tic = () => {
+        const f = fecha - new Date();
+        if (f <= 0) { clearInterval(reloj); abrir(l); return; }
+        document.getElementById("cd-d").textContent = Math.floor(f / 864e5);
+        document.getElementById("cd-h").textContent = Math.floor(f % 864e5 / 36e5);
+        document.getElementById("cd-m").textContent = Math.floor(f % 36e5 / 6e4);
+      };
+      tic(); reloj = setInterval(tic, 30000);
+      if (!dlg.open) dlg.showModal();
+    }
+
+    function nodo(l, id) {
+      const n = l.nodes[id];
+      const op = n.choices.length
+        ? `<div class="opciones">${n.choices.map(c => `<button data-n="${limpio(c.nextNode)}">${limpio(c.text)}</button>`).join("")}</div>`
+        : `<div class="opciones"><button data-n="${limpio(l.startNode)}">Volver a empezar</button></div>`;
+      contenido.innerHTML = n.text + op;
+      document.getElementById("lector-texto").scrollTop = 0;
+      contenido.querySelectorAll("[data-n]").forEach(b => b.addEventListener("click", () => nodo(l, b.dataset.n)));
+    }
+
+    function abrir(l) {
+      estilo(l.nightMode ? "#12101f" : "#FFFDFB", l.nightMode ? "#e6e1f0" : "");
+      if (l.type === "timeCapsule" && bloqueado(l)) return capsula(l);
+      if (l.type === "interactive") {
+        clearInterval(reloj);
+        document.getElementById("lector-titulo").textContent = l.title;
+        pie.hidden = true; nodo(l, l.startNode);
+        if (!dlg.open) dlg.showModal();
+        return;
+      }
+      leer(l.title === "¿?¿?¿?" ? "Cápsula del tiempo" : l.title, l.pages);
+    }
+
+    document.getElementById("estante").addEventListener("click", e => { const b = e.target.closest(".libro"); if (b) abrir(libros[b.dataset.i]); });
+    document.getElementById("cuentos").addEventListener("click", e => {
+      const b = e.target.closest("button"); if (!b) return;
+      const c = cuentos[b.dataset.i];
+      estilo("#FFFDFB", "");
+      leer(c.title, [`<strong>${limpio(c.title)}</strong>${parrafos(c.body)}`]);
+      pie.hidden = true;
+    });
+    btnAnt.addEventListener("click", () => { if (pag > 0) { pag--; pintarPagina(); } });
+    btnSig.addEventListener("click", () => { if (pag < paginas.length - 1) { pag++; pintarPagina(); } });
+    dlg.addEventListener("keydown", e => {
+      if (pie.hidden) return;
+      if (e.key === "ArrowRight") btnSig.click();
+      if (e.key === "ArrowLeft") btnAnt.click();
+    });
+    document.getElementById("cerrar-lector").addEventListener("click", () => dlg.close());
+    dlg.addEventListener("close", () => clearInterval(reloj));
+  </script>
+</body>
+</html>

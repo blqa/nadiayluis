@@ -6,10 +6,13 @@
 
 const SECCIONES = [
   { archivo: "index.html", nombre: "Inicio" },
-  { archivo: "historia.html", nombre: "Nuestra historia" },
+  { archivo: "historia.html", nombre: "Historia" },
   { archivo: "cartas.html", nombre: "Cartas" },
+  { archivo: "biblioteca.html", nombre: "Biblioteca" },
+  { archivo: "razones.html", nombre: "Razones" },
   { archivo: "canciones.html", nombre: "Canciones" },
   { archivo: "suenos.html", nombre: "Sueños" },
+  { archivo: "numeros.html", nombre: "Números" },
 ];
 
 (function ponerMenu() {
@@ -44,6 +47,7 @@ const SECCIONES = [
     <div class="contenedor">
       <span>Para <em>Nadia</em>, de Luis.</span>
       <a href="secreto.html">Desde el 11 de junio de 2025</a>
+      <small class="firma-gp">NadiayLuis by <a href="https://godsplan.site" rel="noopener">GodsPlan</a></small>
     </div>`;
   document.body.append(pie);
 })();

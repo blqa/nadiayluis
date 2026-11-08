@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site.css?v=20261108b">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108c">
   <style>
     .sobres {
       display: grid;
@@ -164,8 +164,35 @@
     .poema h3 { font-size: 2rem; margin: .25rem 0 1.25rem; font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 72; }
     .poema .cuerpo { font-family: var(--serif); font-size: 1.12rem; line-height: 1.75; white-space: pre-line; font-variation-settings: "SOFT" 100, "opsz" 18; }
     .poema .firma { font-family: var(--serif); font-style: italic; color: var(--cereza); margin-top: 1.25rem; }
-    .poemas .mas { margin-top: 3rem; color: var(--tinta-suave); }
-    .poemas .mas a { color: var(--cereza); }
+
+    /* ---------- Cartas y confesiones ---------- */
+    .confesiones { padding-top: 7rem; }
+    .confesiones > h2 { font-size: clamp(2.2rem, 6vw, 3.5rem); font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144; }
+    .confesiones > p { color: var(--tinta-suave); margin-top: .75rem; max-width: 34rem; }
+    .lista-cartas { list-style: none; padding: 0; margin: 2rem 0 0; max-width: 44rem; border-top: 1px solid var(--polvo); }
+    .lista-cartas button {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: .1rem 1rem;
+      align-items: baseline;
+      text-align: left;
+      background: none;
+      border: 0;
+      border-bottom: 1px solid var(--polvo);
+      padding: 1.1rem 0;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+    }
+    .lista-cartas strong { font-family: var(--serif); font-weight: 400; font-size: clamp(1.3rem, 3.5vw, 1.6rem); line-height: 1.2; transition: color .2s; }
+    .lista-cartas time { font-family: var(--serif); font-style: italic; color: var(--tinta-suave); font-size: .95rem; white-space: nowrap; }
+    .lista-cartas button:hover strong { color: var(--cereza); }
+    .hoja .fecha-carta { font-family: var(--serif); font-style: italic; color: var(--cereza); margin: -.75rem 0 1.25rem; }
+    .hoja .fecha-carta:empty { display: none; }
+    @media (max-width: 520px) {
+      .lista-cartas button { grid-template-columns: 1fr; }
+    }
 
     @media (max-width: 760px) {
       .sobres { grid-template-columns: 1fr 1fr; gap: 3rem 1rem; }
@@ -189,7 +216,12 @@
       <h2 id="titulo-poemas">Poemas</h2>
       <p>Lo que te escribí cuando no me alcanzaban los mensajes.</p>
       <div id="poemas"></div>
-      <p class="mas">Las demás cartas siguen en <a href="detalles.html">Detalles</a>.</p>
+    </section>
+
+    <section class="confesiones" aria-labelledby="titulo-confesiones">
+      <h2 id="titulo-confesiones">Cartas y confesiones</h2>
+      <p>Pensamientos guardados, mensajes de madrugada y palabras que escribí cuando el corazón me dictaba.</p>
+      <ul class="lista-cartas" id="lista-cartas"></ul>
     </section>
   </main>
 
@@ -197,13 +229,14 @@
     <div class="hoja">
       <button class="cerrar" id="cerrar" aria-label="Cerrar carta">×</button>
       <h2 id="carta-titulo"></h2>
+      <p class="fecha-carta" id="carta-fecha"></p>
       <div class="cuerpo" id="carta-cuerpo"></div>
-      <p class="firma">Luis</p>
+      <p class="firma" id="carta-firma">Luis</p>
     </div>
   </dialog>
 
-  <script src="assets/js/datos.js?v=20261108b"></script>
-  <script src="assets/js/site.js?v=20261108b"></script>
+  <script src="assets/js/datos.js?v=20261108c"></script>
+  <script src="assets/js/site.js?v=20261108c"></script>
   <script>
     const contenedor = document.getElementById("sobres");
     contenedor.innerHTML = DATOS.sobres.map((s, i) => `
@@ -226,13 +259,35 @@
       const s = DATOS.sobres[sobre.dataset.i];
       sobreAbierto = sobre;
       sobre.classList.add("abierto");
-      document.getElementById("carta-titulo").textContent = s.titulo;
-      document.getElementById("carta-cuerpo").textContent = s.texto;
+      llenarCarta(s.titulo, s.texto, "");
       setTimeout(() => dialogo.showModal(), sinMovimiento ? 0 : 750);
     });
 
+    function llenarCarta(titulo, texto, fechaTexto) {
+      document.getElementById("carta-titulo").textContent = titulo;
+      document.getElementById("carta-fecha").textContent = fechaTexto || "";
+      document.getElementById("carta-cuerpo").textContent = texto;
+      // Si la carta ya termina con la firma, no la repetimos
+      document.getElementById("carta-firma").hidden = /luis\s*$/i.test(texto.trim());
+    }
+
+    const listaCartas = document.getElementById("lista-cartas");
+    listaCartas.innerHTML = DATOS.cartas.map((c, i) => `
+      <li><button data-i="${i}">
+        <strong>${limpio(c.titulo)}</strong>
+        <time>${limpio(c.fecha)}</time>
+      </button></li>`).join("");
+    listaCartas.addEventListener("click", e => {
+      const b = e.target.closest("button");
+      if (!b) return;
+      const c = DATOS.cartas[b.dataset.i];
+      sobreAbierto = b;
+      llenarCarta(c.titulo, c.texto, c.fecha);
+      dialogo.showModal();
+    });
+
     dialogo.addEventListener("close", () => {
-      if (sobreAbierto) { sobreAbierto.classList.remove("abierto"); sobreAbierto.focus(); }
+      if (sobreAbierto) { sobreAbierto.classList.remove("abierto"); sobreAbierto.focus(); sobreAbierto = null; }
     });
     document.getElementById("cerrar").addEventListener("click", () => dialogo.close());
     dialogo.addEventListener("click", e => { if (e.target === dialogo) dialogo.close(); });
