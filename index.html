@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/site.css">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108b">
   <style>
     .portada {
       min-height: 100svh;
@@ -222,14 +222,15 @@
     </section>
   </main>
 
-  <script src="assets/js/datos.js"></script>
-  <script src="assets/js/site.js"></script>
+  <script src="assets/js/datos.js?v=20261108b"></script>
+  <script src="assets/js/site.js?v=20261108b"></script>
   <script>
     const t = tiempoJuntos();
     document.getElementById("frase").innerHTML =
       `Llevamos <strong>${formato(t.total)}</strong> días escribiendo esta historia.`;
     document.getElementById("capitulos").textContent =
-      `Capítulo uno: ${formato(t.uno)} días. Capítulo dos: ${formato(t.dos)} días, y contando. Los ${t.pausa} días de la pausa no cuentan.`;
+      `Capítulo uno: ${formato(t.uno)} días. Capítulo dos: ${formato(t.dos)} días, y contando.` +
+      (Number.isFinite(t.pausa) ? ` Los ${t.pausa} días de la pausa no cuentan.` : "");
 
     const m = proximoMesiversario();
     const faltan = document.getElementById("faltan");
