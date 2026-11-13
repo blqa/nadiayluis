@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <script>(function(){try{var m=localStorage.getItem("nyl-tema");if(m)document.documentElement.dataset.theme=m}catch(e){}})()</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buzón · Nadia y Luis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108e">
+  <style>
+    .pienso { display: grid; justify-items: center; text-align: center; gap: 1rem; padding: 1rem 0 3rem; }
+    .corazon-grande {
+      width: 8.5rem; height: 8.5rem; border-radius: 50%;
+      border: 1.5px solid color-mix(in srgb, var(--cereza) 55%, var(--polvo));
+      background: radial-gradient(closest-side, color-mix(in srgb, var(--pastel) 55%, var(--hoja)), var(--hoja));
+      color: var(--cereza);
+      display: grid; place-items: center;
+      cursor: pointer; padding: 0;
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--cereza) 35%, transparent);
+      animation: latido 2.6s ease-in-out infinite;
+      transition: transform .15s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .corazon-grande:active { transform: scale(.92); }
+    .corazon-grande:disabled { animation: none; opacity: .75; cursor: default; }
+    .corazon-grande svg { width: 3.6rem; }
+    @keyframes latido {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 color-mix(in srgb, var(--cereza) 30%, transparent); }
+      14% { transform: scale(1.07); box-shadow: 0 0 0 16px color-mix(in srgb, var(--cereza) 0%, transparent); }
+      28% { transform: scale(1); }
+      42% { transform: scale(1.045); }
+      70% { transform: scale(1); }
+    }
+    .pienso h2 { font-size: 1.6rem; }
+    .pienso .estado { color: var(--tinta-suave); max-width: 26rem; margin: 0; min-height: 3em; }
+
+    .redactar { max-width: 40rem; display: grid; gap: .75rem; margin-bottom: 3rem; }
+    .redactar label { font-family: var(--serif); font-size: 1.25rem; }
+    .redactar .fila { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .redactar small { color: var(--tinta-suave); }
+
+    .notas { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; max-width: 40rem; }
+    .nota-papel {
+      position: relative;
+      width: min(100%, 32rem);
+      padding: 1.4rem 1.5rem 1rem;
+      background: var(--hoja);
+      border: 1px solid var(--polvo);
+      border-radius: 6px 6px 14px 6px;
+      box-shadow: 0 1px 2px #2b18301a, 0 18px 30px -22px #2b183080;
+      transform: rotate(var(--r, 0deg));
+    }
+    .nota-papel.suya { justify-self: start; }
+    .nota-papel.mia { justify-self: end; background: color-mix(in srgb, var(--cereza) 11%, var(--hoja)); }
+    .nota-papel .texto { font-family: var(--serif); font-size: 1.2rem; line-height: 1.55; margin: 0 0 .9rem; white-space: pre-wrap; overflow-wrap: anywhere; font-variation-settings: "SOFT" 100, "opsz" 24; }
+    .nota-papel footer { display: flex; justify-content: space-between; gap: 1rem; align-items: center; font-size: .85rem; color: var(--tinta-suave); }
+    .nota-papel footer button { font: inherit; font-size: .82rem; background: none; border: 0; color: var(--tinta-suave); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 0; }
+    .nota-papel footer button:hover { color: var(--cereza); }
+    .nota-papel.nueva::after {
+      content: "nueva";
+      position: absolute; top: -.6rem; right: 1rem;
+      background: var(--cereza); color: var(--hoja);
+      font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+      padding: .15rem .65rem; border-radius: 999px;
+    }
+    .vacio { color: var(--tinta-suave); font-family: var(--serif); font-style: italic; font-size: 1.15rem; }
+    .nota { color: var(--tinta-suave); }
+  </style>
+</head>
+<body>
+  <main class="contenedor">
+    <header class="encabezado-pagina">
+      <h1>Buzón</h1>
+      <p>Notitas solo para los dos. Las dejas aquí y le llegan al instante, vengas de donde vengas.</p>
+    </header>
+
+    <div id="acceso"></div>
+
+    <div id="contenido" hidden>
+      <section class="pienso" aria-labelledby="titulo-pienso">
+        <h2 id="titulo-pienso">¿Estás pensando en ella o en él?</h2>
+        <button class="corazon-grande" id="pienso" type="button" aria-label="Avisar que estoy pensando en ti">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 5 6 5c2.1 0 3.6 1.2 4.5 2.6h3C14.4 6.2 15.9 5 18 5c3.3 0 5.1 3.4 3.6 6.8C19.5 16.4 12 21 12 21Z"/></svg>
+        </button>
+        <p class="estado" id="estado-pienso">Tócalo y le llega un aviso: “estoy pensando en ti”.</p>
+      </section>
+
+      <form class="redactar" id="redactar">
+        <label for="texto">Dejar una nota</label>
+        <textarea class="campo" id="texto" maxlength="1500" placeholder="Escribe lo que quieras que encuentre…" required></textarea>
+        <div class="fila">
+          <small id="cuenta">0 / 1500</small>
+          <button class="boton" type="submit">Dejar en el buzón</button>
+        </div>
+      </form>
+
+      <ul class="notas" id="notas" aria-live="polite"></ul>
+    </div>
+  </main>
+
+  <script src="assets/js/datos.js?v=20261108e"></script>
+  <script src="assets/js/site.js?v=20261108e"></script>
+  <script src="assets/js/nube.js?v=20261108e"></script>
+  <script>
+    const LLAVE_VISTO = "nyl-buzon-visto";
+    let bajas = [], estuvo = false;
+
+    Nube.acceso(document.getElementById("acceso"), {
+      titulo: "El buzón es solo para los dos",
+      texto: "Entra con tu correo y tu contraseña para leer y dejar notas.",
+      alListo: arrancar,
+      /* Al salir recargamos: así no quedan avisos ni notas de la otra sesión */
+      alSalir: () => { bajas.forEach(f => f()); bajas = []; if (estuvo) location.reload(); },
+    });
+
+    async function arrancar(yo, N) {
+      const { db, F } = N;
+      estuvo = true;
+      document.getElementById("contenido").hidden = false;
+      const otro = Nube.otroNombre;
+      document.getElementById("titulo-pienso").textContent = `¿Estás pensando en ${otro}?`;
+      document.getElementById("pienso").setAttribute("aria-label", `Avisarle a ${otro} que estoy pensando en ti`);
+
+      /* --- Pienso en ti --- */
+      const boton = document.getElementById("pienso");
+      const estado = document.getElementById("estado-pienso");
+      let datos = {}, primera = true;
+      function pintarEstado() {
+        const mio = datos[yo.uid], suyo = Object.entries(datos).find(([id]) => id !== yo.uid);
+        const partes = [];
+        if (suyo) {
+          const d = suyo[1];
+          partes.push(`${limpio(d.nombre || otro)} ha pensado en ti <strong>${formato(d.n || 0)}</strong> ${d.n === 1 ? "vez" : "veces"}${d.ultimo ? ` · la última, ${Nube.cuando(d.ultimo)}` : ""}.`);
+        }
+        if (mio) partes.push(`Tú, <strong>${formato(mio.n || 0)}</strong>.`);
+        estado.innerHTML = partes.length ? partes.join("<br>") : "Tócalo y le llega un aviso: “estoy pensando en ti”.";
+      }
+      bajas.push(F.onSnapshot(F.collection(db, "pienso"), snap => {
+        if (!primera) {
+          snap.docChanges().forEach(c => {
+            if (c.doc.id !== yo.uid && c.type !== "removed") {
+              Nube.toast(`${c.doc.data().nombre || otro} está pensando en ti`);
+              if (window.lluvia) window.lluvia(8);
+            }
+          });
+        }
+        primera = false;
+        datos = {};
+        snap.forEach(d => { datos[d.id] = d.data({ serverTimestamps: "estimate" }); });
+        pintarEstado();
+      }, err => { estado.textContent = Nube.mensaje(err); }));
+
+      boton.addEventListener("click", async () => {
+        const r = boton.getBoundingClientRect();
+        if (window.chispas) window.chispas(r.left + r.width / 2, r.top + r.height / 2, 22);
+        boton.disabled = true;
+        setTimeout(() => { boton.disabled = false; }, 4000);
+        try {
+          await F.setDoc(F.doc(db, "pienso", yo.uid), { nombre: yo.nombre, n: F.increment(1), ultimo: F.serverTimestamp() }, { merge: true });
+          Nube.toast(`Le avisé a ${otro} ♡`);
+        } catch (e) { estado.textContent = Nube.mensaje(e); }
+      });
+
+      /* --- Notas --- */
+      const visto = Number((() => { try { return localStorage.getItem(LLAVE_VISTO); } catch (e) { return 0; } })()) || 0;
+      const lista = document.getElementById("notas");
+      let confirmando = null;
+      const giro = id => { let h = 0; for (const c of id) h = (h * 31 + c.charCodeAt(0)) | 0; return ((Math.abs(h) % 25) - 12) / 10; };
+
+      function pintarNotas(docs) {
+        if (!docs.length) { lista.innerHTML = '<li class="vacio">Todavía no hay notas. Deja la primera.</li>'; return; }
+        lista.innerHTML = docs.map(d => {
+          const n = d.data({ serverTimestamps: "estimate" });
+          const mia = n.uid === yo.uid;
+          const ms = n.creado && n.creado.toMillis ? n.creado.toMillis() : Date.now();
+          const nueva = !mia && ms > visto;
+          return `<li class="nota-papel ${mia ? "mia" : "suya"}${nueva ? " nueva" : ""}" style="--r:${giro(d.id)}deg">
+            <p class="texto">${limpio(n.texto || "")}</p>
+            <footer><span>${limpio(mia ? "Tú" : n.nombre || otro)} · ${Nube.cuando(n.creado)}</span>${mia ? `<button type="button" data-borrar="${limpio(d.id)}">Borrar</button>` : ""}</footer>
+          </li>`;
+        }).join("");
+      }
+
+      const consulta = F.query(F.collection(db, "buzon"), F.orderBy("creado", "desc"), F.limit(100));
+      let ultimosDocs = [], notificar = false;
+      bajas.push(F.onSnapshot(consulta, snap => {
+        ultimosDocs = snap.docs;
+        if (notificar) {
+          snap.docChanges().forEach(c => {
+            if (c.type === "added" && c.doc.data().uid !== yo.uid) { Nube.toast(`${c.doc.data().nombre || otro} te dejó una nota`); }
+          });
+        }
+        notificar = true;
+        pintarNotas(snap.docs);
+        try { localStorage.setItem(LLAVE_VISTO, String(Date.now())); } catch (e) {}
+      }, err => { lista.innerHTML = `<li class="vacio">${limpio(Nube.mensaje(err))}</li>`; }));
+
+      lista.addEventListener("click", async e => {
+        const b = e.target.closest("[data-borrar]");
+        if (!b) return;
+        if (confirmando !== b.dataset.borrar) {
+          confirmando = b.dataset.borrar; b.textContent = "¿Seguro? Toca otra vez";
+          setTimeout(() => { if (confirmando === b.dataset.borrar) { confirmando = null; b.textContent = "Borrar"; } }, 3500);
+          return;
+        }
+        try { await F.deleteDoc(F.doc(db, "buzon", b.dataset.borrar)); } catch (err) { Nube.toast(Nube.mensaje(err)); }
+        confirmando = null;
+      });
+
+      /* --- Escribir --- */
+      const form = document.getElementById("redactar");
+      const campo = document.getElementById("texto");
+      const cuenta = document.getElementById("cuenta");
+      campo.addEventListener("input", () => { cuenta.textContent = `${campo.value.length} / 1500`; });
+      campo.addEventListener("keydown", e => { if ((e.ctrlKey || e.metaKey) && e.key === "Enter") form.requestSubmit(); });
+      form.addEventListener("submit", async e => {
+        e.preventDefault();
+        const texto = campo.value.trim();
+        if (!texto) return;
+        const enviar = form.querySelector("button");
+        enviar.disabled = true;
+        try {
+          await F.addDoc(F.collection(db, "buzon"), { uid: yo.uid, nombre: yo.nombre, texto, creado: F.serverTimestamp() });
+          campo.value = ""; cuenta.textContent = "0 / 1500";
+          const r = enviar.getBoundingClientRect();
+          if (window.chispas) window.chispas(r.left + r.width / 2, r.top, 16);
+          Nube.toast("Nota guardada en el buzón");
+        } catch (err) { Nube.toast(Nube.mensaje(err)); }
+        enviar.disabled = false;
+      });
+    }
+  </script>
+</body>
+</html>

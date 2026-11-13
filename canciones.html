@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <script>(function(){try{var m=localStorage.getItem("nyl-tema");if(m)document.documentElement.dataset.theme=m}catch(e){}})()</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Canciones · Nadia y Luis</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108e">
+  <style>
+    .reproductor {
+      max-width: 44rem;
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--papel-2);
+      box-shadow: 0 1px 2px #2b183014, 0 16px 40px -20px #2b183059;
+    }
+    .reproductor iframe { display: block; width: 100%; border: 0; }
+
+    .lista { list-style: none; padding: 0; margin: 4rem 0 0; max-width: 44rem; counter-reset: cancion; }
+    .lista[hidden] { display: none; }
+    .lista li {
+      counter-increment: cancion;
+      display: grid;
+      grid-template-columns: 2.5rem 1fr;
+      gap: 0 1rem;
+      padding: 1.5rem 0;
+      border-top: 1px solid var(--polvo);
+    }
+    .lista li::before {
+      content: counter(cancion);
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 1.6rem;
+      color: var(--cereza);
+      line-height: 1.2;
+    }
+    .lista h2 { font-size: 1.6rem; line-height: 1.2; }
+    .lista .artista { color: var(--tinta-suave); margin: .15rem 0 0; }
+    .lista .porque { margin: .6rem 0 0; font-family: var(--serif); font-size: 1.1rem; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <main class="contenedor">
+    <header class="encabezado-pagina">
+      <h1>Nuestras canciones</h1>
+      <p>La música que nos acompaña. Dale play cuando me extrañes.</p>
+    </header>
+
+    <div class="reproductor" id="reproductor"></div>
+    <ol class="lista" id="lista" hidden></ol>
+  </main>
+
+  <script src="assets/js/datos.js?v=20261108e"></script>
+  <script src="assets/js/site.js?v=20261108e"></script>
+  <script>
+    document.getElementById("reproductor").innerHTML =
+      `<iframe title="Nuestra playlist en Spotify" src="https://open.spotify.com/embed/playlist/${encodeURIComponent(DATOS.playlist)}?theme=0" height="452" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>`;
+
+    const lista = document.getElementById("lista");
+    if (DATOS.canciones.length) {
+      lista.hidden = false;
+      lista.innerHTML = DATOS.canciones.map(c => `
+        <li><div>
+          <h2>${limpio(c.titulo)}</h2>
+          <p class="artista">${limpio(c.artista || "")}</p>
+          ${c.porque ? `<p class="porque">${limpio(c.porque)}</p>` : ""}
+        </div></li>`).join("");
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <script>(function(){try{var m=localStorage.getItem("nyl-tema");if(m)document.documentElement.dataset.theme=m}catch(e){}})()</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Nadia y Luis</title>
+  <meta name="description" content="Nuestra historia, nuestras cartas y lo que soñamos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/site.css?v=20261108e">
+  <style>
+    .portada {
+      min-height: 100svh;
+      display: grid;
+      align-content: center;
+      padding: 6rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Un resplandor rosa pastel detrás del título */
+    .portada::before {
+      content: "";
+      position: absolute;
+      left: -10%; top: 8%;
+      width: 70vmin; height: 70vmin;
+      background: radial-gradient(closest-side, color-mix(in srgb, var(--pastel) var(--brillo), transparent), transparent);
+      pointer-events: none;
+    }
+    .portada .contenedor {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 2rem;
+    }
+    .portada h1 {
+      font-size: clamp(4rem, 15vw, 11rem);
+      letter-spacing: -0.035em;
+      line-height: 0.88;
+      font-weight: 300;
+      font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+    }
+    .portada h1 .y {
+      display: block;
+      width: fit-content;
+      font-style: italic;
+      font-size: 0.42em;
+      color: var(--cereza);
+      margin: 0.15em 0 0.05em 0.1em;
+      letter-spacing: 0;
+      padding-right: .1em;
+    }
+    /* Un destello que pasa despacio por la “y” */
+    @supports (background-clip: text) or (-webkit-background-clip: text) {
+      .portada h1 .y {
+        background: linear-gradient(100deg, var(--cereza) 38%, color-mix(in srgb, var(--cereza) 40%, #fff) 50%, var(--cereza) 62%) 0 0 / 260% 100%;
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: sube 1s cubic-bezier(.2,.7,.2,1) both, brillo 7s ease-in-out 2s infinite;
+        animation-delay: calc(var(--i, 0) * 130ms + 120ms), 2s;
+      }
+    }
+    @keyframes brillo { 0%, 55% { background-position: 100% 0; } 100% { background-position: -60% 0; } }
+    .portada .frase {
+      margin-top: 2.25rem;
+      font-family: var(--serif);
+      font-size: clamp(1.2rem, 2.6vw, 1.5rem);
+      line-height: 1.45;
+      max-width: 30rem;
+      font-variation-settings: "SOFT" 100, "opsz" 24;
+    }
+    .portada .frase strong { font-weight: 500; color: var(--cereza); }
+    .portada .capitulos {
+      margin-top: 1rem;
+      color: var(--tinta-suave);
+      font-size: 0.98rem;
+    }
+
+    /* El matasellos */
+    .matasellos {
+      width: clamp(13rem, 30vw, 21rem);
+      color: var(--cereza);
+      transform: rotate(-9deg);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .matasellos:active { transform: rotate(-3deg) scale(.97); transition: transform .15s; }
+    .matasellos .anillo {
+      transform-origin: 150px 150px;
+      animation: girar 60s linear infinite;
+    }
+    @keyframes girar { to { transform: rotate(360deg); } }
+
+    /* La noche de las 22:22 */
+    .noche {
+      background: var(--noche);
+      color: var(--estrella);
+      padding: 5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .noche::before {
+      content: "";
+      position: absolute; inset: 0;
+      background-image:
+        radial-gradient(1px 1px at 12% 30%, #fff8 50%, transparent 51%),
+        radial-gradient(1px 1px at 28% 72%, #fff6 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 46% 18%, #fff9 50%, transparent 51%),
+        radial-gradient(1px 1px at 63% 58%, #fff5 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 81% 26%, #fff8 50%, transparent 51%),
+        radial-gradient(1px 1px at 90% 80%, #fff6 50%, transparent 51%),
+        radial-gradient(1px 1px at 6% 86%, #fff5 50%, transparent 51%),
+        radial-gradient(1px 1px at 72% 90%, #fff7 50%, transparent 51%);
+      pointer-events: none;
+    }
+    .noche .contenedor { position: relative; display: grid; gap: 3rem; grid-template-columns: 1.3fr 1fr; align-items: end; }
+    .noche .faltan {
+      font-family: var(--serif);
+      font-size: clamp(5rem, 16vw, 10rem);
+      line-height: 0.85;
+      font-weight: 300;
+      font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144;
+    }
+    .noche .faltan small { font-size: 0.3em; font-style: italic; margin-left: 0.15em; }
+    .noche h2 { font-size: clamp(1.6rem, 4vw, 2.25rem); margin-top: 1rem; line-height: 1.2; }
+    .noche p { color: color-mix(in srgb, var(--estrella) 72%, transparent); margin: 0.5rem 0 0; max-width: 26rem; }
+    .noche .aniversario {
+      border-left: 1px solid color-mix(in srgb, var(--estrella) 30%, transparent);
+      padding-left: 1.5rem;
+    }
+    .noche .aniversario strong { display: block; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; color: var(--estrella); }
+
+    /* Lo que viene */
+    .viene { padding-top: 6rem; }
+    .viene h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: .5rem; }
+    .viene > p { color: var(--tinta-suave); margin-bottom: 2rem; }
+    .viene ol { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 1rem; }
+    .viene li { display: grid; gap: .15rem; align-content: start; }
+    .viene .dias { font-family: var(--serif); font-size: clamp(3.2rem, 8vw, 4.4rem); line-height: .95; font-weight: 300; color: var(--cereza); font-variation-settings: "SOFT" 100, "WONK" 1, "opsz" 144; }
+    .viene .dias small { font-size: .3em; font-style: italic; margin-left: .25em; color: var(--tinta-suave); }
+    .viene strong { font-family: var(--serif); font-weight: 400; font-size: 1.3rem; line-height: 1.2; margin-top: .6rem; }
+    .viene .nota { color: var(--tinta-suave); font-size: .95rem; }
+    .viene time { color: var(--tinta-suave); font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; margin-top: .5rem; }
+    .viene li:first-child { border-color: color-mix(in srgb, var(--cereza) 40%, var(--polvo)); }
+
+    /* Índice de secciones */
+    .indice { padding-top: 6rem; }
+    .indice h2 { font-size: clamp(2rem, 5vw, 3rem); margin-bottom: 2rem; }
+    .indice ul { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--polvo); }
+    .indice li a {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.25rem 2rem;
+      padding: 1.5rem 0;
+      border-bottom: 1px solid var(--polvo);
+      text-decoration: none;
+    }
+    .indice li a strong {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(1.6rem, 4vw, 2.4rem);
+      line-height: 1.1;
+      transition: color .2s;
+    }
+    .indice li a span { color: var(--tinta-suave); grid-column: 1; }
+    .indice li a svg { grid-row: 1 / 3; grid-column: 2; align-self: center; width: 28px; color: var(--cereza); transition: transform .25s; }
+    .indice li a:hover strong { color: var(--cereza); }
+    .indice .etiqueta {
+      display: inline-flex; align-items: center; gap: .3rem;
+      font-family: var(--sans); font-size: .72rem; letter-spacing: .06em; text-transform: uppercase;
+      color: var(--cereza); border: 1px solid color-mix(in srgb, var(--cereza) 45%, transparent);
+      border-radius: 999px; padding: .1rem .6rem; margin-left: .75rem; vertical-align: middle;
+    }
+    .indice .etiqueta .candado { margin: 0; opacity: 1; }
+    .indice li a:hover svg { transform: translateX(4px); }
+
+    .archivo { padding-top: 5rem; }
+    .archivo h2 { font-size: 1.6rem; }
+    .archivo p { color: var(--tinta-suave); margin-top: .5rem; }
+    .archivo ul { list-style: none; padding: 0; margin: 1.25rem 0 0; display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    .archivo a {
+      display: inline-block;
+      padding: 0.45rem 1rem;
+      border: 1px solid var(--polvo);
+      border-radius: 999px;
+      text-decoration: none;
+      font-size: 0.95rem;
+      background: var(--papel-2);
+    }
+    .archivo a:hover { border-color: var(--cereza); color: var(--cereza); }
+
+    @media (max-width: 760px) {
+      .portada { align-content: start; min-height: auto; padding: 6.5rem 0 4.5rem; }
+      .portada .contenedor { grid-template-columns: 1fr; gap: 0; }
+      .matasellos { position: absolute; right: -2.5rem; top: 5.5rem; width: 10.5rem; opacity: .9; }
+      .portada h1 { margin-top: 5.5rem; }
+      .noche .contenedor { grid-template-columns: 1fr; gap: 2rem; }
+      .noche .aniversario { border-left: 0; border-top: 1px solid color-mix(in srgb, var(--estrella) 30%, transparent); padding: 1.5rem 0 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <section class="portada">
+      <div class="contenedor">
+        <div>
+          <h1><span class="entra" style="--i:0">Nadia</span> <span class="y entra" style="--i:1">y</span><span class="entra" style="--i:2">Luis</span></h1>
+          <p class="frase entra" style="--i:4" id="frase">Llevamos <strong>…</strong> días escribiendo esta historia.</p>
+          <p class="capitulos entra" style="--i:5" id="capitulos"></p>
+        </div>
+
+        <svg class="matasellos entra" style="--i:3" data-chispas viewBox="0 0 300 300" role="img" aria-label="Matasellos: Ciudad de México, 11 de junio de 2025, 22:22">
+          <defs>
+            <path id="circulo" d="M150,150 m-112,0 a112,112 0 1,1 224,0 a112,112 0 1,1 -224,0"/>
+          </defs>
+          <circle cx="150" cy="150" r="138" fill="none" stroke="currentColor" stroke-width="2.5"/>
+          <circle cx="150" cy="150" r="88" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <g class="anillo">
+            <text font-family="Figtree, sans-serif" font-size="17" letter-spacing="5" fill="currentColor">
+              <textPath href="#circulo">CIUDAD DE MÉXICO ✶ 11 JUN 2025 ✶ NADIA Y LUIS ✶</textPath>
+            </text>
+          </g>
+          <text x="150" y="146" text-anchor="middle" font-family="Fraunces, serif" font-size="54" font-weight="400" fill="currentColor">22:22</text>
+          <text x="150" y="180" text-anchor="middle" font-family="Fraunces, serif" font-style="italic" font-size="19" fill="currentColor">desde entonces</text>
+        </svg>
+      </div>
+    </section>
+
+    <section class="noche" aria-labelledby="titulo-noche">
+      <div class="contenedor">
+        <div>
+          <div class="faltan" id="faltan">…</div>
+          <h2 id="titulo-noche">…</h2>
+          <p id="mes-detalle"></p>
+        </div>
+        <div class="aniversario">
+          <p>Nuestro aniversario</p>
+          <strong id="aniv-fecha">…</strong>
+          <p id="aniv-faltan"></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="viene contenedor" aria-labelledby="titulo-viene" id="viene" hidden>
+      <h2 id="titulo-viene" data-revela>Lo que viene</h2>
+      <p data-revela style="--i:1">Para ir contando los días.</p>
+      <ol id="proximos"></ol>
+    </section>
+
+    <section class="indice contenedor" aria-labelledby="titulo-indice">
+      <h2 id="titulo-indice" data-revela>Lo que hay aquí</h2>
+      <ul>
+        <li data-revela><a href="historia.html"><strong>Nuestra historia</strong><span>Desde el primer mensaje hasta hoy, con fotos.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li data-revela><a href="cartas.html"><strong>Cartas para abrir cuando…</strong><span>Sobres para cuando los necesites, poemas y cartas.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li data-revela><a href="biblioteca.html"><strong>Biblioteca</strong><span>Los cuentos que te escribí y mis libros.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li data-revela><a href="razones.html"><strong>Lo que amo de ti</strong><span>Cien razones, y una al azar cuando quieras.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li data-revela><a href="canciones.html"><strong>Nuestras canciones</strong><span>La música que nos acompaña.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li data-revela><a href="suenos.html"><strong>Lo que soñamos</strong><span>Todo lo que nos falta por hacer juntos.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li data-revela><a href="numeros.html"><strong>Nuestros números</strong><span>Días, mensajes, fotos y el Rewind 2025.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li data-revela><a href="mapa.html"><strong>Nuestro mapa</strong><span>Los lugares donde hemos estado, unidos por un hilo.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li data-revela><a href="hoy.html"><strong>Pregunta del día<span class="etiqueta"><svg class="candado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>solo los dos</span></strong><span>Una pregunta cada día; las respuestas aparecen cuando contestamos las dos.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+        <li data-revela><a href="buzon.html"><strong>Buzón<span class="etiqueta"><svg class="candado" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>solo los dos</span></strong><span>Notitas entre nosotros y un botón para decir “pienso en ti”.</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 12h15m-5-5 5 5-5 5"/></svg></a></li>
+      </ul>
+    </section>
+
+    <section class="archivo contenedor" aria-labelledby="titulo-archivo" data-revela>
+      <h2 id="titulo-archivo">Aparte</h2>
+      <ul>
+        <li><a href="https://docs.google.com/spreadsheets/d/1v-TWBi_-xBK1Fd0ZLUzndlRALPpujrFsZz7_NRiC14g/edit?usp=sharing" rel="noopener">Tu archivito</a></li>
+        <li><a href="secreto.html">Detrás del código</a></li>
+      </ul>
+    </section>
+  </main>
+
+  <script src="assets/js/datos.js?v=20261108e"></script>
+  <script src="assets/js/site.js?v=20261108e"></script>
+  <script>
+    const t = tiempoJuntos();
+    document.getElementById("frase").innerHTML =
+      `Llevamos <strong>${formato(t.total)}</strong> días escribiendo esta historia.`;
+    document.getElementById("capitulos").textContent =
+      `Capítulo uno: ${formato(t.uno)} días. Capítulo dos: ${formato(t.dos)} días, y contando.` +
+      (Number.isFinite(t.pausa) ? ` Los ${t.pausa} días de la pausa no cuentan.` : "");
+
+    const m = proximoMesiversario();
+    const faltan = document.getElementById("faltan");
+    const titulo = document.getElementById("titulo-noche");
+    const nombreFecha = `${m.fecha.getDate()} de ${MESES[m.fecha.getMonth()]}`;
+    if (m.faltan === 0) {
+      faltan.innerHTML = `Hoy`;
+      titulo.textContent = `Hoy cumplimos ${m.meses} meses.`;
+    } else {
+      faltan.innerHTML = `${m.faltan}<small>${m.faltan === 1 ? "día" : "días"}</small>`;
+      titulo.textContent = `para cumplir ${m.meses} meses.`;
+    }
+    document.getElementById("mes-detalle").textContent =
+      m.faltan === 0 ? "Feliz mesiversario, mi amor." : `El ${nombreFecha}, sumando los dos capítulos.`;
+
+    // Lo que viene: los próximos eventos de datos.js (los que ya pasaron se esconden)
+    (function () {
+      const hoy0 = new Date(); hoy0.setHours(0, 0, 0, 0);
+      const lista = (DATOS.proximos || [])
+        .map(e => ({ ...e, d: new Date(e.fecha + "T00:00:00") }))
+        .filter(e => e.d >= hoy0)
+        .sort((a, b) => a.d - b.d)
+        .slice(0, 4);
+      if (!lista.length) return;
+      document.getElementById("viene").hidden = false;
+      document.getElementById("proximos").innerHTML = lista.map((e, i) => {
+        const n = Math.round((e.d - hoy0) / DIA);
+        const grande = n === 0 ? "Hoy" : `${formato(n)}<small>${n === 1 ? "día" : "días"}</small>`;
+        return `<li class="tarjeta" data-revela style="--i:${i}">
+          <span class="dias">${grande}</span>
+          <strong>${limpio(e.titulo)}</strong>
+          ${e.nota ? `<span class="nota">${limpio(e.nota)}</span>` : ""}
+          <time datetime="${e.fecha}">${e.d.getDate()} de ${MESES[e.d.getMonth()]} de ${e.d.getFullYear()}</time>
+        </li>`;
+      }).join("");
+      revelar(document.getElementById("viene"));
+    })();
+
+    // Aniversario: el 11 de junio de 2025 recorrido los días de la pausa
+    const inicio = inicioSinPausa();
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+    let aniv = new Date(hoy.getFullYear(), inicio.getMonth(), inicio.getDate());
+    if (aniv < hoy) aniv = new Date(hoy.getFullYear() + 1, inicio.getMonth(), inicio.getDate());
+    const anos = aniv.getFullYear() - inicio.getFullYear();
+    const dAniv = Math.round((aniv - hoy) / DIA);
+    document.getElementById("aniv-fecha").textContent = `${inicio.getDate()} de ${MESES[inicio.getMonth()]} de ${aniv.getFullYear()}`;
+    document.getElementById("aniv-faltan").textContent =
+      dAniv === 0 ? `Hoy cumplimos ${anos === 1 ? "un año" : anos + " años"}.` :
+      `Faltan ${formato(dAniv)} días para cumplir ${anos === 1 ? "un año" : anos + " años"} juntos, sin contar la pausa.`;
+  </script>
+</body>
+</html>
